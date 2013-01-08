@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.NUnitTests", "CodeTitans.UnitTests\CodeTitans.NUnitTests.csproj", "{C63D6D89-B7CF-4643-A55E-6EDB034E7B0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.Bayeux", "Bayeux@CodeTitans\CodeTitans.Bayeux.csproj", "{9CA5E188-A6F3-42BD-BCD5-06D514C31F05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.JSon", "JSON@CodeTitans\CodeTitans.JSon.csproj", "{F0F69F3F-B4FD-462D-BF5A-2F062745596B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.Core", "Core@CodeTitans\CodeTitans.Core.csproj", "{CDDCCBEC-D356-401B-AA0F-3A1252BF6661}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.IoC", "IoC@CodeTitans\CodeTitans.IoC.csproj", "{F09C5520-38D2-456B-9EDE-BA094B7F3890}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CA5E188-A6F3-42BD-BCD5-06D514C31F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA5E188-A6F3-42BD-BCD5-06D514C31F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA5E188-A6F3-42BD-BCD5-06D514C31F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA5E188-A6F3-42BD-BCD5-06D514C31F05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C63D6D89-B7CF-4643-A55E-6EDB034E7B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C63D6D89-B7CF-4643-A55E-6EDB034E7B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C63D6D89-B7CF-4643-A55E-6EDB034E7B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C63D6D89-B7CF-4643-A55E-6EDB034E7B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDDCCBEC-D356-401B-AA0F-3A1252BF6661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDDCCBEC-D356-401B-AA0F-3A1252BF6661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDDCCBEC-D356-401B-AA0F-3A1252BF6661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDDCCBEC-D356-401B-AA0F-3A1252BF6661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F09C5520-38D2-456B-9EDE-BA094B7F3890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09C5520-38D2-456B-9EDE-BA094B7F3890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F09C5520-38D2-456B-9EDE-BA094B7F3890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F09C5520-38D2-456B-9EDE-BA094B7F3890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0F69F3F-B4FD-462D-BF5A-2F062745596B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F69F3F-B4FD-462D-BF5A-2F062745596B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F69F3F-B4FD-462D-BF5A-2F062745596B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F69F3F-B4FD-462D-BF5A-2F062745596B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = CodeTitans.UnitTests\CodeTitans.NUnitTests.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

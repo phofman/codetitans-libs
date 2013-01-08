@@ -1,0 +1,125 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6ADD99F0-FFE2-4240-B220-B6249CD9D4A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.Core</RootNamespace>
+    <AssemblyName>CodeTitans.Core</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>4118C335-430C-497f-BE48-11C3316B135E</PlatformID>
+    <OSVersion>5.1</OSVersion>
+    <DeployDirSuffix>CodeTitans.Mobile.Core</DeployDirSuffix>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 5.0 Pocket PC SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Mobile\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PocketPC;CODETITANS_LIB_CORE;NET_2_COMPATIBLE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\cf.net_2.0\1.x\</OutputPath>
+    <DefineConstants>TRACE;PocketPC;CODETITANS_LIB_CORE;NET_2_COMPATIBLE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DocumentationFile>..\bin\cf.net_2.0\1.x\CodeTitans.Core.xml</DocumentationFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyCommonInfo.cs">
+      <Link>Properties\AssemblyCommonInfo.cs</Link>
+    </Compile>
+    <Compile Include="Diagnostics\DebugEntry.cs" />
+    <Compile Include="Diagnostics\DebugListenerEventArgs.cs" />
+    <Compile Include="Diagnostics\DebugLog.cs" />
+    <Compile Include="Diagnostics\DelayingModule.cs" />
+    <Compile Include="Diagnostics\FilterDebugListener.cs" />
+    <Compile Include="Diagnostics\IDebugTraceListener.cs" />
+    <Compile Include="Diagnostics\StandardDebugListener.cs" />
+    <Compile Include="Diagnostics\TextWriterDebugListener.cs" />
+    <Compile Include="Dispatch\DefaultDispatcher.cs" />
+    <Compile Include="Dispatch\DependencyObjectDispatcher.cs" />
+    <Compile Include="Dispatch\EventDispatcher.cs" />
+    <Compile Include="Dispatch\IEventDispatcher.cs" />
+    <Compile Include="Dispatch\WindowsFormsDispatcher.cs" />
+    <Compile Include="EnumHelper.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="Generics\IniSection.cs" />
+    <Compile Include="Generics\IniSectionItem.cs" />
+    <Compile Include="Generics\IniStrings.cs" />
+    <Compile Include="Generics\IPropertyListDictionary.cs" />
+    <Compile Include="Generics\IPropertyListItem.cs" />
+    <Compile Include="Generics\MarkerStrings.cs" />
+    <Compile Include="Generics\Objects\PropertyListArray.cs" />
+    <Compile Include="Generics\Objects\PropertyListBinary.cs" />
+    <Compile Include="Generics\Objects\PropertyListDictionary.cs" />
+    <Compile Include="Generics\Objects\PropertyListItem.cs" />
+    <Compile Include="Generics\PropertyList.cs" />
+    <Compile Include="Generics\PropertyListItemTypes.cs" />
+    <Compile Include="Generics\StringList.cs" />
+    <Compile Include="IStringReader.cs" />
+    <Compile Include="Net\HttpDataSource.cs" />
+    <Compile Include="Net\HttpDataSourceEventArgs.cs" />
+    <Compile Include="Net\HttpDataSourceResponseType.cs" />
+    <Compile Include="Net\IHttpDataSource.cs" />
+    <Compile Include="NumericHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="SerializationHelper.cs" />
+    <Compile Include="StringHelper.cs" />
+    <Compile Include="Tasks\ActionTask.cs" />
+    <Compile Include="Tasks\ExecutionQueue.cs" />
+    <Compile Include="Tasks\FlatExecutionQueue.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\ITaskExecutor.cs" />
+    <Compile Include="Tasks\MethodCallTask.cs" />
+    <Compile Include="Tasks\TaskAddedEventArgs.cs" />
+    <Compile Include="Tasks\TaskExceptionedEventArgs.cs" />
+    <Compile Include="Tasks\TaskExecutorEventArgs.cs" />
+    <Compile Include="Tasks\TaskStatus.cs" />
+    <Compile Include="Tasks\TaskStatusChangedEventArgs.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

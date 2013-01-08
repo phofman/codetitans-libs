@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6C9B091D-328D-4849-9779-666998A6877D}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.Core</RootNamespace>
+    <AssemblyName>CodeTitans.Phone.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug\Phone\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODETITANS_LIB_CORE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\winphone7\1.x\</OutputPath>
+    <DefineConstants>TRACE;CODETITANS_LIB_CORE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\winphone7\1.x\CodeTitans.Phone.Core.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Diagnostics\DebugEntry.cs" />
+    <Compile Include="Diagnostics\DebugListenerEventArgs.cs" />
+    <Compile Include="Diagnostics\DebugLog.cs" />
+    <Compile Include="Diagnostics\DelayingModule.cs" />
+    <Compile Include="Diagnostics\FilterDebugListener.cs" />
+    <Compile Include="Diagnostics\IDebugTraceListener.cs" />
+    <Compile Include="Diagnostics\StandardDebugListener.cs" />
+    <Compile Include="Diagnostics\TextWriterDebugListener.cs" />
+    <Compile Include="Dispatch\DefaultDispatcher.cs" />
+    <Compile Include="Dispatch\DependencyObjectDispatcher.cs" />
+    <Compile Include="Dispatch\EventDispatcher.cs" />
+    <Compile Include="Dispatch\IEventDispatcher.cs" />
+    <Compile Include="Dispatch\WindowsFormsDispatcher.cs" />
+    <Compile Include="EnumHelper.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="Generics\IniSection.cs" />
+    <Compile Include="Generics\IniSectionItem.cs" />
+    <Compile Include="Generics\IniStrings.cs" />
+    <Compile Include="Generics\IPropertyListDictionary.cs" />
+    <Compile Include="Generics\IPropertyListItem.cs" />
+    <Compile Include="Generics\MarkerStrings.cs" />
+    <Compile Include="Generics\Objects\PropertyListArray.cs" />
+    <Compile Include="Generics\Objects\PropertyListBinary.cs" />
+    <Compile Include="Generics\Objects\PropertyListDictionary.cs" />
+    <Compile Include="Generics\Objects\PropertyListItem.cs" />
+    <Compile Include="Generics\PropertyList.cs" />
+    <Compile Include="Generics\PropertyListItemTypes.cs" />
+    <Compile Include="Generics\StringList.cs" />
+    <Compile Include="IStringReader.cs" />
+    <Compile Include="Net\HttpDataSource.cs" />
+    <Compile Include="Net\HttpDataSourceEventArgs.cs" />
+    <Compile Include="Net\HttpDataSourceResponseType.cs" />
+    <Compile Include="Net\IHttpDataSource.cs" />
+    <Compile Include="NumericHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="SerializationHelper.cs" />
+    <Compile Include="StringHelper.cs" />
+    <Compile Include="Tasks\ActionTask.cs" />
+    <Compile Include="Tasks\ExecutionQueue.cs" />
+    <Compile Include="Tasks\FlatExecutionQueue.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\ITaskExecutor.cs" />
+    <Compile Include="Tasks\MethodCallTask.cs" />
+    <Compile Include="Tasks\TaskAddedEventArgs.cs" />
+    <Compile Include="Tasks\TaskExceptionedEventArgs.cs" />
+    <Compile Include="Tasks\TaskExecutorEventArgs.cs" />
+    <Compile Include="Tasks\TaskStatus.cs" />
+    <Compile Include="Tasks\TaskStatusChangedEventArgs.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

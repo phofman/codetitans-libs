@@ -1,0 +1,25 @@
+﻿{
+    "scores":
+    [
+        {
+            "score": {
+                "value": 10,
+                "level": 1
+            }
+        },
+        
+        {
+            "score": {
+                "value": 7.18401,
+                "level": 0
+            }
+        },
+        
+        {
+            "score": {
+                "value": 4.274,
+                "level": 1
+            }
+        }
+    ]
+}

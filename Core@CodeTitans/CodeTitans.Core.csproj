@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CDDCCBEC-D356-401B-AA0F-3A1252BF6661}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.Core</RootNamespace>
+    <AssemblyName>CodeTitans.Core</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Desktop\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODETITANS_LIB_CORE;NET_2_COMPATIBLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\.net_2.0\1.x\</OutputPath>
+    <DefineConstants>TRACE;CODETITANS_LIB_CORE;NET_2_COMPATIBLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <DocumentationFile>..\bin\.net_2.0\1.x\CodeTitans.Core.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyCommonInfo.cs">
+      <Link>Properties\AssemblyCommonInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Dispatch\DefaultDispatcher.cs" />
+    <Compile Include="..\Core%40CodeTitans\Dispatch\DependencyObjectDispatcher.cs" />
+    <Compile Include="..\Core%40CodeTitans\Dispatch\EventDispatcher.cs" />
+    <Compile Include="..\Core%40CodeTitans\Dispatch\IEventDispatcher.cs" />
+    <Compile Include="..\Core%40CodeTitans\Dispatch\WindowsFormsDispatcher.cs" />
+    <Compile Include="..\Core%40CodeTitans\Event.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\IPropertyListDictionary.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\IPropertyListItem.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\Objects\PropertyListArray.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\Objects\PropertyListBinary.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\Objects\PropertyListDictionary.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\Objects\PropertyListItem.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\PropertyList.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\PropertyListItemTypes.cs" />
+    <Compile Include="..\Core%40CodeTitans\Generics\StringList.cs" />
+    <Compile Include="..\Core%40CodeTitans\IStringReader.cs" />
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSource.cs" />
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSourceEventArgs.cs" />
+    <Compile Include="..\Core%40CodeTitans\Net\IHttpDataSource.cs" />
+    <Compile Include="..\Core%40CodeTitans\NumericHelper.cs" />
+    <Compile Include="..\Core%40CodeTitans\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Core%40CodeTitans\Range.cs" />
+    <Compile Include="..\Core%40CodeTitans\SerializationHelper.cs" />
+    <Compile Include="..\Core%40CodeTitans\StringHelper.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\ActionTask.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\ExecutionQueue.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\ITask.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\ITaskExecutor.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\MethodCallTask.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\TaskExceptionedEventArgs.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\TaskExecutorEventArgs.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\TaskStatus.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\TaskStatusChangedEventArgs.cs" />
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugLog.cs" />
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\IDebugTraceListener.cs" />
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\StandardDebugListener.cs" />
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\TextWriterDebugListener.cs" />
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSourceResponseType.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\FlatExecutionQueue.cs" />
+    <Compile Include="..\Core%40CodeTitans\Tasks\TaskAddedEventArgs.cs" />
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugEntry.cs" />
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugListenerEventArgs.cs" />
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DelayingModule.cs" />
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\FilterDebugListener.cs" />
+    <Compile Include="..\Core%40CodeTitans\EnumHelper.cs" />
+    <Compile Include="Generics\IniSection.cs" />
+    <Compile Include="Generics\IniSectionItem.cs" />
+    <Compile Include="Generics\IniStrings.cs" />
+    <Compile Include="Generics\MarkerStrings.cs" />
+    <Compile Include="ReflectionHelper.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

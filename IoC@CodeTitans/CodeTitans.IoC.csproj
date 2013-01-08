@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F09C5520-38D2-456B-9EDE-BA094B7F3890}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.Services</RootNamespace>
+    <AssemblyName>CodeTitans.IoC</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Desktop\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\.net_2.0\1.x\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\.net_2.0\1.x\CodeTitans.IoC.xml</DocumentationFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyCommonInfo.cs">
+      <Link>Properties\AssemblyCommonInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\IoC%40CodeTitans\Internals\ServiceCollection.cs" />
+    <Compile Include="..\IoC%40CodeTitans\Internals\ServiceDelegateCloneWrapper.cs" />
+    <Compile Include="..\IoC%40CodeTitans\Internals\ServiceDelegateWrapper.cs" />
+    <Compile Include="..\IoC%40CodeTitans\Internals\ServiceObjectWrapper.cs" />
+    <Compile Include="..\IoC%40CodeTitans\Internals\ServiceTypeCloneWrapper.cs" />
+    <Compile Include="..\IoC%40CodeTitans\Internals\ServiceTypeWrapper.cs" />
+    <Compile Include="..\IoC%40CodeTitans\IServiceManager.cs" />
+    <Compile Include="..\IoC%40CodeTitans\IServiceManagerEx.cs" />
+    <Compile Include="..\IoC%40CodeTitans\IServiceProviderEx.cs" />
+    <Compile Include="..\IoC%40CodeTitans\IServiceSite.cs" />
+    <Compile Include="..\IoC%40CodeTitans\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\IoC%40CodeTitans\RegisteredServiceContext.cs" />
+    <Compile Include="..\IoC%40CodeTitans\SerializationHelper.cs" />
+    <Compile Include="..\IoC%40CodeTitans\ServiceCreationEventArgs.cs" />
+    <Compile Include="..\IoC%40CodeTitans\ServiceCreationException.cs" />
+    <Compile Include="..\IoC%40CodeTitans\ServiceCreationHandler.cs" />
+    <Compile Include="..\IoC%40CodeTitans\ServiceLocator.cs" />
+    <Compile Include="..\IoC%40CodeTitans\ServiceMode.cs" />
+    <Compile Include="..\IoC%40CodeTitans\ServiceValidationException.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

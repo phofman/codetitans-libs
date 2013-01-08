@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C63D6D89-B7CF-4643-A55E-6EDB034E7B0C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CodeTitans.NUnitTests</RootNamespace>
+    <AssemblyName>CodeTitans.NUnitTests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;NUNIT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <DefineConstants>NUNIT</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files %28x86%29\NUnit 2.5.10\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bayeux\CometDTests.cs" />
+    <Compile Include="Bayeux\FieldsParsingTests.cs" />
+    <Compile Include="Bayeux\Model\AsyncWaiter.cs" />
+    <Compile Include="Bayeux\Model\WaiterResults.cs" />
+    <Compile Include="Core\PropertyListTests.cs" />
+    <Compile Include="IoC\ServiceLocatorTests.cs" />
+    <Compile Include="JSon\JSonAutoSerialization.cs" />
+    <Compile Include="JSon\JSonReaderTests.cs" />
+    <Compile Include="JSon\JSonWriterTests.cs" />
+    <Compile Include="NUnitExtensions.cs" />
+    <Compile Include="Core\SerializationTests.cs" />
+    <Compile Include="Core\TaskTests.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\advanced.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\guid.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bayeux%40CodeTitans\CodeTitans.Bayeux.csproj">
+      <Project>{9CA5E188-A6F3-42BD-BCD5-06D514C31F05}</Project>
+      <Name>CodeTitans.Bayeux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core%40CodeTitans\CodeTitans.Core.csproj">
+      <Project>{CDDCCBEC-D356-401B-AA0F-3A1252BF6661}</Project>
+      <Name>CodeTitans.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IoC%40CodeTitans\CodeTitans.IoC.csproj">
+      <Project>{F09C5520-38D2-456B-9EDE-BA094B7F3890}</Project>
+      <Name>CodeTitans.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JSON%40CodeTitans\CodeTitans.JSon.csproj">
+      <Project>{F0F69F3F-B4FD-462D-BF5A-2F062745596B}</Project>
+      <Name>CodeTitans.JSon</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
