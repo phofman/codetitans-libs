@@ -15,7 +15,7 @@ Repository created by:
     1) git svn init https://codetitans.svn.codeplex.com/svn/trunk -R codetitans --prefix=codetitans/
     2) git svn fetch codetitans -r 22968
     3) and merged:
-        'remotes/codetitans/git-svn' do 'master'
+        'remotes/codetitans/git-svn' into 'master'
 
 Usage:
     git submodule add git@github.com:phofman/codetitans-libs.git externals/CodeTitans
