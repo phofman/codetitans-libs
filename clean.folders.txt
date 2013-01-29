@@ -1,0 +1,10 @@
+;
+; Put extra folders to clean here:
+;
+.
+Bayeux@CodeTitans
+Core@CodeTitans
+IoC@CodeTitans
+JSON@CodeTitans
+News@CodeTitans
+CodeTitans.UnitTests

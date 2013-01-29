@@ -1,0 +1,173 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{65C4B2EB-96E1-480F-8AA7-C3044030F983}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.JSon</RootNamespace>
+    <AssemblyName>CodeTitans.JSon</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>4118C335-430C-497f-BE48-11C3316B135E</PlatformID>
+    <OSVersion>5.01</OSVersion>
+    <DeployDirSuffix>CodeTitans.Mobile.JSon</DeployDirSuffix>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 5.0 Pocket PC SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Mobile\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\cf.net_2.0\1.x\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DocumentationFile>..\bin\cf.net_2.0\1.x\CodeTitans.JSon.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyCommonInfo.cs">
+      <Link>Properties\AssemblyCommonInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugEntry.cs">
+      <Link>Diagnostics\DebugEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugLog.cs">
+      <Link>Diagnostics\DebugLog.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\IDebugTraceListener.cs">
+      <Link>Diagnostics\IDebugTraceListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\StandardDebugListener.cs">
+      <Link>Diagnostics\StandardDebugListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\IStringReader.cs">
+      <Link>IStringReader.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\NumericHelper.cs">
+      <Link>NumericHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\ReflectionHelper.cs">
+      <Link>ReflectionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\SerializationHelper.cs">
+      <Link>SerializationHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\StringHelper.cs">
+      <Link>StringHelper.cs</Link>
+    </Compile>
+    <Compile Include="DateTimeHelper.cs" />
+    <Compile Include="IJSonMutableObject.cs" />
+    <Compile Include="IJSonObject.cs" />
+    <Compile Include="IJSonReader.cs" />
+    <Compile Include="IJSonSerializable.cs" />
+    <Compile Include="IJSonWriter.cs" />
+    <Compile Include="IJSonWriterArrayItem.cs" />
+    <Compile Include="IJSonWriterItem.cs" />
+    <Compile Include="IJSonWriterObjectItem.cs" />
+    <Compile Include="JSonDateTimeKind.cs" />
+    <Compile Include="JSonException.cs" />
+    <Compile Include="JSonIgnoreAttribute.cs" />
+    <Compile Include="JSonMemberAttribute.cs" />
+    <Compile Include="JSonMemberMissingException.cs" />
+    <Compile Include="JSonMutableObject.cs" />
+    <Compile Include="JSonReader.cs" />
+    <Compile Include="JSonReaderException.cs" />
+    <Compile Include="JSonReaderNumberFormat.cs" />
+    <Compile Include="JSonReaderTokenInfo.cs" />
+    <Compile Include="JSonReaderTokenType.cs" />
+    <Compile Include="JSonSerializableAttribute.cs" />
+    <Compile Include="JSonWriter.cs" />
+    <Compile Include="JSonWriterDateFormat.cs" />
+    <Compile Include="JSonWriterException.cs" />
+    <Compile Include="JSonWriterTokenInfo.cs" />
+    <Compile Include="JSonWriterTokenType.cs" />
+    <Compile Include="Objects\JSonArray.cs" />
+    <Compile Include="Objects\JSonBooleanObject.cs" />
+    <Compile Include="Objects\JSonDecimalDecimalObject.cs" />
+    <Compile Include="Objects\JSonDecimalDoubleObject.cs" />
+    <Compile Include="Objects\JSonDecimalInt32Object.cs" />
+    <Compile Include="Objects\JSonDecimalInt64Object.cs" />
+    <Compile Include="Objects\JSonDecimalObject.cs" />
+    <Compile Include="Objects\JSonDecimalSingleObject.cs" />
+    <Compile Include="Objects\JSonDecimalUInt32Object.cs" />
+    <Compile Include="Objects\JSonDecimalUInt64Object.cs" />
+    <Compile Include="Objects\JSonDictionary.cs" />
+    <Compile Include="Objects\JSonObjectConverter.cs" />
+    <Compile Include="Objects\JSonStringObject.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableArray.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableBooleanObject.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDecimalDecimalObject.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDecimalDoubleObject.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDecimalInt32Object.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDecimalInt64Object.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDecimalSingleObject.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDecimalUInt32Object.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDecimalUInt64Object.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDictionary.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableStringObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReaderHelpers\Factories\FclObjectDecimalFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\FclObjectDoubleFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\FclObjectInt32Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\FclObjectInt64Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonMutableObjectDecimalFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonMutableObjectDoubleFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonMutableObjectInt32Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonMutableObjectInt64Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonObjectDecimalFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonObjectDoubleFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonObjectInt32Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonObjectInt64Factory.cs" />
+    <Compile Include="ReaderHelpers\FclObjectFactory.cs" />
+    <Compile Include="ReaderHelpers\IObjectFactory.cs" />
+    <Compile Include="ReaderHelpers\JSonMutableObjectFactory.cs" />
+    <Compile Include="ReaderHelpers\JSonObjectFactory.cs" />
+    <Compile Include="ReaderHelpers\ObjectFactoryHelper.cs" />
+    <Compile Include="ReaderHelpers\TokenData.cs" />
+    <Compile Include="ReaderHelpers\TokenDataChar.cs" />
+    <Compile Include="ReaderHelpers\TokenDataString.cs" />
+    <Compile Include="WriterHelpers\ArrayWriter.cs" />
+    <Compile Include="WriterHelpers\ObjectWriter.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
