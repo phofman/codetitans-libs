@@ -79,45 +79,131 @@ namespace CodeTitans.UnitTests.JSon
         }
 
         [TestMethod]
-        [ExpectedException(typeof(JSonReaderException))]
+        [ExpectedException(typeof (JSonReaderException))]
         public void ParseWrongOpenArray()
         {
-            var result = reader.Read("  [   ");
+            try
+            {
+                reader.Read("  [   ");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(2, ex.Offset);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void ParseWrongCloseObject()
+        {
+            try
+            {
+                reader.Read("}");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(0, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseWrongCloseArray()
         {
-            var result = reader.Read("  \t\t\n ]   ");
+            try
+            {
+                reader.Read("  \t\t\n \t\t]   ");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(1, ex.Line);
+                Assert.AreEqual(3, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseUnfinishedString()
         {
-            var result = reader.Read("   \"start");
+            try
+            {
+                reader.Read("   \"start");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(3, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseWrongNumberOfMainElements()
         {
-            var result = reader.Read("  [ ], [], { }  ");
+            try
+            {
+                reader.Read("  [ ], [], { }  ");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(5, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseArrayWithoutComma()
         {
-            var result = reader.Read(" [ \"a\", \"b\" \"c\" ]");
+            try
+            {
+                reader.Read(" [ \"a\",\r\n\r\n \"b\"\r\n \t   \"c\" ]");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(3, ex.Line);
+                Assert.AreEqual(5, ex.Offset);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void ParseArrayWithoutCommaNextItemOnLineStart()
+        {
+            try
+            {
+                reader.Read(" [ \"a\"\r\n\r\n\"b\"]");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(2, ex.Line);
+                Assert.AreEqual(0, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseTopLevelElementsWithoutComma()
         {
-            var result = reader.Read("  [ ] [] { }  ");
+            try
+            {
+                reader.Read("  [ ]\r\n [] { }  ");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(1, ex.Line);
+                Assert.AreEqual(1, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
@@ -192,7 +278,16 @@ namespace CodeTitans.UnitTests.JSon
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseInvalidNumber()
         {
-            var result = reader.Read("  10,1e-2  ");
+            try
+            {
+                reader.Read("  10,1e-2  ");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(4, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
@@ -220,18 +315,36 @@ namespace CodeTitans.UnitTests.JSon
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseInvalidNotFinishedString()
         {
-            var result = reader.Read("  \"Not finished text  ");
+            try
+            {
+                reader.Read("\n\"Not finished text  ");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(1, ex.Line);
+                Assert.AreEqual(0, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseInvalidStringWithNewLine()
         {
-            var result = reader.Read("  \"Test string with new line\r\n\"");
+            try
+            {
+                reader.Read("  \"Test string with new line\r\n\"");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(28, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
-        public void ParseToLongUnicodeCharacterDefinitionInString()
+        public void ParseCorrectlyTooLongUnicodeCharacterDefinitionInString()
         {
             var result = reader.Read("  \"Text-\\u12345\"");
 
@@ -243,7 +356,16 @@ namespace CodeTitans.UnitTests.JSon
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseInvalidUnicodeCharacters()
         {
-            var result = reader.Read("\"\\u12\\u123\"");
+            try
+            {
+                reader.Read("\"test-\\u12\\u123\"");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(6, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
@@ -288,7 +410,16 @@ namespace CodeTitans.UnitTests.JSon
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseEmptyArrayWithComma()
         {
-            var result = reader.Read(" [,] ");
+            try
+            {
+                reader.Read(" [,] ");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(2, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
@@ -303,7 +434,32 @@ namespace CodeTitans.UnitTests.JSon
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseEmptyObjectWithComma()
         {
-            var result = reader.Read(" {,} ");
+            try
+            {
+                reader.Read("\n{,} ");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(1, ex.Line);
+                Assert.AreEqual(1, ex.Offset);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void ParseArrayWithUnknownKeyword()
+        {
+            try
+            {
+                reader.Read("\n \t[nulll]");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(1, ex.Line);
+                Assert.AreEqual(3, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
@@ -411,7 +567,16 @@ namespace CodeTitans.UnitTests.JSon
         {
             const string jsonText = @"{ ""field1"": ""value1"" ""field2"": ""value2"" }";
 
-            reader.ReadAsJSonObject(jsonText);
+            try
+            {
+                reader.ReadAsJSonObject(jsonText);
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(21, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
@@ -420,16 +585,52 @@ namespace CodeTitans.UnitTests.JSon
         {
             const string jsonText = @"{ ""field1"": ""value1"",, ""field2"": ""value2"" }";
 
-            reader.ReadAsJSonObject(jsonText);
+            try
+            {
+                reader.ReadAsJSonObject(jsonText);
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(21, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(JSonReaderException))]
-        public void CommaInTheEndOfObjectDefinitionAndNothingMore()
+        public void CommaInTheEndOfObjectDefinitionAndNothingMoreAfter()
         {
-            const string jsonText = @"{ ""field1"": ""value1"" ""field2"": ""value2"", }";
+            const string jsonText = @"{ ""field1"": ""value1"", ""field2"": ""value2"", }";
 
-            reader.ReadAsJSonObject(jsonText);
+            try
+            {
+                reader.ReadAsJSonObject(jsonText);
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(42, ex.Offset);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void KeywordAsInvalidObjectFieldName()
+        {
+            const string jsonText = @"{ null: ""value1"" }";
+
+            try
+            {
+                reader.ReadAsJSonObject(jsonText);
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(2, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
@@ -438,7 +639,16 @@ namespace CodeTitans.UnitTests.JSon
         {
             const string jsonText = @"[ ""value1"" ""value2"" ""value3"" }";
 
-            reader.ReadAsJSonObject(jsonText);
+            try
+            {
+                reader.ReadAsJSonObject(jsonText);
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(11, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
@@ -519,14 +729,32 @@ namespace CodeTitans.UnitTests.JSon
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseNumberWithInt32Forced_AndFail()
         {
-            reader.ReadAsJSonObject("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsInt32);
+            try
+            {
+                reader.ReadAsJSonObject("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsInt32);
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(1, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(JSonReaderException))]
         public void ParseNumberWithInt64Forced_AndFail()
         {
-            reader.ReadAsJSonObject("[" + (ulong.MaxValue + 1d) + "]", JSonReaderNumberFormat.AsInt64);
+            try
+            {
+                reader.ReadAsJSonObject("[" + ulong.MaxValue + "]", JSonReaderNumberFormat.AsInt64);
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(1, ex.Offset);
+                throw;
+            }
         }
 
         [TestMethod]
