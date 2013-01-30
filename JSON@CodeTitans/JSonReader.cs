@@ -166,9 +166,9 @@ namespace CodeTitans.JSon
 
             // if this is still unknown element...
             if (tokenType == JSonReaderTokenType.Unknown)
-                throw new JSonReaderException("Invalid token found", tokenString, _input.Line, _input.LineOffset - 1);
+                throw new JSonReaderException("Invalid token found", tokenString, _input.Line, _input.LineOffset);
 
-            JSonReaderTokenInfo nextToken = new JSonReaderTokenInfo(tokenString, tokenType, _input.Line, _input.LineOffset - tokenString.Length);
+            JSonReaderTokenInfo nextToken = new JSonReaderTokenInfo(tokenString, tokenType, _input.Line, _input.LineOffset);
 
             _tokens.Push(nextToken);
 
@@ -286,7 +286,7 @@ namespace CodeTitans.JSon
                     // if number of commas is greater than number of added elements,
                     // then value was not passed between:
                     if (result.Count > 0 && commas != result.Count - 1)
-                        throw new JSonReaderException("Too many commas at closing array token", currentToken);
+                        throw new JSonReaderException("Too many commas at closing array token, expected none", currentToken);
                     break;
                 }
 
@@ -384,7 +384,7 @@ namespace CodeTitans.JSon
                     // if number of commas is greater than number of added elements,
                     // then value was not passed between:
                     if (commas > 0 && commas >= result.Count)
-                        throw new JSonReaderException("Missing value for object element", currentToken);
+                        throw new JSonReaderException("Too many commas at closing object token, expected none", currentToken);
                     break;
                 }
 
@@ -404,6 +404,9 @@ namespace CodeTitans.JSon
 
                     case JSonReaderTokenType.Keyword:
 
+                        if (name == null)
+                            throw new JSonReaderException("Keyword can not be an object element's name", currentToken);
+
                         // add embedded value of reserved keyword:
                         AddValue(result, ref name, ReadKeyword(), ref colonSpot, ref commaSpot, currentToken);
                         break;
@@ -415,6 +418,9 @@ namespace CodeTitans.JSon
                         break;
 
                     case JSonReaderTokenType.String:
+
+                        if (!commaSpot && result.Count > 0)
+                            throw new JSonReaderException("Missing comma before name and value definition", currentToken);
 
                         if (name == null)
                         {
@@ -480,6 +486,8 @@ namespace CodeTitans.JSon
 
             // top token contains the first letter of current keyword:
             StringBuilder buffer = new StringBuilder(topToken.Text);
+            int lastLine = _input.Line;
+            int lastOffset = _input.LineOffset;
 
             StringHelper.ReadKeywordChars(_input, buffer);
 
@@ -496,7 +504,7 @@ namespace CodeTitans.JSon
                     return _factory.CreateKeyword(k);
 
             // token has not been found:
-            throw new JSonReaderException("Unknown keyword", keyword, _input.Line, _input.LineOffset - keyword.Length);
+            throw new JSonReaderException("Unknown keyword", keyword, lastLine, lastOffset);
         }
 
         /// <summary>
@@ -504,9 +512,11 @@ namespace CodeTitans.JSon
         /// </summary>
         private object ReadString()
         {
+            int lastLine;
+            int lastOffset;
             StringBuilder buffer = new StringBuilder();
             StringBuilder number = new StringBuilder();
-            StringHelperStatusCode result = StringHelper.ReadStringChars(_input, buffer, number, true);
+            StringHelperStatusCode result = StringHelper.ReadStringChars(_input, buffer, number, true, out lastLine, out lastOffset);
 
             // throw exceptions for selected errors:
             switch (result)
@@ -516,11 +526,11 @@ namespace CodeTitans.JSon
                 case StringHelperStatusCode.UnexpectedNewLine:
                     throw new JSonReaderException("Unexpected new line character in the middle of a string", buffer.ToString(), _input.Line, _input.LineOffset);
                 case StringHelperStatusCode.UnknownEscapedChar:
-                    throw new JSonReaderException("Unknown escape combination", _input.CurrentChar.ToString(), _input.Line, _input.LineOffset);
+                    throw new JSonReaderException("Unknown escape combination", _input.CurrentChar.ToString(), lastLine, lastOffset);
                 case StringHelperStatusCode.TooShortEscapedChar:
-                    throw new JSonReaderException("Invalid escape definition of Unicode character", _input.CurrentChar.ToString(), _input.Line, _input.LineOffset);
+                    throw new JSonReaderException("Invalid escape definition of Unicode character", _input.CurrentChar.ToString(), lastLine, lastOffset);
                 case StringHelperStatusCode.TooLongEscapedChar:
-                    throw new JSonReaderException("Too long Unicode number definition", number.ToString(), _input.Line, _input.LineOffset - number.Length);
+                    throw new JSonReaderException("Too long Unicode number definition", number.ToString(), lastLine, lastOffset);
             }
 
             // remove the beggining of the string token " from the top of the tokens stack

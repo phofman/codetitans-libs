@@ -254,7 +254,9 @@ namespace CodeTitans.Core.Generics
                             if (key != null && value != null)
                                 throw new FormatException("Invalid definition found at: (" + reader.Line + ":" + reader.LineOffset + ")");
 
-                            StringHelperStatusCode status = StringHelper.ReadStringChars(reader, buffer, escapedUnicode, false);
+                            int lastLine;
+                            int lastOffset;
+                            StringHelperStatusCode status = StringHelper.ReadStringChars(reader, buffer, escapedUnicode, false, out lastLine, out lastOffset);
 
                             // throw exceptions for selected errors:
                             switch (status)

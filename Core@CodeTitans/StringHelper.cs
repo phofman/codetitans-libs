@@ -309,17 +309,15 @@ namespace CodeTitans.Helpers
                 continueEscapedUnicodeChar = true;
                 return StringHelperStatusCode.Success;
             }
-            else
-            {
-                continueEscapedUnicodeChar = false;
-                return AddUnicodeChar(output, number, true);
-            }
+
+            continueEscapedUnicodeChar = false;
+            return AddUnicodeChar(output, number, true);
         }
 
         /// <summary>
         /// Reads the string from given input stream.
         /// </summary>
-        internal static StringHelperStatusCode ReadStringChars(IStringReader reader, StringBuilder output, StringBuilder escapedUnicodeNumberBuffer, bool errorOnNewLine)
+        internal static StringHelperStatusCode ReadStringChars(IStringReader reader, StringBuilder output, StringBuilder escapedUnicodeNumberBuffer, bool errorOnNewLine, out int lastLine, out int lastOffset)
         {
             bool escape = false;
             bool unicodeNumber = false;
@@ -327,8 +325,17 @@ namespace CodeTitans.Helpers
             if (escapedUnicodeNumberBuffer == null)
                 escapedUnicodeNumberBuffer = new StringBuilder();
 
+            lastLine = reader.Line;
+            lastOffset = reader.LineOffset;
+
             do
             {
+                if (!unicodeNumber)
+                {
+                    lastLine = reader.Line;
+                    lastOffset = reader.LineOffset;
+                }
+
                 var currentChar = reader.ReadNext();
 
                 // verify if not an invalid character was found in text:
