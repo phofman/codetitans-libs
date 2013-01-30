@@ -20,8 +20,11 @@ Repository created by:
 Usage:
     git submodule add git@github.com:phofman/codetitans-libs.git externals/CodeTitans
 
-and later
+and later:
     git submodule update
 
-=======================================================
-                                        CodeTitans 2013
+and even later, to pull latest changes into the submodule's folder:
+    git submodule foreach git pull origin master
+
+===================================================================
+                                                    CodeTitans 2013
