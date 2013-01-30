@@ -758,6 +758,70 @@ namespace CodeTitans.UnitTests.JSon
         }
 
         [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void ParseInvalidToken_AndFail()
+        {
+            try
+            {
+                reader.ReadAsJSonObject("  \t /-~~");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(4, ex.Offset);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void ParseInvalidTokenWithinArray_AndFail()
+        {
+            try
+            {
+                reader.ReadAsJSonObject(" [ \t /// ]");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(5, ex.Offset);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void ParseInvalidKeyword_AndFail()
+        {
+            try
+            {
+                reader.ReadAsJSonObject("  \t abcdef");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(4, ex.Offset);
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void ParseInvalidKeywordWithinArray_AndFail()
+        {
+            try
+            {
+                reader.ReadAsJSonObject(" [ \t abcdef ]");
+            }
+            catch (JSonReaderException ex)
+            {
+                Assert.AreEqual(0, ex.Line);
+                Assert.AreEqual(5, ex.Offset);
+                throw;
+            }
+        }
+
+        [TestMethod]
         public void ParseNumberWithDecimalForced_AndCheckItemType()
         {
             var result = reader.ReadAsJSonObject((ulong.MaxValue + 1d).ToString(CultureInfo.InvariantCulture), JSonReaderNumberFormat.AsDecimal);

@@ -486,6 +486,8 @@ namespace CodeTitans.JSon
 
             // top token contains the first letter of current keyword:
             StringBuilder buffer = new StringBuilder(topToken.Text);
+            int lastLine = _input.Line;
+            int lastOffset = _input.LineOffset;
 
             StringHelper.ReadKeywordChars(_input, buffer);
 
@@ -502,7 +504,7 @@ namespace CodeTitans.JSon
                     return _factory.CreateKeyword(k);
 
             // token has not been found:
-            throw new JSonReaderException("Unknown keyword", keyword, _input.Line, _input.LineOffset - keyword.Length);
+            throw new JSonReaderException("Unknown keyword", keyword, lastLine, lastOffset);
         }
 
         /// <summary>
