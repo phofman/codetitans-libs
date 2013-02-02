@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Text;
 using CodeTitans.Helpers;
@@ -512,6 +511,8 @@ namespace CodeTitans.JSon
         /// </summary>
         private object ReadString()
         {
+            int beginLine = _input.Line;
+            int beginOffset = _input.LineOffset + 1;
             int lastLine;
             int lastOffset;
             StringBuilder buffer = new StringBuilder();
@@ -524,7 +525,7 @@ namespace CodeTitans.JSon
                 case StringHelperStatusCode.UnexpectedEoF:
                     throw new JSonReaderException("Unexpected end of text while reading a string", PopTopToken());
                 case StringHelperStatusCode.UnexpectedNewLine:
-                    throw new JSonReaderException("Unexpected new line character in the middle of a string", buffer.ToString(), _input.Line, _input.LineOffset);
+                    throw new JSonReaderException("Unexpected new line character in the middle of a string", buffer.ToString(), beginLine, beginOffset);
                 case StringHelperStatusCode.UnknownEscapedChar:
                     throw new JSonReaderException("Unknown escape combination", _input.CurrentChar.ToString(), lastLine, lastOffset);
                 case StringHelperStatusCode.TooShortEscapedChar:
