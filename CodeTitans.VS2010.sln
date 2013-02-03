@@ -61,7 +61,6 @@ Global
 		{B1518827-DEBB-40AC-9CB8-D9A238003D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1518827-DEBB-40AC-9CB8-D9A238003D27}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B1518827-DEBB-40AC-9CB8-D9A238003D27}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B1518827-DEBB-40AC-9CB8-D9A238003D27}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B1518827-DEBB-40AC-9CB8-D9A238003D27}.Release|Windows Phone.ActiveCfg = Release|Any CPU
 		{8DAFD2C1-511B-4940-8110-297CDF2AFF24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8DAFD2C1-511B-4940-8110-297CDF2AFF24}.Debug|Any CPU.Build.0 = Debug|Any CPU

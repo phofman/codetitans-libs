@@ -32,7 +32,13 @@ namespace CodeTitans.Core.Net
     /// </summary>
     public class RecordedDataSourceResponse
     {
+        /// <summary>
+        /// Default delay (ms) before the response is returned.
+        /// </summary>
         public const int DefaultDelay = 50;
+        /// <summary>
+        /// Default status code for the response.
+        /// </summary>
         public const HttpStatusCode DefaultStatusCode = HttpStatusCode.OK;
 
         private bool _isFailure;
