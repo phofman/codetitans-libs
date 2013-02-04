@@ -44,7 +44,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\Silverlight\1.x\CodeTitans.JSon.XML</DocumentationFile>
+    <DocumentationFile>..\bin\Silverlight\1.x\CodeTitans.JSon.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

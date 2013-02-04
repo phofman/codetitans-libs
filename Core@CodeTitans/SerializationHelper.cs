@@ -51,6 +51,9 @@ namespace CodeTitans.JSon
 namespace System.ComponentModel
 {
 #if WINDOWS_STORE
+    /// <summary>
+    /// Attribute to add description to any language element.
+    /// </summary>
     [AttributeUsageAttribute(AttributeTargets.All)]
     public sealed class DescriptionAttribute : Attribute
     {
