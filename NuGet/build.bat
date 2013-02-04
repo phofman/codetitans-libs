@@ -11,7 +11,7 @@ echo Building libraries...
 
 rem Remove old compilation temporary files...
 set TempFolder=%CD%\temp_bin
-rd /S /Q %TempFolder%
+rd /S /Q %TempFolder% 2> NUL:
 
 set builder=msbuild /nologo /noconlog /maxcpucount /p:Configuration=Release;DebugSymbols=false;DebugType=None /t:Rebuild
 set nuget=nuget
@@ -39,5 +39,7 @@ echo Building NuGet package
 %nuget% pack %OutputPath%\..\codetitans-json.nuspec
 echo Release prepared, find packages at '%CD%'
 
-echo Removing temporary files
+rem echo Removing temporary files
 rd /S /Q %TempFolder%
+
+pause
