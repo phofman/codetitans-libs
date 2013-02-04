@@ -30,6 +30,7 @@ set OutputPath=%TempFolder%\JSON@CodeTitans\lib
 
 %builder% ../JSON@CodeTitans/CodeTitans.Phone.JSon.csproj /property:OutDir=%OutputPath%\wp7
 %builder% ../JSON@CodeTitans/CodeTitans.Phone.JSon.csproj /property:OutDir=%OutputPath%\wp71
+%builder% ../JSON@CodeTitans/CodeTitans.Phone.JSon.VS2012.csproj /property:OutDir=%OutputPath%\wp8
 
 %builder% ../JSON@CodeTitans/CodeTitans.WinStore.JSon.VS2012.csproj /property:OutputPath=%OutputPath%\windows8\
 

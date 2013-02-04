@@ -27,11 +27,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\windows_store\1.x\</OutputPath>
+    <OutputPath>..\bin\winstore\1.x\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_STORE;CODETITANS_LIB_CORE;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\windows_store\1.x\CodeTitans.Core.xml</DocumentationFile>
+    <DocumentationFile>..\bin\winstore\1.x\CodeTitans.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
