@@ -19,8 +19,6 @@
 #endregion
 
 using System.Reflection;
-using System.Security;
-
 
 [assembly: AssemblyCompany("CodeTitans")]
 [assembly: AssemblyCopyright("Copyright © 2010-2013 Pawe³ Hofman, CodeTitans")]
@@ -34,11 +32,11 @@ using System.Security;
 //      Minor Version 
 //      Build Number
 //      Revision
-[assembly: AssemblyVersion("1.7.0.0")]
-[assembly: AssemblyFileVersion("1.7.0.0")]
+[assembly: AssemblyVersion("1.8.0.0")]
+[assembly: AssemblyFileVersion("1.8.0.0")]
 
 #endif
 
 #if !PocketPC && !WINDOWS_PHONE && !SILVERLIGHT
-[assembly: AllowPartiallyTrustedCallers]
+[assembly: System.Security.AllowPartiallyTrustedCallers]
 #endif
