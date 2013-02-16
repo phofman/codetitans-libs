@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>codetitans-json</id>
     <title>JSON@CodeTitans Package</title>
-    <version>1.8.0.0</version>
+    <version>1.8.1.0</version>
     <authors>Paweł Hofman</authors>
     <licenseUrl>http://codetitans.codeplex.com/license</licenseUrl>
     <projectUrl>http://codetitans.codeplex.com</projectUrl>
@@ -11,6 +11,9 @@
     <description>Easy of use JSON library for .NET platforms. Provides reader, writer and ability to build mutable JSON data at runtime.</description>
     <releaseNotes>
 Changes in this release:
+ * minor project updates to support NuGet builds
+ 
+v1.8.0:
  * Extended support for Windows 8 Store and Windows Phone 8
  * Updated locations for reported errors during parsing
  * Extended number of supported DateTime formats, while parsing

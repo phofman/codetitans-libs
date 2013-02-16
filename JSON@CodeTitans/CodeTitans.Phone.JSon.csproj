@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CodeTitans.JSon</RootNamespace>
-    <AssemblyName>CodeTitans.Phone.JSon</AssemblyName>
+    <AssemblyName>CodeTitans.JSon</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
@@ -39,7 +39,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\winphone7\1.x\CodeTitans.Phone.JSon.xml</DocumentationFile>
+    <DocumentationFile>..\bin\winphone7\1.x\CodeTitans.JSon.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="system" />

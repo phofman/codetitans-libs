@@ -79,7 +79,7 @@ namespace CodeTitans.Core
 
             return Enum.TryParse(text, true, out value);
 
-#elif !WINDOWS_PHONE && SILVERLIGHT
+#elif !WINDOWS_PHONE && SILVERLIGHT && !SILVERLIGHT_3_COMPATIBLE
             }
 
             return Enum.TryParse(text, true, out value);

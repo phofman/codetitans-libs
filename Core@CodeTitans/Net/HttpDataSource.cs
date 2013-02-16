@@ -605,7 +605,11 @@ namespace CodeTitans.Core.Net
 #if WINDOWS_PHONE
             string encodingName = response.Headers[HttpRequestHeader.ContentEncoding];
 #elif SILVERLIGHT || WINDOWS_STORE
+#   if SILVERLIGHT_3_COMPATIBLE
+            string encodingName = response.Headers[HttpRequestHeader.ContentEncoding];
+#   else
             string encodingName = response.SupportsHeaders ? response.Headers[HttpRequestHeader.ContentEncoding] : null;
+#   endif
 #else
             string encodingName = string.IsNullOrEmpty(response.ContentEncoding) ? response.CharacterSet : response.ContentEncoding;
 #endif
@@ -922,7 +926,7 @@ namespace CodeTitans.Core.Net
             if ((int)response.ContentLength >= 0)
                 return response.ContentLength;
 
-#if SILVERLIGHT && !WINDOWS_PHONE
+#if SILVERLIGHT && !WINDOWS_PHONE && !SILVERLIGHT_3_COMPATIBLE
             if (!response.SupportsHeaders)
                 return -1L;
 #endif

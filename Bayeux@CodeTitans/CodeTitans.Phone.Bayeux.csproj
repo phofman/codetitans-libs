@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CodeTitans.Bayeux</RootNamespace>
-    <AssemblyName>CodeTitans.Phone.Bayeux</AssemblyName>
+    <AssemblyName>CodeTitans.Bayeux</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
@@ -41,7 +41,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\winphone7\1.x\CodeTitans.Phone.Bayeux.xml</DocumentationFile>
+    <DocumentationFile>..\bin\winphone7\1.x\CodeTitans.Bayeux.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="system" />
