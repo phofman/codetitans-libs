@@ -83,7 +83,7 @@ namespace CodeTitans.Bayeux
         /// <summary>
         /// Converts <see cref="BayeuxConnectionTypes"/> flag fields into a collection of strings.
         /// </summary>
-        public static ICollection<string> ToCollection(BayeuxConnectionTypes types)
+        public static string[] ToCollection(BayeuxConnectionTypes types)
         {
             var result = new List<string>();
 
@@ -98,7 +98,7 @@ namespace CodeTitans.Bayeux
             if ((types & BayeuxConnectionTypes.RequestResponse) == BayeuxConnectionTypes.RequestResponse)
                 result.Add("request-response");
 
-            return result;
+            return result.ToArray();
         }
 
         /// <summary>

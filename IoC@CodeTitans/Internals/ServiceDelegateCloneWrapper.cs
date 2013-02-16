@@ -94,7 +94,7 @@ namespace CodeTitans.Services.Internals
                 var serviceType = service.GetType();
 
                 foreach (var v in Validators)
-                    if (!v.IsAssignableFrom(serviceType))
+                    if (!ServiceLocator.IsAssignableFrom(v, serviceType))
                         throw new ServiceValidationException(v, serviceType);
             }
 

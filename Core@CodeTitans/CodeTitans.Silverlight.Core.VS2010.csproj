@@ -39,7 +39,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\bin\silverlight\1.x\</OutputPath>
-    <DefineConstants>TRACE;CODETITANS_LIB_CORE;SILVERLIGHT</DefineConstants>
+    <DefineConstants>TRACE;CODETITANS_LIB_CORE;SILVERLIGHT;$(AdditionalDefines)</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>

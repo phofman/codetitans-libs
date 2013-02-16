@@ -84,6 +84,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyCommonInfo.cs">
+      <Link>Properties\AssemblyCommonInfo.cs</Link>
+    </Compile>
     <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugEntry.cs">
       <Link>Diagnostics\DebugEntry.cs</Link>
     </Compile>

@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using CodeTitans.Services.Internals;
+using System.Reflection;
 
 namespace CodeTitans.Services
 {
@@ -172,7 +173,11 @@ namespace CodeTitans.Services
             if (service == null)
                 throw new ArgumentNullException("service");
 
+#if WINDOWS_STORE
+            Register(service.GetType().GetTypeInfo().ImplementedInterfaces, service);
+#else
             Register(service.GetType().GetInterfaces(), service);
+#endif
         }
 
         #endregion
@@ -554,7 +559,7 @@ namespace CodeTitans.Services
         /// </summary>
         private static void VerifyServiceObjectType(Type expectedType, Type serviceObjectType)
         {
-            if (serviceObjectType != null && !expectedType.IsAssignableFrom(serviceObjectType))
+            if (serviceObjectType != null && !IsAssignableFrom(expectedType, serviceObjectType))
                 throw new ServiceValidationException(expectedType, serviceObjectType);
         }
 
@@ -620,6 +625,19 @@ namespace CodeTitans.Services
             {
                 serviceDictionary.Clear();
             }
+        }
+
+        #endregion
+
+        #region Type-check Helpers
+
+        internal static bool IsAssignableFrom(Type type, Type from)
+        {
+#if WINDOWS_STORE
+            return type.GetTypeInfo().IsAssignableFrom(from.GetTypeInfo());
+#else
+            return type.IsAssignableFrom(from);
+#endif
         }
 
         #endregion
