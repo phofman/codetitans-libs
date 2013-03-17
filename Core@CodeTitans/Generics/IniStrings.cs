@@ -226,11 +226,8 @@ namespace CodeTitans.Core.Generics
 
             while (!reader.IsEof)
             {
-                var line = reader.ReadLine();
+                var line = ReadLine(reader);
                 if (line == null)
-                    break;
-                line = line.Trim();
-                if (line.Length == 0)
                     continue;
 
                 /////////////////////////////////////
@@ -266,6 +263,8 @@ namespace CodeTitans.Core.Generics
 
                     comment.Remove(0, comment.Length);
 
+                    if (name.Length >= 2 && name[0] == '"' && name[name.Length - 1] == '"')
+                        name = name.Substring(1, name.Length - 2);
                     if (value.Length >= 2 && ((value[0] == '"' && value[value.Length - 1] == '"') || (value[0] == '\'' && value[value.Length - 1] == '\'')))
                         value = value.Substring(1, value.Length - 2);
 
@@ -281,6 +280,54 @@ namespace CodeTitans.Core.Generics
             }
 
             return result;
+        }
+
+        private static string ReadLine(IStringReader reader)
+        {
+            // read line:
+            var line = reader.ReadLine();
+            if (line == null)
+                return null;
+
+            var result = new StringBuilder(line);
+            StringHelper.Trim(result);
+
+            if (result.Length == 0)
+                return null;
+
+            // is this line split to several lines, as it ends with '\\' char:
+            bool isMultiline = CheckIfMultiLine(result);
+            if (isMultiline)
+            {
+                result.Remove(result.Length - 1, 1);
+
+                var buffer = new StringBuilder();
+                while (isMultiline)
+                {
+                    var nextLine = reader.ReadLine();
+                    if (nextLine == null)
+                        break;
+
+                    buffer.Append(nextLine);
+                    StringHelper.Trim(buffer);
+
+                    isMultiline = CheckIfMultiLine(buffer);
+                    if (isMultiline)
+                        buffer.Remove(buffer.Length - 1, 1);
+
+                    result.Append(buffer);
+                    buffer.Remove(0, buffer.Length);
+                }
+            }
+
+            return result.ToString();
+        }
+
+        private static bool CheckIfMultiLine(StringBuilder text)
+        {
+            return text != null &&
+                   ((text.Length == 1 && text[0] == '\\')
+                    || (text.Length > 1 && text[text.Length - 1] == '\\' && text[text.Length - 2] != '\\'));
         }
 
         #region IEnumerator implementation
