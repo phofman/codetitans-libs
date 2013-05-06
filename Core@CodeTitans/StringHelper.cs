@@ -474,6 +474,37 @@ namespace CodeTitans.Helpers
         }
 
         #endregion
+
+        #region Trim
+
+        internal static void Trim(StringBuilder text)
+        {
+            if (text == null)
+                return;
+
+            int count = 0;
+            int length = text.Length;
+
+            // trim start:
+            while (count < length && char.IsWhiteSpace(text[count]))
+                count++;
+            if (count > 0)
+                text.Remove(0, count);
+
+            // trim end:
+            length = text.Length;
+            if (length > 0)
+            {
+                count = length - 1;
+                while (count > 0 && char.IsWhiteSpace(text[count]))
+                    count--;
+                count++;
+                if (count != length)
+                    text.Remove(count, length - count);
+            }
+        }
+
+        #endregion
     }
 
     internal enum StringHelperStatusCode
