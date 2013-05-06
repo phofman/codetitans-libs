@@ -843,5 +843,24 @@ namespace CodeTitans.UnitTests.JSon
             Assert.AreEqual(2, internalData.Count);
             Assert.AreEqual("业务员", internalData[0]["EmployeeType"].StringValue);
         }
+
+        [TestMethod]
+        public void ParseAsIEnumerable()
+        {
+            var str = @"[{""title"":""Title1"",""children"":[{""title"":""Child1"",""children"":[{""title"":""grandchild1"",""children"":[{""title"":""Huh""}]}] }] }, {""title"": ""Title2"" }]";
+
+            JSonReader jr = new JSonReader();
+            IJSonObject json = jr.ReadAsJSonObject(str);
+            IEnumerable items = json.ArrayItems;
+
+            foreach (var arrayItem in json.ArrayItems)
+            {
+                //Console.WriteLine(arrayItem.ToString());
+                foreach (var objItem in arrayItem.ObjectItems)
+                {
+                    Console.WriteLine(objItem);
+                }
+            }
+        }
     }
 }
