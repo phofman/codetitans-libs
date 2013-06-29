@@ -659,7 +659,9 @@ namespace CodeTitans.Core.Generics
                     break;
 
                 case PropertyListItemTypes.Binary:
+                    writer.WriteStartElement("data");
                     writer.WriteBase64(item.BinaryValue, 0, item.BinaryValue.Length);
+                    writer.WriteEndElement();
                     break;
 
                 case PropertyListItemTypes.Boolean:
