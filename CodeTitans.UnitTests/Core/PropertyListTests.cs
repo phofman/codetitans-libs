@@ -363,5 +363,26 @@ namespace CodeTitans.UnitTests.Core
             Assert.IsFalse(key0["filter"].BooleanValue);
             key0.Add("filter", true);
         }
+
+        [TestMethod]
+        public void AddBinaryData()
+        {
+            var propertyList = new PropertyList();
+            byte[] data = new byte[] { 20, 25, 35, 45, 60, 1, 0, 99 };
+
+            propertyList.Add("new_element", data);
+            var text = propertyList.ToString();
+
+            Assert.IsNotNull(text);
+
+            var loadedList = PropertyList.Read(text);
+            var loadedData = loadedList["new_element"].BinaryValue;
+
+            Assert.AreEqual(loadedData.Length, data.Length);
+            for (int i = 0; i < data.Length; i++)
+            {
+                Assert.AreEqual(data[i], loadedData[i]);
+            }
+        }
     }
 }
