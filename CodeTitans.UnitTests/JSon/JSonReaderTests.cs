@@ -338,7 +338,7 @@ namespace CodeTitans.UnitTests.JSon
             catch (JSonReaderException ex)
             {
                 Assert.AreEqual(0, ex.Line);
-                Assert.AreEqual(28, ex.Offset);
+                Assert.AreEqual(3, ex.Offset);
                 throw;
             }
         }
