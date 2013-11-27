@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{711E5AA9-2634-48C9-8151-548D4D10CD38}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.Bayeux</RootNamespace>
+    <AssemblyName>CodeTitans.Bayeux</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Silverlight\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\silverlight\1.x\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;$(AdditionalDefines)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\Silverlight\1.x\CodeTitans.Bayeux.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugEntry.cs">
+      <Link>Diagnostics\DebugEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugLog.cs">
+      <Link>Diagnostics\DebugLog.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\IDebugTraceListener.cs">
+      <Link>Diagnostics\IDebugTraceListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\StandardDebugListener.cs">
+      <Link>Diagnostics\StandardDebugListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Event.cs">
+      <Link>Event.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSource.cs">
+      <Link>HttpDataSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSourceEventArgs.cs">
+      <Link>HttpDataSourceEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSourceResponseType.cs">
+      <Link>HttpDataSourceResponseType.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\IHttpDataSource.cs">
+      <Link>IHttpDataSource.cs</Link>
+    </Compile>
+    <Compile Include="BayeuxAdvice.cs" />
+    <Compile Include="BayeuxAdviceReconnectType.cs" />
+    <Compile Include="BayeuxChannel.cs" />
+    <Compile Include="BayeuxConnection.cs" />
+    <Compile Include="BayeuxConnectionEventArgs.cs" />
+    <Compile Include="BayeuxConnectionState.cs" />
+    <Compile Include="BayeuxConnectionTypes.cs" />
+    <Compile Include="BayeuxCredentials.cs" />
+    <Compile Include="BayeuxError.cs" />
+    <Compile Include="BayeuxEventData.cs" />
+    <Compile Include="BayeuxException.cs" />
+    <Compile Include="BayeuxHandshakeExtension.cs" />
+    <Compile Include="Channels\ChannelDispatcher.cs" />
+    <Compile Include="Channels\IChannelHandler.cs" />
+    <Compile Include="Channels\Processors\BasicChannelProcessor.cs" />
+    <Compile Include="Channels\Processors\ChannelProcessor.cs" />
+    <Compile Include="Channels\Processors\GlobalWildcardChannelProcessor.cs" />
+    <Compile Include="Channels\Processors\WildcardChannelProcessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\BayeuxRequest.cs" />
+    <Compile Include="Requests\ConnectRequest.cs" />
+    <Compile Include="Requests\DisconnectRequest.cs" />
+    <Compile Include="Requests\HandshakeRequest.cs" />
+    <Compile Include="Requests\PublishRequest.cs" />
+    <Compile Include="Requests\SubscribeRequest.cs" />
+    <Compile Include="Requests\UnsubscribeRequest.cs" />
+    <Compile Include="Responses\BayeuxResponse.cs" />
+    <Compile Include="Responses\HandshakeResponse.cs" />
+    <Compile Include="Responses\SubscribeResponse.cs" />
+    <Compile Include="Responses\UnsubscribeResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JSON%40CodeTitans\CodeTitans.Silverlight.JSon.VS2010.csproj">
+      <Project>{FFF98F99-E0DB-46B4-B21E-A053DA974E1A}</Project>
+      <Name>CodeTitans.Silverlight.JSon.VS2010</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

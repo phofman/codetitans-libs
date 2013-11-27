@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E4CC0A95-28C8-4F45-96D6-0E5296A0D2E6}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.Bayeux</RootNamespace>
+    <AssemblyName>CodeTitans.Bayeux</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug\Phone\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\winphone7\1.x\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\winphone7\1.x\CodeTitans.Bayeux.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="system" />
+    <Reference Include="System.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyCommonInfo.cs">
+      <Link>Properties\AssemblyCommonInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugEntry.cs">
+      <Link>Diagnostics\DebugEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugLog.cs">
+      <Link>Diagnostics\DebugLog.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\IDebugTraceListener.cs">
+      <Link>Diagnostics\IDebugTraceListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\StandardDebugListener.cs">
+      <Link>Diagnostics\StandardDebugListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Event.cs">
+      <Link>Event.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSource.cs">
+      <Link>HttpDataSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSourceEventArgs.cs">
+      <Link>HttpDataSourceEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSourceResponseType.cs">
+      <Link>HttpDataSourceResponseType.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\IHttpDataSource.cs">
+      <Link>IHttpDataSource.cs</Link>
+    </Compile>
+    <Compile Include="BayeuxAdvice.cs" />
+    <Compile Include="BayeuxAdviceReconnectType.cs" />
+    <Compile Include="BayeuxChannel.cs" />
+    <Compile Include="BayeuxConnection.cs" />
+    <Compile Include="BayeuxConnectionEventArgs.cs" />
+    <Compile Include="BayeuxConnectionState.cs" />
+    <Compile Include="BayeuxConnectionTypes.cs" />
+    <Compile Include="BayeuxCredentials.cs" />
+    <Compile Include="BayeuxError.cs" />
+    <Compile Include="BayeuxEventData.cs" />
+    <Compile Include="BayeuxException.cs" />
+    <Compile Include="BayeuxHandshakeExtension.cs" />
+    <Compile Include="Channels\ChannelDispatcher.cs" />
+    <Compile Include="Channels\Processors\BasicChannelProcessor.cs" />
+    <Compile Include="Channels\IChannelHandler.cs" />
+    <Compile Include="Channels\Processors\ChannelProcessor.cs" />
+    <Compile Include="Channels\Processors\GlobalWildcardChannelProcessor.cs" />
+    <Compile Include="Channels\Processors\WildcardChannelProcessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\BayeuxRequest.cs" />
+    <Compile Include="Requests\ConnectRequest.cs" />
+    <Compile Include="Requests\DisconnectRequest.cs" />
+    <Compile Include="Requests\HandshakeRequest.cs" />
+    <Compile Include="Requests\PublishRequest.cs" />
+    <Compile Include="Requests\SubscribeRequest.cs" />
+    <Compile Include="Requests\UnsubscribeRequest.cs" />
+    <Compile Include="Responses\BayeuxResponse.cs" />
+    <Compile Include="Responses\HandshakeResponse.cs" />
+    <Compile Include="Responses\SubscribeResponse.cs" />
+    <Compile Include="Responses\UnsubscribeResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JSON%40CodeTitans\CodeTitans.Phone.JSon.csproj">
+      <Project>{E6B7348B-4FB7-4BB1-ABE1-3E4C04F073D8}</Project>
+      <Name>CodeTitans.Phone.JSon</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

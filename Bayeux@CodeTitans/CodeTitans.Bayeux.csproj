@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9CA5E188-A6F3-42BD-BCD5-06D514C31F05}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.Bayeux</RootNamespace>
+    <AssemblyName>CodeTitans.Bayeux</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Desktop\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET_2_COMPATIBLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\.net_2.0\1.x\</OutputPath>
+    <DefineConstants>TRACE;NET_2_COMPATIBLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DocumentationFile>..\bin\.net_2.0\1.x\CodeTitans.Bayeux.xml</DocumentationFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyCommonInfo.cs">
+      <Link>Properties\AssemblyCommonInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugEntry.cs">
+      <Link>Diagnostics\DebugEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugListenerEventArgs.cs">
+      <Link>Diagnostics\DebugListenerEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugLog.cs">
+      <Link>Diagnostics\DebugLog.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DelayingModule.cs">
+      <Link>Diagnostics\DelayingModule.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\FilterDebugListener.cs">
+      <Link>Diagnostics\FilterDebugListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\IDebugTraceListener.cs">
+      <Link>Diagnostics\IDebugTraceListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\StandardDebugListener.cs">
+      <Link>Diagnostics\StandardDebugListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Event.cs">
+      <Link>Event.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSource.cs">
+      <Link>HttpDataSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSourceEventArgs.cs">
+      <Link>HttpDataSourceEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\HttpDataSourceResponseType.cs">
+      <Link>HttpDataSourceResponseType.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Net\IHttpDataSource.cs">
+      <Link>IHttpDataSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxAdvice.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxAdviceReconnectType.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxChannel.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxConnection.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxConnectionEventArgs.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxConnectionState.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxConnectionTypes.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxError.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxEventData.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\BayeuxException.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Requests\BayeuxRequest.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Requests\ConnectRequest.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Requests\DisconnectRequest.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Requests\HandshakeRequest.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Requests\PublishRequest.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Requests\SubscribeRequest.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Requests\UnsubscribeRequest.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Responses\BayeuxResponse.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Responses\HandshakeResponse.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Responses\SubscribeResponse.cs" />
+    <Compile Include="..\Bayeux%40CodeTitans\Responses\UnsubscribeResponse.cs" />
+    <Compile Include="BayeuxCredentials.cs" />
+    <Compile Include="BayeuxHandshakeExtension.cs" />
+    <Compile Include="Channels\ChannelDispatcher.cs" />
+    <Compile Include="Channels\IChannelHandler.cs" />
+    <Compile Include="Channels\Processors\BasicChannelProcessor.cs" />
+    <Compile Include="Channels\Processors\ChannelProcessor.cs" />
+    <Compile Include="Channels\Processors\GlobalWildcardChannelProcessor.cs" />
+    <Compile Include="Channels\Processors\WildcardChannelProcessor.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\JSON%40CodeTitans\CodeTitans.JSon.csproj">
+      <Project>{F0F69F3F-B4FD-462D-BF5A-2F062745596B}</Project>
+      <Name>CodeTitans.JSon</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

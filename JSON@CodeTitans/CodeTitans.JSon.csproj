@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F0F69F3F-B4FD-462D-BF5A-2F062745596B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.JSon</RootNamespace>
+    <AssemblyName>CodeTitans.JSon</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Desktop\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\.net_2.0\1.x\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\.net_2.0\1.x\CodeTitans.JSon.xml</DocumentationFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyCommonInfo.cs">
+      <Link>Properties\AssemblyCommonInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugEntry.cs">
+      <Link>Diagnostics\DebugEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugLog.cs">
+      <Link>Diagnostics\DebugLog.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\IDebugTraceListener.cs">
+      <Link>Diagnostics\IDebugTraceListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\StandardDebugListener.cs">
+      <Link>Diagnostics\StandardDebugListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\IStringReader.cs">
+      <Link>IStringReader.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\NumericHelper.cs">
+      <Link>NumericHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\ReflectionHelper.cs">
+      <Link>ReflectionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\SerializationHelper.cs">
+      <Link>SerializationHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\StringHelper.cs">
+      <Link>StringHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\JSON%40CodeTitans\IJSonObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\IJSonReader.cs" />
+    <Compile Include="..\JSON%40CodeTitans\IJSonSerializable.cs" />
+    <Compile Include="..\JSON%40CodeTitans\IJSonWriter.cs" />
+    <Compile Include="..\JSON%40CodeTitans\IJSonWriterArrayItem.cs" />
+    <Compile Include="..\JSON%40CodeTitans\IJSonWriterItem.cs" />
+    <Compile Include="..\JSON%40CodeTitans\IJSonWriterObjectItem.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonException.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonIgnoreAttribute.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonMemberAttribute.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonMemberMissingException.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonReader.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonReaderException.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonReaderTokenInfo.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonReaderTokenType.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonSerializableAttribute.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonWriter.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonWriterException.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonWriterTokenInfo.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonWriterTokenType.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonArray.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonBooleanObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonDecimalObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonDictionary.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonObjectConverter.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonStringObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\JSON%40CodeTitans\ReaderHelpers\FclObjectFactory.cs" />
+    <Compile Include="..\JSON%40CodeTitans\ReaderHelpers\IObjectFactory.cs" />
+    <Compile Include="..\JSON%40CodeTitans\ReaderHelpers\JSonObjectFactory.cs" />
+    <Compile Include="..\JSON%40CodeTitans\ReaderHelpers\TokenData.cs" />
+    <Compile Include="..\JSON%40CodeTitans\ReaderHelpers\TokenDataChar.cs" />
+    <Compile Include="..\JSON%40CodeTitans\ReaderHelpers\TokenDataString.cs" />
+    <Compile Include="..\JSON%40CodeTitans\WriterHelpers\ArrayWriter.cs" />
+    <Compile Include="..\JSON%40CodeTitans\WriterHelpers\ObjectWriter.cs" />
+    <Compile Include="..\JSON%40CodeTitans\IJSonMutableObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\JSonMutableObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonDecimalDoubleObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonDecimalInt32Object.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonDecimalInt64Object.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonDecimalSingleObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonDecimalUInt64Object.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableArray.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableBooleanObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableDecimalDoubleObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableDecimalInt32Object.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableDecimalInt64Object.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableDecimalSingleObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableDecimalUInt64Object.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableDictionary.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableStringObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\ReaderHelpers\JSonMutableObjectFactory.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\JSonDecimalDecimalObject.cs" />
+    <Compile Include="..\JSON%40CodeTitans\Objects\Mutable\JSonMutableDecimalDecimalObject.cs" />
+    <Compile Include="DateTimeHelper.cs" />
+    <Compile Include="JSonDateTimeKind.cs" />
+    <Compile Include="JSonReaderNumberFormat.cs" />
+    <Compile Include="JSonWriterDateFormat.cs" />
+    <Compile Include="Objects\JSonDecimalUInt32Object.cs" />
+    <Compile Include="Objects\Mutable\JSonMutableDecimalUInt32Object.cs" />
+    <Compile Include="ReaderHelpers\Factories\FclObjectDecimalFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\FclObjectDoubleFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\FclObjectInt32Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\FclObjectInt64Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonMutableObjectDecimalFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonMutableObjectDoubleFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonMutableObjectInt32Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonMutableObjectInt64Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonObjectDecimalFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonObjectDoubleFactory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonObjectInt32Factory.cs" />
+    <Compile Include="ReaderHelpers\Factories\JSonObjectInt64Factory.cs" />
+    <Compile Include="ReaderHelpers\ObjectFactoryHelper.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

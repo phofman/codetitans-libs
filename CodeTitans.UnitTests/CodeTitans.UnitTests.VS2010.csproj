@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B1518827-DEBB-40AC-9CB8-D9A238003D27}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeTitans.UnitTests</RootNamespace>
+    <AssemblyName>CodeTitans.UnitTests.VS2010</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bayeux\BayeuxConnectionTests.cs" />
+    <Compile Include="Bayeux\ChannelDispatcherTests.cs" />
+    <Compile Include="Bayeux\CometDTests.cs" />
+    <Compile Include="Bayeux\FieldsParsingTests.cs" />
+    <Compile Include="Bayeux\HttpTests.cs" />
+    <Compile Include="Bayeux\Model\AsyncWaiter.cs" />
+    <Compile Include="Bayeux\Model\WaiterResults.cs" />
+    <Compile Include="Core\DebugLogTests.cs" />
+    <Compile Include="Core\EventTests.cs" />
+    <Compile Include="Core\IniFilesTests.cs" />
+    <Compile Include="Core\MarkerStringsTests.cs" />
+    <Compile Include="Core\PropertyListTests.cs" />
+    <Compile Include="Core\RangeTests.cs" />
+    <Compile Include="Core\SerializationTests.cs" />
+    <Compile Include="Core\StringFilesTests.cs" />
+    <Compile Include="Core\StringReaderTests.cs" />
+    <Compile Include="Core\TaskTests.cs" />
+    <Compile Include="IoC\ServiceLocatorTests.cs" />
+    <Compile Include="JSon\JSonDateTimeTests.cs" />
+    <Compile Include="JSon\JSonMutableWriterTests.cs" />
+    <Compile Include="JSon\JSonAutoSerialization.cs" />
+    <Compile Include="JSon\JSonReaderTests.cs" />
+    <Compile Include="JSon\JSonWriterTests.cs" />
+    <Compile Include="NUnitExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\advanced.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\guid.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bayeux%40CodeTitans\CodeTitans.Bayeux.VS2010.csproj">
+      <Project>{8DAFD2C1-511B-4940-8110-297CDF2AFF24}</Project>
+      <Name>CodeTitans.Bayeux.VS2010</Name>
+      <Aliases>global</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\Core%40CodeTitans\CodeTitans.Core.VS2010.csproj">
+      <Project>{AFF24272-D1B8-4C29-A9C8-9AF6EF9E49DA}</Project>
+      <Name>CodeTitans.Core.VS2010</Name>
+      <Aliases>global</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\IoC%40CodeTitans\CodeTitans.IoC.VS2010.csproj">
+      <Project>{466246E6-7B02-4BDB-8EB2-705A908EAF4C}</Project>
+      <Name>CodeTitans.IoC.VS2010</Name>
+      <Aliases>global</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\JSON%40CodeTitans\CodeTitans.JSon.VS2010.csproj">
+      <Project>{0D7442B5-7447-46EC-B2CD-55369F13E2B1}</Project>
+      <Name>CodeTitans.JSon.VS2010</Name>
+      <Aliases>global</Aliases>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\chinese_encoding.json" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
