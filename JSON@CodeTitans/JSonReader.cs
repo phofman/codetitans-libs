@@ -549,6 +549,7 @@ namespace CodeTitans.JSon
 
             // top token contains the first letter of current number:
             StringBuilder buffer = new StringBuilder(topToken.Text);
+            int numberOffset = _input.LineOffset;
 
             StringHelper.ReadDecimalNumberChars(_input, buffer);
 
@@ -559,7 +560,7 @@ namespace CodeTitans.JSon
                 if (_input.CurrentChar != ',' && !char.IsWhiteSpace(_input.CurrentChar) && _input.CurrentChar != ']' && _input.CurrentChar != '}')
                 {
                     buffer.Append(_input.CurrentChar);
-                    throw new JSonReaderException("Invalid number", buffer.ToString(), _input.Line, _input.LineOffset - buffer.Length);
+                    throw new JSonReaderException("Invalid number", buffer.ToString(), _input.Line, numberOffset);
                 }
             }
 
@@ -577,7 +578,7 @@ namespace CodeTitans.JSon
 
             // number had some invalid format:
             throw new JSonReaderException(string.Concat("Invalid number format, value: \"", number, "\", expected format: ", _factory.Format),
-                                          number, _input.Line, _input.LineOffset - number.Length);
+                                          number, _input.Line, numberOffset);
         }
 
         #region IJSonReader Members
