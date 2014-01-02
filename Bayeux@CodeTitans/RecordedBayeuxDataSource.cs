@@ -123,8 +123,8 @@ namespace CodeTitans.Core.Net
                     IJSonObject responseJSon = null;
                     try
                     {
-                        var reader = new JSonReader();
-                        responseJSon = reader.ReadAsJSonObject(response.AsString);
+                        var reader = new JSonReader(response.AsString);
+                        responseJSon = reader.ReadAsJSonObject();
                     }
                     catch (Exception ex)
                     {
@@ -173,8 +173,8 @@ namespace CodeTitans.Core.Net
             {
                 try
                 {
-                    var reader = new JSonReader();
-                    return reader.ReadAsJSonObject(data);
+                    var reader = new JSonReader(data);
+                    return reader.ReadAsJSonObject();
                 }
                 catch (Exception ex)
                 {
@@ -365,10 +365,10 @@ namespace CodeTitans.Core.Net
         /// </summary>
         public RecordedBayeuxDataSourceResponse RecordBayeux(string name, string messageAsJSon)
         {
-            var reader = new JSonReader();
+            var reader = new JSonReader(messageAsJSon);
             var response = new RecordedBayeuxDataSourceResponse(name);
 
-            response.AsJSon = reader.ReadAsJSonMutableObject(messageAsJSon);
+            response.AsJSon = reader.ReadAsJSonMutableObject();
 
             Record(response);
             return response;
@@ -428,8 +428,8 @@ namespace CodeTitans.Core.Net
             {
                 try
                 {
-                    var reader = new JSonReader();
-                    bayeuxMessage.SetValue("data", reader.ReadAsJSonMutableObject(data));
+                    var reader = new JSonReader(data);
+                    bayeuxMessage.SetValue("data", reader.ReadAsJSonMutableObject());
                 }
                 catch (Exception ex)
                 {
@@ -495,14 +495,14 @@ namespace CodeTitans.Core.Net
 
             int addedResponses = 0;
 
-            var reader = new JSonReader(true);
+            var reader = new JSonReader(input, true);
 
             // if not yet end-of-the-input:
             while (input.Peek() != -1)
             {
                 try
                 {
-                    var jObject = reader.ReadAsJSonMutableObject(input);
+                    var jObject = reader.ReadAsJSonMutableObject();
 
                     if (jObject != null)
                     {

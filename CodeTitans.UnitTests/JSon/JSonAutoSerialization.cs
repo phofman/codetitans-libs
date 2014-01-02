@@ -122,13 +122,11 @@ namespace CodeTitans.UnitTests.JSon
             #endregion
         }
 
-        private JSonReader reader;
         private JSonWriter writer;
 
         [TestInitialize]
         public void TestInit()
         {
-            reader = new JSonReader();
             writer = new JSonWriter(true);
         }
 
@@ -149,7 +147,8 @@ namespace CodeTitans.UnitTests.JSon
             Assert.AreNotEqual(o1, d1, "Can't be equal!");
 
             writer.Write(o1);
-            var result = reader.ReadAsJSonObject(writer.ToString());
+            var reader = new JSonReader(writer.ToString());
+            var result = reader.ReadAsJSonObject();
 
             d1.Read(result);
 
@@ -166,7 +165,8 @@ namespace CodeTitans.UnitTests.JSon
             writer.WriteArrayEnd();
             Assert.AreEqual(writer.ToString(), "[\r\n    \"Jakiś tekst!\\r\\n Paweł\"\r\n]", "Text is deserialized incorrectly!");
 
-            var result = reader.Read(writer.ToString()) as object[];
+            var reader = new JSonReader(writer.ToString());
+            var result = reader.Read() as object[];
             Assert.AreEqual(text, result[0], "Text after deserialization are not equal!");
         }
 
@@ -269,7 +269,8 @@ namespace CodeTitans.UnitTests.JSon
             Assert.IsTrue(result.Contains("StaticSampleField"), "Expected static field in output");
 
             SampleAttributedClass.StaticSampleField = true;
-            var o2 = reader.ReadAsJSonObject(result).ToObjectValue<SampleAttributedClass>();
+            var reader = new JSonReader(writer.ToString());
+            var o2 = reader.ReadAsJSonObject().ToObjectValue<SampleAttributedClass>();
 
             Assert.IsNotNull(o2, "Correct value expected");
             Assert.AreEqual(o2.Name, o1.Name, "Name is not equal expected value");
@@ -277,7 +278,8 @@ namespace CodeTitans.UnitTests.JSon
             Assert.AreEqual(o2.Address, "default", "Address should be equal to default value");
 
             // try to load array of elements:
-            var o3 = reader.ReadAsJSonObject("[" + result + "]").ToObjectValue<IList<SampleAttributedClass>>();
+            reader = new JSonReader("[" + result + "]");
+            var o3 = reader.ReadAsJSonObject().ToObjectValue<IList<SampleAttributedClass>>();
 
             Assert.IsNotNull(o3, "Expected data to be read");
 
@@ -292,7 +294,8 @@ namespace CodeTitans.UnitTests.JSon
         [ExpectedException(typeof(JSonMemberMissingException))]
         public void TestMissingMember()
         {
-            var result = reader.ReadAsJSonObject("{ \"Name\": \"Jan\" }").ToObjectValue<SampleAttributedClass>();
+            var reader = new JSonReader("{ \"Name\": \"Jan\" }");
+            var result = reader.ReadAsJSonObject().ToObjectValue<SampleAttributedClass>();
 
             Assert.IsNotNull(result);
         }
@@ -352,9 +355,9 @@ namespace CodeTitans.UnitTests.JSon
             Console.WriteLine("JSON:");
             Console.WriteLine(writer.ToString());
 
-            var reader = new JSonReader();
+            var reader = new JSonReader(writer.ToString());
 
-            var readContainer = reader.ReadAsJSonObject(writer.ToString()).ToObjectValue<ArrayContainingClass>();
+            var readContainer = reader.ReadAsJSonObject().ToObjectValue<ArrayContainingClass>();
             Assert.IsNotNull(readContainer);
             Assert.IsNotNull(readContainer.Data1);
             Assert.IsNotNull(readContainer.Data2);
