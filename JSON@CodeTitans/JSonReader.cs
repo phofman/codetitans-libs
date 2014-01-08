@@ -58,13 +58,12 @@ namespace CodeTitans.JSon
                                     new TokenDataChar('-', JSonReaderTokenType.Number)
                                 };
 
+        internal static TokenDataString NullTokenData = new TokenDataString(NullString, JSonReaderTokenType.Keyword, DBNull.Value, new JSonStringObject(null));
+        internal static TokenDataString FalseTokenData = new TokenDataString(FalseString, JSonReaderTokenType.Keyword, false, new JSonBooleanObject(false));
+        internal static TokenDataString TrueTokenData = new TokenDataString(TrueString, JSonReaderTokenType.Keyword, true, new JSonBooleanObject(true));
+
         // HINT: all definitions should be lowercase!
-        private static readonly TokenDataString[] AvailableKeywords = new[]
-                                {
-                                    new TokenDataString(NullString, JSonReaderTokenType.Keyword, DBNull.Value, new JSonStringObject(null)),
-                                    new TokenDataString(FalseString, JSonReaderTokenType.Keyword, false, new JSonBooleanObject(false)),
-                                    new TokenDataString(TrueString, JSonReaderTokenType.Keyword, true, new JSonBooleanObject(true))
-                                };
+        private static readonly TokenDataString[] AvailableKeywords = new[] { NullTokenData, FalseTokenData, TrueTokenData };
 
         private IStringReader _input;
         private IObjectFactory _factory;

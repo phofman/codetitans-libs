@@ -3,17 +3,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B1518827-DEBB-40AC-9CB8-D9A238003D27}</ProjectGuid>
+    <ProjectGuid>{720677A1-5893-49AC-BAD9-EC400E3F89E6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CodeTitans.UnitTests</RootNamespace>
-    <AssemblyName>CodeTitans.UnitTests.VS2010</AssemblyName>
+    <AssemblyName>CodeTitans.UnitTests.VS2012</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,19 +35,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.XML" />
   </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
-      <Visible>False</Visible>
-    </CodeAnalysisDependentAssemblyPaths>
-  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup>
     <Compile Include="Bayeux\BayeuxConnectionTests.cs" />
     <Compile Include="Bayeux\ChannelDispatcherTests.cs" />
@@ -54,6 +62,7 @@
     <Compile Include="Bayeux\HttpTests.cs" />
     <Compile Include="Bayeux\Model\AsyncWaiter.cs" />
     <Compile Include="Bayeux\Model\WaiterResults.cs" />
+    <Compile Include="Core\BinaryReaderTests.cs" />
     <Compile Include="Core\DebugLogTests.cs" />
     <Compile Include="Core\EventTests.cs" />
     <Compile Include="Core\IniFilesTests.cs" />
@@ -67,48 +76,57 @@
     <Compile Include="IoC\ServiceLocatorTests.cs" />
     <Compile Include="JSon\BSonReaderTests.cs" />
     <Compile Include="JSon\BSonWriterTests.cs" />
+    <Compile Include="JSon\JSonAutoSerialization.cs" />
     <Compile Include="JSon\JSonDateTimeTests.cs" />
     <Compile Include="JSon\JSonMutableWriterTests.cs" />
-    <Compile Include="JSon\JSonAutoSerialization.cs" />
     <Compile Include="JSon\JSonReaderTests.cs" />
     <Compile Include="JSon\JSonWriterTests.cs" />
     <Compile Include="NUnitExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\advanced.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\guid.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\advanced.json" />
+    <EmbeddedResource Include="Resources\chinese_encoding.json" />
+    <EmbeddedResource Include="Resources\guid.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bayeux%40CodeTitans\CodeTitans.Bayeux.VS2010.csproj">
-      <Project>{8DAFD2C1-511B-4940-8110-297CDF2AFF24}</Project>
+      <Project>{8dafd2c1-511b-4940-8110-297cdf2aff24}</Project>
       <Name>CodeTitans.Bayeux.VS2010</Name>
-      <Aliases>global</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\Core%40CodeTitans\CodeTitans.Core.VS2010.csproj">
-      <Project>{AFF24272-D1B8-4C29-A9C8-9AF6EF9E49DA}</Project>
+      <Project>{aff24272-d1b8-4c29-a9c8-9af6ef9e49da}</Project>
       <Name>CodeTitans.Core.VS2010</Name>
-      <Aliases>global</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\IoC%40CodeTitans\CodeTitans.IoC.VS2010.csproj">
-      <Project>{466246E6-7B02-4BDB-8EB2-705A908EAF4C}</Project>
+      <Project>{466246e6-7b02-4bdb-8eb2-705a908eaf4c}</Project>
       <Name>CodeTitans.IoC.VS2010</Name>
-      <Aliases>global</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\JSON%40CodeTitans\CodeTitans.JSon.VS2010.csproj">
-      <Project>{0D7442B5-7447-46EC-B2CD-55369F13E2B1}</Project>
+      <Project>{0d7442b5-7447-46ec-b2cd-55369f13e2b1}</Project>
       <Name>CodeTitans.JSon.VS2010</Name>
-      <Aliases>global</Aliases>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\chinese_encoding.json" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
