@@ -18,6 +18,7 @@
 */
 #endregion
 
+using System;
 using System.IO;
 
 namespace CodeTitans.Helpers
@@ -45,7 +46,10 @@ namespace CodeTitans.Helpers
         /// </summary>
         public static IBinaryReader CreateReader(BinaryReader data)
         {
-            return null;
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            return new BinaryReaderWrapper(data);
         }
     }
 }
