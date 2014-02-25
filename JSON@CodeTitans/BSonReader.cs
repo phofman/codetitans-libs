@@ -119,7 +119,7 @@ namespace CodeTitans.JSon
             int length;
             int dataOffset;
 
-            key = _input.ReadStringAnsi();
+            key = _input.ReadStringUTF8(int.MaxValue);
             dataOffset = _input.Offset;
             switch (type)
             {
@@ -130,7 +130,7 @@ namespace CodeTitans.JSon
                 case BSonItemType.JavaScript:
                 case BSonItemType.Symbol:
                     length = _input.ReadInt32();
-                    return _factory.CreateString(_input.ReadStringAnsi(length));
+                    return _factory.CreateString(_input.ReadStringUTF8(length));
 
                 case BSonItemType.Object:
                     return ReadDocument();
@@ -183,8 +183,8 @@ namespace CodeTitans.JSon
         {
             var resultArray = new List<object>();
 
-            resultArray.Add(_input.ReadStringAnsi());
-            resultArray.Add(_input.ReadStringAnsi());
+            resultArray.Add(_input.ReadStringUTF8(int.MaxValue));
+            resultArray.Add(_input.ReadStringUTF8(int.MaxValue));
 
             return _factory.CreateArray(resultArray);
         }
@@ -196,7 +196,7 @@ namespace CodeTitans.JSon
             _input.ReadInt32(); // skip length of the entire structure
 
             int length = _input.ReadInt32();
-            resultArray.Add(_input.ReadStringAnsi(length));
+            resultArray.Add(_input.ReadStringUTF8(length));
             resultArray.Add(ReadDocument());
 
             return _factory.CreateArray(resultArray);

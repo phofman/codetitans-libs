@@ -84,14 +84,9 @@ namespace CodeTitans.Helpers
         double ReadDouble();
 
         /// <summary>
-        /// Reads UTF-8 string until termination ('\0') character.
-        /// </summary>
-        string ReadStringAnsi();
-
-        /// <summary>
         /// Reads UTF-8 string until termination ('\0') character or length limit.
         /// </summary>
-        string ReadStringAnsi(int length);
+        string ReadStringUTF8(int length);
     }
 
     /// <summary>
@@ -195,34 +190,11 @@ namespace CodeTitans.Helpers
             return BitConverter.Int64BitsToDouble(ReadInt64());
         }
 
-        public string ReadStringAnsi()
+        public string ReadStringUTF8(int length)
         {
-            if (_offset + 1 <= _data.Length)
-            {
-                _offset++;
+            if (length == 0)
+                return string.Empty;
 
-                int index = _offset;
-
-                while (index < _data.Length && _data[index] != 0)
-                {
-                    index++;
-                }
-
-                // any text found?
-                if (index == _offset)
-                    return string.Empty;
-
-                var result = Encoding.UTF8.GetString(_data, _offset, index - _offset);
-
-                _offset = index;
-                return result;
-            }
-
-            throw new EndOfStreamException();
-        }
-
-        public string ReadStringAnsi(int length)
-        {
             if (_offset + 1 <= _data.Length)
             {
                 _offset++;
@@ -336,31 +308,7 @@ namespace CodeTitans.Helpers
             return result;
         }
 
-        public string ReadStringAnsi()
-        {
-            if (_buffer == null)
-                _buffer = new byte[BufferDefaultSize];
-            _bufferLength = 0;
-
-            do
-            {
-                byte item = _reader.ReadByte();
-                _offset++;
-
-                if (item == 0)
-                    break;
-
-                _buffer[_bufferLength++] = item;
-
-                if (_bufferLength == _buffer.Length)
-                    Array.Resize(ref _buffer, _buffer.Length + BufferDefaultSize);
-            }
-            while (true);
-
-            return Encoding.UTF8.GetString(_buffer, 0, _bufferLength);
-        }
-
-        public string ReadStringAnsi(int length)
+        public string ReadStringUTF8(int length)
         {
             if (length == 0)
                 return string.Empty;
