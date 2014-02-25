@@ -38,8 +38,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseISODateWithTimeZone()
         {
-            var reader = new JSonReader();
-            var item = reader.ReadAsJSonObject("\"2012-06-16T21:09:45+00:00\"");
+            var reader = new JSonReader("\"2012-06-16T21:09:45+00:00\"");
+            var item = reader.ReadAsJSonObject();
             var date = item.DateTimeValue;
 
             Assert.AreEqual(new DateTime(2012, 06, 16, 21, 9, 45, DateTimeKind.Utc).ToLocalTime(), date);
@@ -48,8 +48,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseISODateWithoutTimeZone()
         {
-            var reader = new JSonReader();
-            var item = reader.ReadAsJSonObject("\"2012-05-17 09:58:33\"");
+            var reader = new JSonReader("\"2012-05-17 09:58:33\"");
+            var item = reader.ReadAsJSonObject();
             var date = item.DateTimeValue;
 
             Assert.AreEqual(new DateTime(2012, 05, 17, 09, 58, 33, DateTimeKind.Local), date);
@@ -58,8 +58,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseDateWithoutTimeAsUnspecified()
         {
-            var reader = new JSonReader();
-            var item = reader.ReadAsJSonObject("\"1999-01-07\"");
+            var reader = new JSonReader("\"1999-01-07\"");
+            var item = reader.ReadAsJSonObject();
             var date = item.DateTimeValue;
 
             Assert.AreEqual(new DateTime(1999, 01, 07, 0, 0, 0, DateTimeKind.Unspecified), date);
@@ -68,7 +68,6 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseSerializedCurrentDateAsISO()
         {
-            var reader = new JSonReader();
             var writer = new JSonWriter();
             var now = DateTime.Now;
 
@@ -78,7 +77,8 @@ namespace CodeTitans.UnitTests.JSon
             using(writer.WriteObject())
                 writer.WriteMember("date", now);
             
-            var item = reader.ReadAsJSonObject(writer.ToString());
+            var reader = new JSonReader(writer.ToString());
+            var item = reader.ReadAsJSonObject();
             var date = item["date"].DateTimeValue;
 
             Assert.AreEqual(now, date);
@@ -87,7 +87,6 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseSerializedCurrentDateAsJavaScript()
         {
-            var reader = new JSonReader();
             var writer = new JSonWriter();
             var now = DateTime.Now;
 
@@ -97,7 +96,8 @@ namespace CodeTitans.UnitTests.JSon
             using (writer.WriteObject())
                 writer.WriteMember("date", now, JSonWriterDateFormat.JavaScript);
 
-            var item = reader.ReadAsJSonObject(writer.ToString());
+            var reader = new JSonReader(writer.ToString());
+            var item = reader.ReadAsJSonObject();
             var date = item["date"].DateTimeValue;
 
             Assert.AreEqual(now, date);
@@ -106,7 +106,6 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseSerializedCurrentDateAsEpochMilliseconds()
         {
-            var reader = new JSonReader();
             var writer = new JSonWriter();
             var now = DateTime.Now;
 
@@ -116,7 +115,8 @@ namespace CodeTitans.UnitTests.JSon
             // remove below milliseconds:
             now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, now.Kind);
 
-            var item = reader.ReadAsJSonObject(writer.ToString());
+            var reader = new JSonReader(writer.ToString());
+            var item = reader.ReadAsJSonObject();
             var date = item["date"].DateTimeValue;
 
             Assert.AreNotEqual(0, item["date"].Int64Value);
@@ -126,7 +126,6 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseSerializedCurrentDateAsEpochSeconds()
         {
-            var reader = new JSonReader();
             var writer = new JSonWriter();
             var now = DateTime.Now;
 
@@ -136,7 +135,8 @@ namespace CodeTitans.UnitTests.JSon
             // remove below seconds:
             now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, 0, now.Kind);
 
-            var item = reader.ReadAsJSonObject(writer.ToString());
+            var reader = new JSonReader(writer.ToString());
+            var item = reader.ReadAsJSonObject();
             var date = item["date"].ToDateTimeValue(JSonDateTimeKind.UnixEpochSeconds);
 
             Assert.AreNotEqual(0, item["date"].Int64Value);
@@ -147,8 +147,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseCurrentDate()
         {
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject("\"/DATE()/\"");
+            var reader = new JSonReader("\"/DATE()/\"");
+            var result = reader.ReadAsJSonObject();
             Assert.IsNotNull(result);
 
             var currentDate = DateTime.Now;
@@ -162,8 +162,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseDate1970_Variant1()
         {
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject("\"/DATE(0)/\"");
+            var reader = new JSonReader("\"/DATE(0)/\"");
+            var result = reader.ReadAsJSonObject();
             Assert.IsNotNull(result);
 
             var date = result.DateTimeValue.ToUniversalTime();
@@ -176,8 +176,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseDate1970_Variant2()
         {
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject("\"/ DATE (" + (2 * 60 * 60 * 1000) + " )/\"");
+            var reader = new JSonReader("\"/ DATE (" + (2 * 60 * 60 * 1000) + " )/\"");
+            var result = reader.ReadAsJSonObject();
             Assert.IsNotNull(result);
 
             var date = result.DateTimeValue.ToUniversalTime();
@@ -191,8 +191,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseDate1970_Variant3()
         {
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject("\"\\/ DATE (" + (11 * 60 * 60 * 1000 + 22 * 60 * 1000 + 30 * 1000) + " )\\/\"");
+            var reader = new JSonReader("\"\\/ DATE (" + (11 * 60 * 60 * 1000 + 22 * 60 * 1000 + 30 * 1000) + " )\\/\"");
+            var result = reader.ReadAsJSonObject();
             Assert.IsNotNull(result);
 
             var date = result.DateTimeValue.ToUniversalTime();
@@ -208,8 +208,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseDate1970_Variant4()
         {
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject("\"@" + (11 * 60 * 60 * 1000 + 22 * 60 * 1000 + 30 * 1000) + " @\" ");
+            var reader = new JSonReader("\"@" + (11 * 60 * 60 * 1000 + 22 * 60 * 1000 + 30 * 1000) + " @\" ");
+            var result = reader.ReadAsJSonObject();
             Assert.IsNotNull(result);
 
             var date = result.DateTimeValue.ToUniversalTime();
@@ -225,8 +225,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseExplicitDate_Varian1()
         {
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject("\"\\/ DATE (1920,12,31)\\/\"");
+            var reader = new JSonReader("\"\\/ DATE (1920,12,31)\\/\"");
+            var result = reader.ReadAsJSonObject();
             Assert.IsNotNull(result);
 
             var date = result.DateTimeValue.ToUniversalTime();
@@ -239,8 +239,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseExplicitDate_Varian2()
         {
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject("\"\\/ DATE (1999,  1 , 1, 12, 22, 33, 500)\\/\"");
+            var reader = new JSonReader("\"\\/ DATE (1999,  1 , 1, 12, 22, 33, 500)\\/\"");
+            var result = reader.ReadAsJSonObject();
             Assert.IsNotNull(result);
 
             var date = result.DateTimeValue.ToUniversalTime();

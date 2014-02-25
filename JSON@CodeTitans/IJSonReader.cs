@@ -18,9 +18,6 @@
 */
 #endregion
 
-using System;
-using System.IO;
-
 namespace CodeTitans.JSon
 {
     /// <summary>
@@ -31,77 +28,39 @@ namespace CodeTitans.JSon
         /// <summary>
         /// Converts a JSON string from given input into a tree of .NET arrays, dictionaries, strings and decimals.
         /// </summary>
-        object Read(TextReader input);
+        object Read();
 
         /// <summary>
         /// Converts a JSON string from given input into a tree of .NET arrays, dictionaries, strings and decimals.
         /// </summary>
-        object Read(String input);
-
-        /// <summary>
-        /// Converts a JSON string from given input into a tree of .NET arrays, dictionaries, strings and decimals.
-        /// </summary>
-        object Read(TextReader input, JSonReaderNumberFormat format);
-
-        /// <summary>
-        /// Converts a JSON string from given input into a tree of .NET arrays, dictionaries, strings and decimals.
-        /// </summary>
-        object Read(String input, JSonReaderNumberFormat format);
+        object Read(JSonReaderNumberFormat format);
 
         /// <summary>
         /// Converts a JSON string from given input into a tree of JSON-specific objects.
         /// It then allows easier deserialization for objects implementing <see cref="IJSonObject"/> interface as those objects expose
         /// more functionality then the standard .NET ones.
         /// </summary>
-        IJSonObject ReadAsJSonObject(TextReader input);
+        IJSonObject ReadAsJSonObject();
 
         /// <summary>
         /// Converts a JSON string from given input into a tree of JSON-specific objects.
         /// It then allows easier deserialization for objects implementing <see cref="IJSonObject"/> interface as those objects expose
         /// more functionality then the standard .NET ones.
         /// </summary>
-        IJSonObject ReadAsJSonObject(String input);
-
-        /// <summary>
-        /// Converts a JSON string from given input into a tree of JSON-specific objects.
-        /// It then allows easier deserialization for objects implementing <see cref="IJSonObject"/> interface as those objects expose
-        /// more functionality then the standard .NET ones.
-        /// </summary>
-        IJSonObject ReadAsJSonObject(TextReader input, JSonReaderNumberFormat format);
-
-        /// <summary>
-        /// Converts a JSON string from given input into a tree of JSON-specific objects.
-        /// It then allows easier deserialization for objects implementing <see cref="IJSonObject"/> interface as those objects expose
-        /// more functionality then the standard .NET ones.
-        /// </summary>
-        IJSonObject ReadAsJSonObject(String input, JSonReaderNumberFormat format);
+        IJSonObject ReadAsJSonObject(JSonReaderNumberFormat format);
 
         /// <summary>
         /// Converts a JSON string from given input into a tree of JSON-specific objects.
         /// It then allows easier deserialization for objects implementing <see cref="IJSonMutableObject"/> interface as those objects expose
         /// more functionality then the standard .NET ones.
         /// </summary>
-        IJSonMutableObject ReadAsJSonMutableObject(TextReader input);
+        IJSonMutableObject ReadAsJSonMutableObject();
 
         /// <summary>
         /// Converts a JSON string from given input into a tree of JSON-specific objects.
         /// It then allows easier deserialization for objects implementing <see cref="IJSonMutableObject"/> interface as those objects expose
         /// more functionality then the standard .NET ones.
         /// </summary>
-        IJSonMutableObject ReadAsJSonMutableObject(String input);
-
-        /// <summary>
-        /// Converts a JSON string from given input into a tree of JSON-specific objects.
-        /// It then allows easier deserialization for objects implementing <see cref="IJSonMutableObject"/> interface as those objects expose
-        /// more functionality then the standard .NET ones.
-        /// </summary>
-        IJSonMutableObject ReadAsJSonMutableObject(TextReader input, JSonReaderNumberFormat format);
-
-        /// <summary>
-        /// Converts a JSON string from given input into a tree of JSON-specific objects.
-        /// It then allows easier deserialization for objects implementing <see cref="IJSonMutableObject"/> interface as those objects expose
-        /// more functionality then the standard .NET ones.
-        /// </summary>
-        IJSonMutableObject ReadAsJSonMutableObject(String input, JSonReaderNumberFormat format);
+        IJSonMutableObject ReadAsJSonMutableObject(JSonReaderNumberFormat format);
     }
 }

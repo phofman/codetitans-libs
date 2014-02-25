@@ -41,12 +41,51 @@ namespace CodeTitans.UnitTests.JSon
     [TestClass]
     public class JSonReaderTests
     {
-        private JSonReader reader;
-
         [TestInitialize]
         public void TestInit()
         {
-            reader = new JSonReader();
+        }
+
+        [TestMethod]
+        public void ParseMultipartWithSuccess()
+        {
+            var reader = new JSonReader(true);
+
+            var data1 = reader.Read("[1][2]");
+
+            Assert.IsNotNull(data1);
+            Assert.AreEqual(1, (long)((object[])data1)[0]);
+
+            var data2 = reader.Read();
+            Assert.IsNotNull(data2);
+            Assert.AreEqual(2, (long)((object[])data2)[0]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JSonReaderException))]
+        public void ParseForbiddenMultipartWithException()
+        {
+            var reader = new JSonReader();
+
+            reader.Read("[0][1]");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ReadWithoutSourceSetWithException()
+        {
+            var reader = new JSonReader();
+
+            reader.Read();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ReadObjectWithoutSourceSetWithException()
+        {
+            var reader = new JSonReader();
+
+            reader.ReadAsJSonObject();
         }
 
         [TestMethod]
@@ -54,7 +93,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             const string jsonText = "[{\"minimumVersion\":\"1.0\",\"type\": null,\"channel\":\"\\/meta\\/handshake\",\"supportedConnectionTypes\":[\"request-response\"],\"successful\":true}]";
 
-            var result = reader.ReadAsJSonObject(jsonText);
+            var reader = new JSonReader(jsonText);
+            var result = reader.ReadAsJSonObject();
             Assert.AreEqual("/meta/handshake", result[0]["channel"].StringValue, "Invalid channel");
             Assert.IsTrue(result[0]["type"].IsNull, "Type should be null");
             Assert.AreEqual(1, result[0]["supportedConnectionTypes"].Count, "Supported types are an array with 1 element");
@@ -65,7 +105,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseEmptyJSonString()
         {
-            var result = reader.Read("  ");
+            var reader = new JSonReader("  ");
+            var result = reader.Read();
 
             Assert.IsNull(result, "Result should be null");
         }
@@ -73,7 +114,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseEmptyArray()
         {
-            var result = reader.Read("  [    ]");
+            var reader = new JSonReader("  [    ]");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<Array>(result, "Result should be an array");
         }
@@ -84,7 +126,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("  [   ");
+                var reader = new JSonReader("  [   ");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -100,7 +143,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("}");
+                var reader = new JSonReader("}");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -116,7 +160,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("  \t\t\n \t\t]   ");
+                var reader = new JSonReader("  \t\t\n \t\t]   ");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -132,7 +177,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("   \"start");
+                var reader = new JSonReader("   \"start");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -148,7 +194,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("  [ ], [], { }  ");
+                var reader = new JSonReader("  [ ], [], { }  ");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -164,7 +211,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read(" [ \"a\",\r\n\r\n \"b\"\r\n \t   \"c\" ]");
+                var reader = new JSonReader(" [ \"a\",\r\n\r\n \"b\"\r\n \t   \"c\" ]");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -180,7 +228,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read(" [ \"a\"\r\n\r\n\"b\"]");
+                var reader = new JSonReader(" [ \"a\"\r\n\r\n\"b\"]");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -196,7 +245,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("  [ ]\r\n [] { }  ");
+                var reader = new JSonReader("  [ ]\r\n [] { }  ");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -209,23 +259,25 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseArrayOfBytes()
         {
-            var result = reader.Read("[1, 2, 3, 4, 5, 6, 255, 0]");
+            var reader = new JSonReader("[1, 2, 3, 4, 5, 6, 255, 0]");
+            var result = reader.Read();
             Assert.IsNotNull(result);
             AssertExt.IsInstanceOf<Array>(result, "Result should be an Array");
 
             object[] array = (object[]) result;
-            Assert.AreEqual((object) (long) 1, array[0], "First element should be equal to 1");
+            Assert.AreEqual((long) 1, array[0], "First element should be equal to 1");
 
             // try the same with JSonObject:
             var oResult = reader.ReadAsJSonObject("[1, 2, 3, 4, 5, 6, 255, 0]");
             Assert.IsNotNull(oResult);
-            Assert.AreEqual((long) 1, oResult[0].Int64Value, "First element should be equal to 1");
+            Assert.AreEqual(1, oResult[0].Int64Value, "First element should be equal to 1");
         }
 
         [TestMethod]
         public void ParseArrayOfUInt64()
         {
-            var result = reader.Read("[0, 0, 1, 2, 3, 18446744073709551615]");
+            var reader = new JSonReader("[0, 0, 1, 2, 3, 18446744073709551615]");
+            var result = reader.Read();
             Assert.IsNotNull(result);
             AssertExt.IsInstanceOf<Array>(result, "Result should be an Array");
 
@@ -241,7 +293,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseKeyword()
         {
-            var result = reader.Read("  null  ");
+            var reader = new JSonReader("  null  ");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<DBNull>(result, "Item should be null");
         }
@@ -249,7 +302,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseNumber()
         {
-            var result = reader.Read("  10.1e-2  ");
+            var reader = new JSonReader("  10.1e-2  ");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<double>(result, "Item should be a number");
             Assert.AreEqual(result, 10.1e-2);
@@ -258,7 +312,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseNumberInt64()
         {
-            var result = reader.Read("  " + Int64.MaxValue + "  ");
+            var reader = new JSonReader("  " + Int64.MaxValue + "  ");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<Int64>(result, "Item should be a number");
             Assert.AreEqual(Int64.MaxValue, result);
@@ -268,7 +323,8 @@ namespace CodeTitans.UnitTests.JSon
         public void ParseNumberTicks()
         {
             DateTime now = DateTime.Now;
-            var result = reader.Read("  " + now.Ticks + "  ");
+            var reader = new JSonReader("  " + now.Ticks + "  ");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<Int64>(result, "Item should be a number");
             Assert.AreEqual(now.Ticks, result);
@@ -280,7 +336,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("  10,1e-2  ");
+                var reader = new JSonReader("  10,1e-2  ");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -291,13 +348,20 @@ namespace CodeTitans.UnitTests.JSon
         }
 
         [TestMethod]
-        public void ParseKeywords()
+        public void ParseNullKeyword()
         {
-            var result = reader.ReadAsJSonObject("   null");
+            var reader = new JSonReader("   null");
+            var result = reader.ReadAsJSonObject();
 
             Assert.AreEqual(result.StringValue, null, "Expected a null string!");
+        }
 
-            result = reader.ReadAsJSonObject("  true  ");
+        [TestMethod]
+        public void ParseTrueKeyword()
+        {
+            var reader = new JSonReader("  true  ");
+            var result = reader.ReadAsJSonObject();
+
             Assert.AreEqual("true", result.StringValue, "Expected 'true' string returned");
             Assert.AreEqual(true, result.BooleanValue, "Expected boolean true value");
             Assert.AreEqual(1, result.DoubleValue, "Expected non zero value");
@@ -306,7 +370,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseString()
         {
-            var result = reader.Read("  \"Paweł\\r\\nJSON\\r\\nText\ttab\tspaced.\"  ");
+            var reader = new JSonReader("  \"Paweł\\r\\nJSON\\r\\nText\ttab\tspaced.\"  ");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<string>(result, "Item should be a string");
         }
@@ -317,7 +382,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("\n\"Not finished text  ");
+                var reader = new JSonReader("\n\"Not finished text  ");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -333,7 +399,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("  \"Test string with new line\r\n\"");
+                var reader = new JSonReader("  \"Test string with new line\r\n\"");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -346,7 +413,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseCorrectlyTooLongUnicodeCharacterDefinitionInString()
         {
-            var result = reader.Read("  \"Text-\\u12345\"");
+            var reader = new JSonReader("  \"Text-\\u12345\"");
+            var result = reader.Read();
 
             Assert.IsNotNull(result, "Result can't be null");
             Assert.AreEqual("Text-\u12345", result, "Invalid text read");
@@ -358,7 +426,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("\"test-\\u12\\u123\"");
+                var reader = new JSonReader("\"test-\\u12\\u123\"");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -371,7 +440,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseSeveralUnicodeCharacters()
         {
-            var result = reader.Read("\"\\u308f\\u3084\\u307e\\u3061\\u306a\\u306a\"");
+            var reader = new JSonReader("\"\\u308f\\u3084\\u307e\\u3061\\u306a\\u306a\"");
+            var result = reader.Read();
 
             Assert.IsNotNull(result, "Value should be some string");
             AssertExt.IsInstanceOf<string>(result, "Value shoule be string class");
@@ -381,7 +451,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseValidUnicodeCharacterInString()
         {
-            var result = reader.Read("  \"\\u0020\"");
+            var reader = new JSonReader("  \"\\u0020\"");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<string>(result, "Item should be string");
             Assert.AreEqual(" ", result, "Single space was provided as input!");
@@ -390,7 +461,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseStringSpecialCharacter()
         {
-            var result = reader.Read("  \"\\\"\"");
+            var reader = new JSonReader("  \"\\\"\"");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<string>(result, "Item should be string");
             Assert.AreEqual("\"", result, "Expected special character!");
@@ -399,7 +471,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseArray()
         {
-            var result = reader.Read(" [ \"a\", \"b\", \"c\" ]");
+            var reader = new JSonReader(" [ \"a\", \"b\", \"c\" ]");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<Array>(result, "Item should be an array");
             Assert.AreEqual(3, ((Array) result).Length, "Invalid number of items");
@@ -412,7 +485,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read(" [,] ");
+                var reader = new JSonReader(" [,] ");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -425,7 +499,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseEmptyObject()
         {
-            var result = reader.Read("  { } ");
+            var reader = new JSonReader("  { } ");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<IDictionary>(result, "Item should be a dictionary");
         }
@@ -436,7 +511,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("\n{,} ");
+                var reader = new JSonReader("\n{,} ");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -452,7 +528,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.Read("\n \t[nulll]");
+                var reader = new JSonReader("\n \t[nulll]");
+                reader.Read();
             }
             catch (JSonReaderException ex)
             {
@@ -465,7 +542,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseSimpleData1()
         {
-            var result = reader.Read("  { \"A\":1, \"B\": 2   , \"c\": 12.1 } ");
+            var reader = new JSonReader("  { \"A\":1, \"B\": 2   , \"c\": 12.1 } ");
+            var result = reader.Read();
 
             AssertExt.IsInstanceOf<IDictionary>(result, "Item should be a dictionary");
         }
@@ -502,7 +580,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             var jsonText = LoadTestInputFile("advanced.json");
             var watchReader = Stopwatch.StartNew();
-            var result = reader.ReadAsJSonObject(jsonText);
+            var reader = new JSonReader(jsonText);
+            var result = reader.ReadAsJSonObject();
             watchReader.Stop();
 
             var watchWriter = Stopwatch.StartNew();
@@ -521,7 +600,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             var jsonText = LoadTestInputFile("guid.json");
             var watchReader = Stopwatch.StartNew();
-            var result = reader.ReadAsJSonObject(jsonText);
+            var reader = new JSonReader(jsonText);
+            var result = reader.ReadAsJSonObject();
             watchReader.Stop();
 
             Assert.IsNotNull(result);
@@ -532,7 +612,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseBayeuxConnectResponse()
         {
-            var result = reader.ReadAsJSonObject("[{\"channel\":\"/meta/connect\",\"advice\":{\"reconnect\":\"retry\",\"interval\":0,\"timeout\":20000},\"successful\":true,\"id\":\"1\"}]");
+            var reader = new JSonReader("[{\"channel\":\"/meta/connect\",\"advice\":{\"reconnect\":\"retry\",\"interval\":0,\"timeout\":20000},\"successful\":true,\"id\":\"1\"}]");
+            var result = reader.ReadAsJSonObject();
 
             Assert.IsNotNull(result, "Invalid parsed object!");
 
@@ -543,7 +624,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void DefaultValues()
         {
-            var result = reader.ReadAsJSonObject("{ }");
+            var reader = new JSonReader("{ }");
+            var result = reader.ReadAsJSonObject();
 
             // result is an empty object, so all the time the default values should be used:
             Assert.AreEqual(result["test", true].BooleanValue, true);
@@ -569,7 +651,8 @@ namespace CodeTitans.UnitTests.JSon
 
             try
             {
-                reader.ReadAsJSonObject(jsonText);
+                var reader = new JSonReader(jsonText);
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -587,7 +670,8 @@ namespace CodeTitans.UnitTests.JSon
 
             try
             {
-                reader.ReadAsJSonObject(jsonText);
+                var reader = new JSonReader(jsonText);
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -605,7 +689,8 @@ namespace CodeTitans.UnitTests.JSon
 
             try
             {
-                reader.ReadAsJSonObject(jsonText);
+                var reader = new JSonReader(jsonText);
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -623,7 +708,8 @@ namespace CodeTitans.UnitTests.JSon
 
             try
             {
-                reader.ReadAsJSonObject(jsonText);
+                var reader = new JSonReader(jsonText);
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -641,7 +727,8 @@ namespace CodeTitans.UnitTests.JSon
 
             try
             {
-                reader.ReadAsJSonObject(jsonText);
+                var reader = new JSonReader(jsonText);
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -656,21 +743,28 @@ namespace CodeTitans.UnitTests.JSon
         {
             DateTime date = new DateTime(2012, 5, 14, 11, 22, 33, DateTimeKind.Utc);
 
-            var result = reader.ReadAsJSonObject(String.Format("\"{0}\"", date.ToString("u"))).DateTimeValue.ToUniversalTime();
+            var reader = new JSonReader(String.Format("\"{0}\"", date.ToString("u")));
+            var result = reader.ReadAsJSonObject().DateTimeValue.ToUniversalTime();
 
             AssertExt.IsInstanceOf<DateTime>(result, "Item should be a DataTime");
             Assert.AreEqual(result, date);
         }
 
         [TestMethod]
-        public void ParseDecimal()
+        public void ParseDecimalGivenAsString()
         {
-            var result = reader.ReadAsJSonObject("\"12.3456\"").DecimalValue;
+            var reader = new JSonReader("\"12.3456\"");
+            var result = reader.ReadAsJSonObject().DecimalValue;
 
             AssertExt.IsInstanceOf<decimal>(result, "Item should be a number");
             Assert.AreEqual(result, new Decimal(12.3456));
+        }
 
-            result = reader.ReadAsJSonObject("\"12312.3456\"").DecimalValue;
+        [TestMethod]
+        public void ParseDecimalGivenAsString2()
+        {
+            var reader = new JSonReader("\"12312.3456\"");
+            var result = reader.ReadAsJSonObject().DecimalValue;
 
             AssertExt.IsInstanceOf<decimal>(result, "Item should be a number");
             Assert.AreEqual(result, new Decimal(12312.3456));
@@ -679,7 +773,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseNumberWithDecimalForced()
         {
-            var result = reader.ReadAsJSonObject("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsDecimal);
+            var reader = new JSonReader("[12.12, 13.13, 14.14]");
+            var result = reader.ReadAsJSonObject(JSonReaderNumberFormat.AsDecimal);
             var result0 = result[0].DecimalValue;
             var result1 = result[1].Int32Value;
             var result1Decimal = result[1].DecimalValue;
@@ -696,16 +791,16 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseNumberWithForcedFormat()
         {
+            var reader = new JSonReader();
+            
             var result1 = reader.ReadAsJSonObject("[12, 13, 14]", JSonReaderNumberFormat.AsInt32);
             var result2 = reader.ReadAsJSonObject("[" + (uint.MaxValue + 1ul) + ", " + (uint.MaxValue + 2ul) + ", " + (uint.MaxValue + 3ul) + "]", JSonReaderNumberFormat.AsInt64);
             var result3 = reader.ReadAsJSonObject("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsDouble);
             var result4 = reader.ReadAsJSonObject("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsDecimal);
-
             var result5 = reader.Read("[12, 13, 14]", JSonReaderNumberFormat.AsInt32);
             var result6 = reader.Read("[" + (uint.MaxValue + 1ul) + ", " + (uint.MaxValue + 2ul) + ", " + (uint.MaxValue + 3ul) + "]", JSonReaderNumberFormat.AsInt64);
             var result7 = reader.Read("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsDouble);
             var result8 = reader.Read("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsDecimal);
-
             var result9 = reader.ReadAsJSonMutableObject("[12, 13, 14]", JSonReaderNumberFormat.AsInt32);
             var result10 = reader.ReadAsJSonMutableObject("[" + (uint.MaxValue + 1ul) + ", " + (uint.MaxValue + 2ul) + ", " + (uint.MaxValue + 3ul) + "]", JSonReaderNumberFormat.AsInt64);
             var result11 = reader.ReadAsJSonMutableObject("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsDouble);
@@ -731,7 +826,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.ReadAsJSonObject("[12.12, 13.13, 14.14]", JSonReaderNumberFormat.AsInt32);
+                var reader = new JSonReader("[12.12, 13.13, 14.14]");
+                reader.ReadAsJSonObject(JSonReaderNumberFormat.AsInt32);
             }
             catch (JSonReaderException ex)
             {
@@ -747,7 +843,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.ReadAsJSonObject("[" + ulong.MaxValue + "]", JSonReaderNumberFormat.AsInt64);
+                var reader = new JSonReader("[" + ulong.MaxValue + "]");
+                reader.ReadAsJSonObject(JSonReaderNumberFormat.AsInt64);
             }
             catch (JSonReaderException ex)
             {
@@ -763,7 +860,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.ReadAsJSonObject("  \t /-~~");
+                var reader = new JSonReader("  \t /-~~");
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -779,7 +877,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.ReadAsJSonObject(" [ \t /// ]");
+                var reader = new JSonReader(" [ \t /// ]");
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -795,7 +894,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.ReadAsJSonObject("  \t abcdef");
+                var reader = new JSonReader("  \t abcdef");
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -811,7 +911,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             try
             {
-                reader.ReadAsJSonObject(" [ \t abcdef ]");
+                var reader = new JSonReader(" [ \t abcdef ]");
+                reader.ReadAsJSonObject();
             }
             catch (JSonReaderException ex)
             {
@@ -824,7 +925,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseNumberWithDecimalForced_AndCheckItemType()
         {
-            var result = reader.ReadAsJSonObject((ulong.MaxValue + 1d).ToString(CultureInfo.InvariantCulture), JSonReaderNumberFormat.AsDecimal);
+            var reader = new JSonReader((ulong.MaxValue + 1d).ToString(CultureInfo.InvariantCulture));
+            var result = reader.ReadAsJSonObject(JSonReaderNumberFormat.AsDecimal);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.GetType().Name.Contains("DecimalDecimal"));
@@ -833,9 +935,10 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseChineseTextWithEmbeddedArray()
         {
-            var text = LoadTestInputFile("chinese_encoding.json");
+            var jsonText = LoadTestInputFile("chinese_encoding.json");
 
-            var result = reader.ReadAsJSonObject(text);
+            var reader = new JSonReader(jsonText);
+            var result = reader.ReadAsJSonObject();
             Assert.IsNotNull(result);
 
             var internalData = reader.ReadAsJSonObject(result["DataObject"].StringValue);
@@ -847,10 +950,10 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ParseAsIEnumerable()
         {
-            var str = @"[{""title"":""Title1"",""children"":[{""title"":""Child1"",""children"":[{""title"":""grandchild1"",""children"":[{""title"":""Huh""}]}] }] }, {""title"": ""Title2"" }]";
+            var jsonText = @"[{""title"":""Title1"",""children"":[{""title"":""Child1"",""children"":[{""title"":""grandchild1"",""children"":[{""title"":""Huh""}]}] }] }, {""title"": ""Title2"" }]";
 
-            JSonReader jr = new JSonReader();
-            IJSonObject json = jr.ReadAsJSonObject(str);
+            JSonReader jr = new JSonReader(jsonText);
+            IJSonObject json = jr.ReadAsJSonObject();
             IEnumerable items = json.ArrayItems;
 
             foreach (var arrayItem in json.ArrayItems)

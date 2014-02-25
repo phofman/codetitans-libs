@@ -48,7 +48,7 @@ namespace CodeTitans.Bayeux
         private BayeuxRequest _request;
         private BayeuxRequest _longPollingRequest;
         private int _longPollingConnecFailures;
-        private readonly IJSonReader _jsonReader;
+        private readonly JSonReader _jsonReader;
         private readonly StringBuilder _writerCache;
         private readonly JSonWriter _jsonWriter;
         private readonly List<string> _subscribedChannels;

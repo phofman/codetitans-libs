@@ -468,6 +468,12 @@ namespace CodeTitans.Core.Net
                         continue;
                     }
 
+                    if (string.Compare("connection", header.Key, StringComparison.InvariantCultureIgnoreCase) == 0)
+                    {
+                        webRequest.Connection = header.Value;
+                        continue;
+                    }
+
 #if !NET_2_COMPATIBLE
                     if (string.Compare("host", header.Key, StringComparison.InvariantCultureIgnoreCase) == 0)
                     {

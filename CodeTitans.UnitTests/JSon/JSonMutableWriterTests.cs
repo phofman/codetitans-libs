@@ -75,8 +75,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             const string jsonText = "[{\"minimumVersion\":\"1.0\",\"type\": null,\"channel\":\"\\/meta\\/handshake\",\"supportedConnectionTypes\":[\"request-response\"],\"successful\":true}]";
 
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonMutableObject(jsonText);
+            var reader = new JSonReader(jsonText);
+            var result = reader.ReadAsJSonMutableObject();
 
             Assert.IsNotNull(result, "Invalid data read!");
             Assert.AreEqual("1.0", result[0]["minimumVersion"].StringValue, "Expected other value for minimumVersion!");
@@ -94,8 +94,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             var jsonText = "{ \"a\": 1, \"b\": 2 }";
 
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject(jsonText);
+            var reader = new JSonReader(jsonText);
+            var result = reader.ReadAsJSonObject();
 
             Assert.IsNotNull(result, "Invalid data read!");
             Assert.AreEqual(1, result["a"].Int32Value, "Unexpected value for field 'a'.");
@@ -108,8 +108,8 @@ namespace CodeTitans.UnitTests.JSon
         {
             var jsonText = "{ \"a\": 1, \"b\": 2, \"c\": [1,2,3,4] }";
 
-            var reader = new JSonReader();
-            var result = reader.ReadAsJSonObject(jsonText);
+            var reader = new JSonReader(jsonText);
+            var result = reader.ReadAsJSonObject();
 
             Assert.IsNotNull(result, "Invalid data read!");
             Assert.AreEqual(1, result["a"].Int32Value, "Unexpected value for field 'a'.");

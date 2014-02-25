@@ -58,13 +58,12 @@ namespace CodeTitans.JSon
                                     new TokenDataChar('-', JSonReaderTokenType.Number)
                                 };
 
+        internal static TokenDataString NullTokenData = new TokenDataString(NullString, JSonReaderTokenType.Keyword, DBNull.Value, new JSonStringObject(null));
+        internal static TokenDataString FalseTokenData = new TokenDataString(FalseString, JSonReaderTokenType.Keyword, false, new JSonBooleanObject(false));
+        internal static TokenDataString TrueTokenData = new TokenDataString(TrueString, JSonReaderTokenType.Keyword, true, new JSonBooleanObject(true));
+
         // HINT: all definitions should be lowercase!
-        private static readonly TokenDataString[] AvailableKeywords = new[]
-                                {
-                                    new TokenDataString(NullString, JSonReaderTokenType.Keyword, DBNull.Value, new JSonStringObject(null)),
-                                    new TokenDataString(FalseString, JSonReaderTokenType.Keyword, false, new JSonBooleanObject(false)),
-                                    new TokenDataString(TrueString, JSonReaderTokenType.Keyword, true, new JSonBooleanObject(true))
-                                };
+        private static readonly TokenDataString[] AvailableKeywords = new[] { NullTokenData, FalseTokenData, TrueTokenData };
 
         private IStringReader _input;
         private IObjectFactory _factory;
@@ -74,6 +73,7 @@ namespace CodeTitans.JSon
 
         /// <summary>
         /// Default constructor.
+        /// Appropriate SetSource() method must be called once in order to perform a valid Read() operation.
         /// </summary>
         public JSonReader()
         {
@@ -89,27 +89,76 @@ namespace CodeTitans.JSon
         }
 
         /// <summary>
-        /// Returns reader to the original state.
+        /// Init constructor.
+        /// Sets the input source for processing.
         /// </summary>
-        private void Reset(IStringReader input, IObjectFactory objectFactory)
+        public JSonReader(TextReader input)
+            : this(input, false)
         {
-            if (input == null)
-                throw new ArgumentNullException("input");
-            if (objectFactory == null)
-                throw new ArgumentNullException("objectFactory");
-
-            _input = input;
-            _tokens = new Stack<JSonReaderTokenInfo>();
-            _getTokenFromStack = false;
-            _factory = objectFactory;
         }
 
         /// <summary>
-        /// Reads next token from the input source.
+        /// Init constructor.
+        /// Sets the input source for processing and indication, if it is allowed to read multiple JSON objects from that input source, if they are placed one after another.
         /// </summary>
-        private JSonReaderTokenInfo ReadNextToken()
+        public JSonReader(TextReader source, bool allowPartialRead)
         {
-            return ReadNextToken(true);
+            _allowPartialRead = allowPartialRead;
+            SetSource(source);
+        }
+
+        /// <summary>
+        /// Init constructor.
+        /// Sets the input source for processing.
+        /// </summary>
+        public JSonReader(string input)
+            : this(input, false)
+        {
+        }
+
+        /// <summary>
+        /// Init constructor.
+        /// Sets the input source for processing and indication, if it is allowed to read multiple JSON objects from that input source, if they are placed one after another.
+        /// </summary>
+        public JSonReader(string input, bool allowPartialRead)
+        {
+            _allowPartialRead = allowPartialRead;
+            SetSource(input);
+        }
+
+        /// <summary>
+        /// Sets the new input for processing.
+        /// </summary>
+        public void SetSource(TextReader input)
+        {
+            if (input == null)
+                throw new ArgumentNullException("input");
+
+            _input = StringHelper.CreateReader(input);
+        }
+
+        /// <summary>
+        /// Sets the new input for processing.
+        /// </summary>
+        public void SetSource(string input)
+        {
+            if (input == null)
+                throw new ArgumentNullException("input");
+
+            _input = StringHelper.CreateReader(input);
+        }
+
+        /// <summary>
+        /// Returns reader to the original state.
+        /// </summary>
+        private void Reset(IObjectFactory objectFactory)
+        {
+            if (objectFactory == null)
+                throw new ArgumentNullException("objectFactory");
+
+            _tokens = new Stack<JSonReaderTokenInfo>();
+            _getTokenFromStack = false;
+            _factory = objectFactory;
         }
 
         /// <summary>
@@ -186,8 +235,11 @@ namespace CodeTitans.JSon
         /// <summary>
         /// Converts an input string into a dictionary, array, string or number, depending on the JSON string structure.
         /// </summary>
-        private object Read()
+        private object ReadInput()
         {
+            if (_input == null)
+                throw new InvalidOperationException("Missing input. Call SetSource() first or use a different constructor");
+
             // if there is nothing to read:
             if (_input.IsEmpty)
                 return null;
@@ -197,7 +249,7 @@ namespace CodeTitans.JSon
 
             // analize the top level elements,
             // this could be an array, object, keyword, number, string:
-            while ((currentToken = ReadNextToken()).Type != JSonReaderTokenType.EndOfText)
+            while ((currentToken = ReadNextToken(true)).Type != JSonReaderTokenType.EndOfText)
             {
                 switch(currentToken.Type)
                 {
@@ -276,7 +328,7 @@ namespace CodeTitans.JSon
             JSonReaderTokenInfo currentToken;
             int commas = 0;
 
-            while ((currentToken = ReadNextToken()).Type != JSonReaderTokenType.EndOfText)
+            while ((currentToken = ReadNextToken(true)).Type != JSonReaderTokenType.EndOfText)
             {
                 if (currentToken.Type == JSonReaderTokenType.ArrayEnd)
                 {
@@ -374,7 +426,7 @@ namespace CodeTitans.JSon
             bool commaSpot = false;
             int commas = 0;
 
-            while ((currentToken = ReadNextToken()).Type != JSonReaderTokenType.EndOfText)
+            while ((currentToken = ReadNextToken(true)).Type != JSonReaderTokenType.EndOfText)
             {
                 if (currentToken.Type == JSonReaderTokenType.ObjectEnd)
                 {
@@ -586,9 +638,9 @@ namespace CodeTitans.JSon
         /// <summary>
         /// Converts a JSON string from given input into a tree of .NET arrays, dictionaries, strings and decimals.
         /// </summary>
-        public object Read(TextReader input)
+        public object Read()
         {
-            return Read(input, JSonReaderNumberFormat.Default);
+            return Read(JSonReaderNumberFormat.Default);
         }
 
         /// <summary>
@@ -602,10 +654,18 @@ namespace CodeTitans.JSon
         /// <summary>
         /// Converts a JSON string from given input into a tree of .NET arrays, dictionaries, strings and decimals.
         /// </summary>
-        public object Read(TextReader input, JSonReaderNumberFormat format)
+        public object Read(TextReader input)
         {
-            Reset(StringHelper.CreateReader(input), FclObjectFactory.Create(format));
-            return Read();
+            return Read(input, JSonReaderNumberFormat.Default);
+        }
+
+        /// <summary>
+        /// Converts a JSON string from given input into a tree of .NET arrays, dictionaries, strings and decimals.
+        /// </summary>
+        public object Read(JSonReaderNumberFormat format)
+        {
+            Reset(FclObjectFactory.Create(format));
+            return ReadInput();
         }
 
         /// <summary>
@@ -613,8 +673,19 @@ namespace CodeTitans.JSon
         /// </summary>
         public object Read(string input, JSonReaderNumberFormat format)
         {
-            Reset(StringHelper.CreateReader(input), FclObjectFactory.Create(format));
-            return Read();
+            SetSource(input);
+            Reset(FclObjectFactory.Create(format));
+            return ReadInput();
+        }
+
+        /// <summary>
+        /// Converts a JSON string from given input into a tree of .NET arrays, dictionaries, strings and decimals.
+        /// </summary>
+        public object Read(TextReader input, JSonReaderNumberFormat format)
+        {
+            SetSource(input);
+            Reset(FclObjectFactory.Create(format));
+            return ReadInput();
         }
 
         /// <summary>
@@ -622,9 +693,9 @@ namespace CodeTitans.JSon
         /// It then allows easier deserialization for objects implementing IJSonReadable interface as those objects exposes
         /// more functionality then the standard .NET ones.
         /// </summary>
-        public IJSonObject ReadAsJSonObject(TextReader input)
+        public IJSonObject ReadAsJSonObject()
         {
-            return ReadAsJSonObject(input, JSonReaderNumberFormat.Default);
+            return ReadAsJSonObject(JSonReaderNumberFormat.Default);
         }
 
         /// <summary>
@@ -639,13 +710,23 @@ namespace CodeTitans.JSon
 
         /// <summary>
         /// Converts a JSON string from given input into a tree of JSON-specific objects.
+        /// It then allows easier deserialization for objects implementing IJSonReadable interface as those objects exposes
+        /// more functionality then the standard .NET ones.
+        /// </summary>
+        public IJSonObject ReadAsJSonObject(TextReader input)
+        {
+            return ReadAsJSonObject(input, JSonReaderNumberFormat.Default);
+        }
+
+        /// <summary>
+        /// Converts a JSON string from given input into a tree of JSON-specific objects.
         /// It then allows easier deserialization for objects implementing <see cref="IJSonObject"/> interface as those objects expose
         /// more functionality then the standard .NET ones.
         /// </summary>
-        public IJSonObject ReadAsJSonObject(TextReader input, JSonReaderNumberFormat format)
+        public IJSonObject ReadAsJSonObject(JSonReaderNumberFormat format)
         {
-            Reset(StringHelper.CreateReader(input), JSonObjectFactory.Create(format));
-            return Read() as IJSonObject;
+            Reset(JSonObjectFactory.Create(format));
+            return ReadInput() as IJSonObject;
         }
 
         /// <summary>
@@ -655,8 +736,21 @@ namespace CodeTitans.JSon
         /// </summary>
         public IJSonObject ReadAsJSonObject(string input, JSonReaderNumberFormat format)
         {
-            Reset(StringHelper.CreateReader(input), JSonObjectFactory.Create(format));
-            return Read() as IJSonObject;
+            SetSource(input);
+            Reset(JSonObjectFactory.Create(format));
+            return ReadInput() as IJSonObject;
+        }
+
+        /// <summary>
+        /// Converts a JSON string from given input into a tree of JSON-specific objects.
+        /// It then allows easier deserialization for objects implementing <see cref="IJSonObject"/> interface as those objects expose
+        /// more functionality then the standard .NET ones.
+        /// </summary>
+        public IJSonObject ReadAsJSonObject(TextReader input, JSonReaderNumberFormat format)
+        {
+            SetSource(input);
+            Reset(JSonObjectFactory.Create(format));
+            return ReadInput() as IJSonObject;
         }
 
         /// <summary>
@@ -664,9 +758,9 @@ namespace CodeTitans.JSon
         /// It then allows easier deserialization for objects implementing <see cref="IJSonMutableObject"/> interface as those objects expose
         /// more functionality then the standard .NET ones.
         /// </summary>
-        public IJSonMutableObject ReadAsJSonMutableObject(TextReader input)
+        public IJSonMutableObject ReadAsJSonMutableObject()
         {
-            return ReadAsJSonMutableObject(input, JSonReaderNumberFormat.Default);
+            return ReadAsJSonMutableObject(JSonReaderNumberFormat.Default);
         }
 
         /// <summary>
@@ -684,10 +778,20 @@ namespace CodeTitans.JSon
         /// It then allows easier deserialization for objects implementing <see cref="IJSonMutableObject"/> interface as those objects expose
         /// more functionality then the standard .NET ones.
         /// </summary>
-        public IJSonMutableObject ReadAsJSonMutableObject(TextReader input, JSonReaderNumberFormat format)
+        public IJSonMutableObject ReadAsJSonMutableObject(TextReader input)
         {
-            Reset(StringHelper.CreateReader(input), JSonMutableObjectFactory.Create(format));
-            return Read() as IJSonMutableObject;
+            return ReadAsJSonMutableObject(input, JSonReaderNumberFormat.Default);
+        }
+
+        /// <summary>
+        /// Converts a JSON string from given input into a tree of JSON-specific objects.
+        /// It then allows easier deserialization for objects implementing <see cref="IJSonMutableObject"/> interface as those objects expose
+        /// more functionality then the standard .NET ones.
+        /// </summary>
+        public IJSonMutableObject ReadAsJSonMutableObject(JSonReaderNumberFormat format)
+        {
+            Reset(JSonMutableObjectFactory.Create(format));
+            return ReadInput() as IJSonMutableObject;
         }
 
         /// <summary>
@@ -697,8 +801,21 @@ namespace CodeTitans.JSon
         /// </summary>
         public IJSonMutableObject ReadAsJSonMutableObject(string input, JSonReaderNumberFormat format)
         {
-            Reset(StringHelper.CreateReader(input), JSonMutableObjectFactory.Create(format));
-            return Read() as IJSonMutableObject;
+            SetSource(input);
+            Reset(JSonMutableObjectFactory.Create(format));
+            return ReadInput() as IJSonMutableObject;
+        }
+
+        /// <summary>
+        /// Converts a JSON string from given input into a tree of JSON-specific objects.
+        /// It then allows easier deserialization for objects implementing <see cref="IJSonMutableObject"/> interface as those objects expose
+        /// more functionality then the standard .NET ones.
+        /// </summary>
+        public IJSonMutableObject ReadAsJSonMutableObject(TextReader input, JSonReaderNumberFormat format)
+        {
+            SetSource(input);
+            Reset(JSonMutableObjectFactory.Create(format));
+            return ReadInput() as IJSonMutableObject;
         }
 
         #endregion

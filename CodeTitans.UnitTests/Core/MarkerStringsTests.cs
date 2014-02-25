@@ -42,11 +42,13 @@ namespace CodeTitans.UnitTests.Core
     {
         private List<string> texts;
         private List<string> tags;
+        private List<string> invocations;
 
         private int Parse(string text, string startTag, string endTag)
         {
             texts = new List<string>();
             tags = new List<string>();
+            invocations = new List<string>();
 
             return MarkerStrings.Parse(text, this, startTag, endTag, OnText, OnTagContent);
         }
@@ -56,6 +58,7 @@ namespace CodeTitans.UnitTests.Core
             Assert.IsNotNull(text);
 
             tags.Add(text);
+            invocations.Add("m:" + text);
         }
 
         private void OnText(object o, string text)
@@ -63,6 +66,7 @@ namespace CodeTitans.UnitTests.Core
             Assert.IsNotNull(text);
 
             texts.Add(text);
+            invocations.Add("t:" + text);
         }
 
         [TestMethod]
@@ -74,6 +78,7 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual(0, tags.Count);
             Assert.AreEqual(1, texts.Count);
             Assert.AreEqual("abcdefghijkl", texts[0]);
+            Assert.AreEqual("t:abcdefghijkl", invocations[0]);
         }
 
         [TestMethod]
@@ -85,6 +90,7 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual(0, tags.Count);
             Assert.AreEqual(1, texts.Count);
             Assert.AreEqual("abc\r\ndef", texts[0]);
+            Assert.AreEqual("t:abc\r\ndef", invocations[0]);
         }
 
         [TestMethod]
@@ -97,6 +103,8 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual(1, texts.Count);
             Assert.AreEqual("abc", texts[0]);
             Assert.AreEqual("aaa", tags[0]);
+            Assert.AreEqual("t:abc", invocations[0]);
+            Assert.AreEqual("m:aaa", invocations[1]);
         }
 
         [TestMethod]
@@ -109,6 +117,24 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual(1, texts.Count);
             Assert.AreEqual("abc", texts[0]);
             Assert.AreEqual("", tags[0]);
+            Assert.AreEqual("t:abc", invocations[0]);
+            Assert.AreEqual("m:", invocations[1]);
+        }
+
+        [TestMethod]
+        public void TextMultiLineWithTag()
+        {
+            var result = Parse("abc\r\ndef\r\n%aaa%xyz", "%", "%");
+
+            Assert.AreEqual(1, result);
+            Assert.AreEqual(1, tags.Count);
+            Assert.AreEqual(2, texts.Count);
+            Assert.AreEqual("abc\r\ndef\r\n", texts[0]);
+            Assert.AreEqual("xyz", texts[1]);
+            Assert.AreEqual("aaa", tags[0]);
+            Assert.AreEqual("t:abc\r\ndef\r\n", invocations[0]);
+            Assert.AreEqual("m:aaa", invocations[1]);
+            Assert.AreEqual("t:xyz", invocations[2]);
         }
 
         [TestMethod]
@@ -120,6 +146,7 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual(1, tags.Count);
             Assert.AreEqual(0, texts.Count);
             Assert.AreEqual("", tags[0]);
+            Assert.AreEqual("m:", invocations[0]);
         }
 
         [TestMethod]
@@ -141,6 +168,8 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual(0, texts.Count);
             Assert.AreEqual("ab", tags[0]);
             Assert.AreEqual("cde", tags[1]);
+            Assert.AreEqual("m:ab", invocations[0]);
+            Assert.AreEqual("m:cde", invocations[1]);
         }
 
         [TestMethod]
@@ -154,6 +183,9 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual("\r\n", texts[0]);
             Assert.AreEqual("ab", tags[0]);
             Assert.AreEqual("cde", tags[1]);
+            Assert.AreEqual("m:ab", invocations[0]);
+            Assert.AreEqual("t:\r\n", invocations[1]);
+            Assert.AreEqual("m:cde", invocations[2]);
         }
 
         [TestMethod]
@@ -165,6 +197,7 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual(1, tags.Count);
             Assert.AreEqual(0, texts.Count);
             Assert.AreEqual("ab\r\ncd\r\nef", tags[0]);
+            Assert.AreEqual("m:ab\r\ncd\r\nef", invocations[0]);
         }
 
         [TestMethod]
@@ -178,6 +211,9 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual("def", tags[0]);
             Assert.AreEqual("abc", texts[0]);
             Assert.AreEqual("ghi", texts[1]);
+            Assert.AreEqual("t:abc", invocations[0]);
+            Assert.AreEqual("m:def", invocations[1]);
+            Assert.AreEqual("t:ghi", invocations[2]);
         }
 
         [TestMethod]
@@ -191,6 +227,9 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual("\r\ndef\r\n", tags[0]);
             Assert.AreEqual("abc", texts[0]);
             Assert.AreEqual("ghi", texts[1]);
+            Assert.AreEqual("t:abc", invocations[0]);
+            Assert.AreEqual("m:\r\ndef\r\n", invocations[1]);
+            Assert.AreEqual("t:ghi", invocations[2]);
         }
 
         [TestMethod]
@@ -204,6 +243,8 @@ namespace CodeTitans.UnitTests.Core
             Assert.AreEqual("name", tags[0]);
             Assert.AreEqual("\r\nnews\r\n", tags[1]);
             Assert.AreEqual("OK", tags[2]);
+            Assert.AreEqual("t:Hello ", invocations[0]);
+            Assert.AreEqual("m:name", invocations[1]);
         }
     }
 }

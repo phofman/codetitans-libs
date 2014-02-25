@@ -269,8 +269,8 @@ namespace CodeTitans.JSon.Objects
                 if (!asJSonSerializedObject)
                     return new JSonStringObject(defaultValue);
 
-                JSonReader reader = new JSonReader();
-                return reader.ReadAsJSonObject(defaultValue);
+                JSonReader reader = new JSonReader(defaultValue);
+                return reader.ReadAsJSonObject();
             }
         }
 

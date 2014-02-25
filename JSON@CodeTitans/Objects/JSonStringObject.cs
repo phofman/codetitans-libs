@@ -173,14 +173,14 @@ namespace CodeTitans.JSon.Objects
         {
             if (typeof(T) == typeof(IJSonMutableObject))
             {
-                var reader = new JSonReader();
-                return (T) reader.ReadAsJSonMutableObject(_data);
+                var reader = new JSonReader(_data);
+                return (T) reader.ReadAsJSonMutableObject();
             }
 
             if (typeof(T) == typeof(IJSonObject))
             {
-                var reader = new JSonReader();
-                return (T)reader.ReadAsJSonObject(_data);
+                var reader = new JSonReader(_data);
+                return (T)reader.ReadAsJSonObject();
             }
 
             return (T)JSonObjectConverter.ToObject(this, typeof(T));

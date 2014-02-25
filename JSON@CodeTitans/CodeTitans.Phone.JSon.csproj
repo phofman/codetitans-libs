@@ -75,6 +75,8 @@
     <Compile Include="..\Core%40CodeTitans\StringHelper.cs">
       <Link>StringHelper.cs</Link>
     </Compile>
+    <Compile Include="BSonReader.cs" />
+    <Compile Include="BSonWriter.cs" />
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="IJSonMutableObject.cs" />
     <Compile Include="IJSonObject.cs" />

@@ -43,4 +43,5 @@ using System.Runtime.InteropServices;
 #if DEBUG
 [assembly: InternalsVisibleTo("CodeTitans.UnitTests")]
 [assembly: InternalsVisibleTo("CodeTitans.UnitTests.VS2010")]
+[assembly: InternalsVisibleTo("CodeTitans.UnitTests.VS2012")]
 #endif

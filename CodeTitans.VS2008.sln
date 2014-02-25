@@ -25,10 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.Bayeux", "Bayeux
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.Mobile.Bayeux", "Bayeux@CodeTitans\CodeTitans.Mobile.Bayeux.csproj", "{3C8BEC93-58F1-4ABF-B3FA-4E7FB25528B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.News", "News@CodeTitans\CodeTitans.News.csproj", "{5274B62E-3A88-40DF-AA2F-B084FA8F8EAE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTitans.Mobile.News", "News@CodeTitans\CodeTitans.Mobile.News.csproj", "{5B8D3CA5-4B6A-417A-A7C5-938429AD6068}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = CodeTitans.vsmdi
@@ -74,14 +70,6 @@ Global
 		{3C8BEC93-58F1-4ABF-B3FA-4E7FB25528B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C8BEC93-58F1-4ABF-B3FA-4E7FB25528B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C8BEC93-58F1-4ABF-B3FA-4E7FB25528B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5274B62E-3A88-40DF-AA2F-B084FA8F8EAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5274B62E-3A88-40DF-AA2F-B084FA8F8EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5274B62E-3A88-40DF-AA2F-B084FA8F8EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5274B62E-3A88-40DF-AA2F-B084FA8F8EAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B8D3CA5-4B6A-417A-A7C5-938429AD6068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B8D3CA5-4B6A-417A-A7C5-938429AD6068}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B8D3CA5-4B6A-417A-A7C5-938429AD6068}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B8D3CA5-4B6A-417A-A7C5-938429AD6068}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

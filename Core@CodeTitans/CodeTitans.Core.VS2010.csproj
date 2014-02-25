@@ -41,6 +41,7 @@
     <Compile Include="..\AssemblyCommonInfo.cs">
       <Link>Properties\AssemblyCommonInfo.cs</Link>
     </Compile>
+    <Compile Include="BinaryHelper.cs" />
     <Compile Include="Diagnostics\DebugEntry.cs" />
     <Compile Include="Diagnostics\DebugListenerEventArgs.cs" />
     <Compile Include="Diagnostics\DebugLog.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Generics\PropertyList.cs" />
     <Compile Include="Generics\PropertyListItemTypes.cs" />
     <Compile Include="Generics\StringList.cs" />
+    <Compile Include="IBinaryReader.cs" />
     <Compile Include="IStringReader.cs" />
     <Compile Include="Net\HttpDataSourceResponseType.cs" />
     <Compile Include="Net\HttpDataSource.cs" />

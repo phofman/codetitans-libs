@@ -402,8 +402,8 @@ namespace CodeTitans.UnitTests.JSon
         [ExpectedException(typeof(FormatException))]
         public void ToStringWithInvalidFormat()
         {
-            var reader = new JSonReader();
-            var data = reader.ReadAsJSonObject("[1, 2, 3, [\"a\", \"b\", \"c\", [4, 5, 6, [{\"f\": 1, \"x\": 2}]]]]");
+            var reader = new JSonReader("[1, 2, 3, [\"a\", \"b\", \"c\", [4, 5, 6, [{\"f\": 1, \"x\": 2}]]]]");
+            var data = reader.ReadAsJSonObject();
 
             Assert.IsNotNull(data);
             data.ToString("xxl");
@@ -412,8 +412,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ToStringFormatWithIndentedOutput()
         {
-            var reader = new JSonReader();
-            var data = reader.ReadAsJSonObject("[1, 2, 3, [\"a\", \"b\", \"c\", [4, 5, 6, [{\"f\": 1, \"x\": 2}]]]]");
+            var reader = new JSonReader("[1, 2, 3, [\"a\", \"b\", \"c\", [4, 5, 6, [{\"f\": 1, \"x\": 2}]]]]");
+            var data = reader.ReadAsJSonObject();
 
             Assert.IsNotNull(data);
             var outputIndent = data.ToString("i");
@@ -429,8 +429,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ToStringFormatWithCompactedOutput()
         {
-            var reader = new JSonReader();
-            var data = reader.ReadAsJSonObject("[1,2,3,[\"a\",\"b\",\"c\",[4,5,6,[{\"f\":1,\"x\":2}]]]]");
+            var reader = new JSonReader("[1,2,3,[\"a\",\"b\",\"c\",[4,5,6,[{\"f\":1,\"x\":2}]]]]");
+            var data = reader.ReadAsJSonObject();
 
             Assert.IsNotNull(data);
             var outputIndent = data.ToString("i");
@@ -446,8 +446,8 @@ namespace CodeTitans.UnitTests.JSon
         [TestMethod]
         public void ToStringFormatWithNormalOutput()
         {
-            var reader = new JSonReader();
-            var data = reader.ReadAsJSonObject("[1,2,3,[\"a\",\"b\",\"c\",[4,5,6,[{\"f\":1,\"x\":2}]]]]");
+            var reader = new JSonReader("[1,2,3,[\"a\",\"b\",\"c\",[4,5,6,[{\"f\":1,\"x\":2}]]]]");
+            var data = reader.ReadAsJSonObject();
 
             Assert.IsNotNull(data);
             var outputIndent = data.ToString("i");
