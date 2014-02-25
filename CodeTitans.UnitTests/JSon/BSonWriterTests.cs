@@ -48,5 +48,29 @@ namespace CodeTitans.UnitTests.JSon
 
             Assert.IsNotNull(writer);
         }
+
+        [TestMethod]
+        public void SampleDataSerialization()
+        {
+            var output = new byte[] { 0x31, 0x00, 0x00, 0x00, 0x04, 0x42, 0x53, 0x4F, 0x4E, 0x00, 0x26, 0x00, 0x00, 0x00, 0x02, 0x30, 0x00, 0x08, 0x00, 0x00, 0x00, 0x61, 0x77, 0x65, 0x73, 0x6F, 0x6D, 0x65, 0x00, 0x01, 0x31, 0x00, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33, 0x14, 0x40, 0x10, 0x32, 0x00, 0xc2, 0x07, 0x00, 0x00, 0x00, 0x00 };
+            var writer = new BSonWriter();
+
+            using (writer.WriteObject())
+            {
+                writer.WriteMember("BSON");
+                using (writer.WriteArray())
+                {
+                    writer.WriteValue("awesome");
+                    writer.WriteValue(5.05d);
+                    writer.WriteValue(1986);
+                }
+            }
+
+            var result = writer.ToBytes();
+
+            Assert.AreEqual(output.Length, result.Length);
+            for (int i = 0; i < output.Length; i++)
+                Assert.AreEqual(output[i], result[i]);
+        }
     }
 }

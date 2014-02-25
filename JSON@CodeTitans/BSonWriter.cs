@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections;
+using CodeTitans.JSon.WriterHelpers;
 
 namespace CodeTitans.JSon
 {
@@ -36,22 +37,24 @@ namespace CodeTitans.JSon
 
         public IJSonWriterObjectItem WriteObject()
         {
-            throw new NotImplementedException();
+            return new ObjectWriter(this);
         }
 
         public IJSonWriterObjectItem WriteObject(string name)
         {
-            throw new NotImplementedException();
+            WriteMember(name);
+            return new ObjectWriter(this);
         }
 
         public IJSonWriterArrayItem WriteArray()
         {
-            throw new NotImplementedException();
+            return new ArrayWriter(this);
         }
 
         public IJSonWriterArrayItem WriteArray(string name)
         {
-            throw new NotImplementedException();
+            WriteMember(name);
+            return new ArrayWriter(this);
         }
 
         public void Write(IEnumerable array)
@@ -263,6 +266,11 @@ namespace CodeTitans.JSon
         public void Close()
         {
             Dispose();
+        }
+
+        public byte[] ToBytes()
+        {
+            throw new NotImplementedException();
         }
     }
 }
