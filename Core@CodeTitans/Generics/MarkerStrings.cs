@@ -93,7 +93,7 @@ namespace CodeTitans.Core.Generics
                 do
                 {
                     // is there any tag in current line:
-                    startIndex = insideTag ? -1 : line.IndexOf(startTag, processingStart);
+                    startIndex = insideTag ? -1 : line.IndexOf(startTag, processingStart, StringComparison.Ordinal);
                     continueProcessing = false;
 
                     if (startIndex < 0)
@@ -109,11 +109,19 @@ namespace CodeTitans.Core.Generics
                             }
                             else
                             {
+                                // was there any text before
+                                if (text.Length > 0)
+                                {
+                                    if (onText != null)
+                                        onText(o, text.ToString());
+                                    text.Clear();
+                                }
+
                                 // append beginning as a tag
                                 if (content.Length > 0)
                                 {
                                     substring = content.Append(line.Substring(processingStart, endIndex - processingStart)).ToString();
-                                    content.Remove(0, content.Length);
+                                    content.Clear();
                                 }
                                 else
                                 {
@@ -141,12 +149,12 @@ namespace CodeTitans.Core.Generics
                     else
                     {
                         // text before tag
-                        if (startIndex > processingStart)
+                        if (startIndex > processingStart || text.Length > 0)
                         {
                             if (text.Length > 0)
                             {
                                 substring = text.Append(line.Substring(processingStart, startIndex - processingStart)).ToString();
-                                text.Remove(0, text.Length);
+                                text.Clear();
                             }
                             else
                                 substring = line.Substring(processingStart, startIndex - processingStart);
@@ -168,7 +176,7 @@ namespace CodeTitans.Core.Generics
                             if (content.Length > 0)
                             {
                                 substring = content.Append(line.Substring(startIndex + startTag.Length, endIndex - startIndex - endTag.Length)).ToString();
-                                content.Remove(0, content.Length);
+                                content.Clear();
                             }
                             else
                             {
