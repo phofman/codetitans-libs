@@ -61,11 +61,12 @@ namespace CodeTitans.Bayeux
         /// </summary>
         public void Write(IJSonWriter output)
         {
-            using (output.WriteObject())
+            output.WriteObjectBegin();
             {
                 output.WriteMember("user", UserName);
                 output.WriteMember("credentials", Password);
             }
+            output.WriteObjectEnd();
         }
 
         #endregion
