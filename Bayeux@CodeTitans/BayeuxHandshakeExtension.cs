@@ -56,7 +56,7 @@ namespace CodeTitans.Bayeux
         /// </summary>
         public void Write(IJSonWriter output)
         {
-            using (output.WriteObject())
+            output.WriteObjectBegin();
             {
                 if (Credentials != null)
                 {
@@ -64,6 +64,7 @@ namespace CodeTitans.Bayeux
                     Credentials.Write(output);
                 }
             }
+            output.WriteObjectEnd();
         }
 
         #endregion

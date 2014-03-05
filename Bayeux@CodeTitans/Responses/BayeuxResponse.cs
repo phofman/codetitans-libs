@@ -185,24 +185,26 @@ namespace CodeTitans.Bayeux.Responses
                 return;
 
             output.WriteObjectBegin();
-            output.WriteMember("channel", Channel);
-            if (ID != null)
-                output.WriteMember("id", ID);
-            output.WriteMember("clientId", ClientID);
-            output.WriteMember("successful", Successful ? 1 : 0);
-            if (Data != null)
             {
-                output.WriteMember("data");
-                output.Write(Data);
-            }
-            if (Ext != null)
-            {
-                output.WriteMember("ext");
-                output.Write(Ext);
-            }
+                output.WriteMember("channel", Channel);
+                if (ID != null)
+                    output.WriteMember("id", ID);
+                output.WriteMember("clientId", ClientID);
+                output.WriteMember("successful", Successful ? 1 : 0);
+                if (Data != null)
+                {
+                    output.WriteMember("data");
+                    output.Write(Data);
+                }
+                if (Ext != null)
+                {
+                    output.WriteMember("ext");
+                    output.Write(Ext);
+                }
 
-            // writes additional members defined by child classes:
-            WriteOptionalFields(output);
+                // writes additional members defined by child classes:
+                WriteOptionalFields(output);
+            }
             output.WriteObjectEnd();
         }
 

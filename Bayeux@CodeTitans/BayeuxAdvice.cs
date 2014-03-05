@@ -103,8 +103,10 @@ namespace CodeTitans.Bayeux
         public void Write(IJSonWriter output)
         {
             output.WriteObjectBegin();
-            output.WriteMember("reconnect", ToString(Reconnect));
-            output.WriteMember("interval", Interval);
+            {
+                output.WriteMember("reconnect", ToString(Reconnect));
+                output.WriteMember("interval", Interval);
+            }
             output.WriteObjectEnd();
         }
 

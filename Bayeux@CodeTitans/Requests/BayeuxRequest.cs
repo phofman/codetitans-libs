@@ -155,27 +155,29 @@ namespace CodeTitans.Bayeux.Requests
             // }
 
             output.WriteObjectBegin();
-            output.WriteMember("channel", Channel);
-            if (ClientID != null)
-                output.WriteMember("clientId", ClientID);
-            if (ID != null)
-                output.WriteMember("id", ID);
-
-            // write basic Bayeux request data field:
-            if (HasData)
             {
-                output.WriteMember("data");
-                _data.Write(output);
-            }
+                output.WriteMember("channel", Channel);
+                if (ClientID != null)
+                    output.WriteMember("clientId", ClientID);
+                if (ID != null)
+                    output.WriteMember("id", ID);
 
-            // write additional (optional) request fields:
-            WriteOptionalFields(output);
+                // write basic Bayeux request data field:
+                if (HasData)
+                {
+                    output.WriteMember("data");
+                    _data.Write(output);
+                }
 
-            // write the data extension:
-            if (HasExt)
-            {
-                output.WriteMember("ext");
-                _ext.Write(output);
+                // write additional (optional) request fields:
+                WriteOptionalFields(output);
+
+                // write the data extension:
+                if (HasExt)
+                {
+                    output.WriteMember("ext");
+                    _ext.Write(output);
+                }
             }
             output.WriteObjectEnd();
         }
