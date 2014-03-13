@@ -283,7 +283,7 @@ namespace CodeTitans.Core.Net
             //////////////////////
             // FILL HTTP request:
             DateTime now = DateTime.Now;
-            string uri = string.IsNullOrEmpty(relativeUrlPath) ? _url : _url + relativeUrlPath;
+            string uri = CreateUri(_url, relativeUrlPath);
             HttpWebRequest webRequest = CreateHttpWebRequest(uri, method, now, GetSerializedDataLength(data, dataLength));
 
             SetRequest(webRequest);
@@ -405,6 +405,22 @@ namespace CodeTitans.Core.Net
                 DebugLog.WriteLine(category, stringData);
         }
 
+        /// <summary>
+        /// Combines the URI from 2 parts.
+        /// </summary>
+        private static string CreateUri(string url, string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return url;
+            if (string.IsNullOrEmpty(url))
+                return path;
+
+            if (url[url.Length - 1] == '/' && path[0] == '/')
+                return url + path.Substring(1);
+
+            return url + path;
+        }
+
         private HttpWebRequest CreateHttpWebRequest(string uri, string method, DateTime now, long contentLength)
         {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
@@ -433,13 +449,13 @@ namespace CodeTitans.Core.Net
             webRequest.Accept = AcceptContentType;
             webRequest.ContentType = ContentType;
 
-#if WINDOWS_PHONE || SILVERLIGHT || WINDOWS_STORE
-            webRequest.Headers[HeaderSentAt] = now.Ticks.ToString();
-
 #if !SILVERLIGHT && !WINDOWS_STORE
             webRequest.UserAgent = UserAgent;
             webRequest.AllowAutoRedirect = false;
 #endif
+
+#if WINDOWS_PHONE || SILVERLIGHT || WINDOWS_STORE
+            webRequest.Headers[HeaderSentAt] = now.Ticks.ToString();
             webRequest.AllowReadStreamBuffering = false;
 #else
             webRequest.Headers.Add(HeaderSentAt, now.Ticks.ToString(CultureInfo.InvariantCulture));
@@ -704,6 +720,12 @@ namespace CodeTitans.Core.Net
         /// </summary>
         public void AddHeader(string name, string value)
         {
+            if (string.Compare("user-agent", name, StringComparison.CurrentCultureIgnoreCase) == 0)
+            {
+                UserAgent = value;
+                return;
+            }
+
             if (_headers == null)
                 _headers = new Dictionary<string, string>();
 
@@ -718,6 +740,12 @@ namespace CodeTitans.Core.Net
         /// </summary>
         public void RemoveHeader(string name)
         {
+            if (string.Compare("user-agent", name, StringComparison.CurrentCultureIgnoreCase) == 0)
+            {
+                UserAgent = null;
+                return;
+            }
+
             if (_headers != null)
             {
                 _headers.Remove(name);
