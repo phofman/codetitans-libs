@@ -126,7 +126,7 @@ namespace CodeTitans.Core.Generics
                                 {
                                     substring = content.Append(line.Substring(processingStart, endIndex - processingStart)).ToString();
 #if NET_2_COMPATIBLE
-                                    content.Remove(0, text.Length);
+                                    content.Remove(0, content.Length);
 #else
                                     content.Clear();
 #endif
@@ -189,7 +189,7 @@ namespace CodeTitans.Core.Generics
                             {
                                 substring = content.Append(line.Substring(startIndex + startTag.Length, endIndex - startIndex - endTag.Length)).ToString();
 #if NET_2_COMPATIBLE
-                                content.Remove(0, text.Length);
+                                content.Remove(0, content.Length);
 #else
                                 content.Clear();
 #endif
