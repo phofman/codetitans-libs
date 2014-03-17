@@ -92,6 +92,7 @@
     <Compile Include="Diagnostics\DebugLog.cs" />
     <Compile Include="Diagnostics\DelayingModule.cs" />
     <Compile Include="Diagnostics\FilterDebugListener.cs" />
+    <Compile Include="Diagnostics\ForwardDebugListener.cs" />
     <Compile Include="Diagnostics\IDebugTraceListener.cs" />
     <Compile Include="Diagnostics\StandardDebugListener.cs" />
     <Compile Include="Diagnostics\TextWriterDebugListener.cs" />

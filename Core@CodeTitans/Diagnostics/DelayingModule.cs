@@ -34,7 +34,12 @@ namespace CodeTitans.Diagnostics
     /// <summary>
     /// Internal module wrapping delayed notification functionality.
     /// </summary>
-    internal sealed class DelayingModule : IDisposable
+#if DEBUGLOG_PUBLIC
+    public
+#else
+    internal
+#endif
+    sealed class DelayingModule : IDisposable
     {
         private Timer _timer;
         private readonly IDebugTraceListener _sourceListener;

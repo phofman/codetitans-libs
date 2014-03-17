@@ -56,6 +56,9 @@
     <Compile Include="..\Core%40CodeTitans\Diagnostics\FilterDebugListener.cs">
       <Link>Diagnostics\FilterDebugListener.cs</Link>
     </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\ForwardDebugListener.cs">
+      <Link>Diagnostics\ForwardDebugListener.cs</Link>
+    </Compile>
     <Compile Include="..\Core%40CodeTitans\Diagnostics\IDebugTraceListener.cs">
       <Link>Diagnostics\IDebugTraceListener.cs</Link>
     </Compile>

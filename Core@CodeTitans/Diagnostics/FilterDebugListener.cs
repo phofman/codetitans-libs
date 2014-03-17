@@ -25,9 +25,14 @@ namespace CodeTitans.Diagnostics
 {
 #if !WINDOWS_STORE
     /// <summary>
-    /// Internal debug listener class that only monitors for debug entry logs of certain category.
+    /// Debug listener class that only monitors for debug logs of certain categories.
     /// </summary>
-    internal sealed class FilterDebugListener : IDebugTraceListener, IDisposable
+#if DEBUGLOG_PUBLIC
+    public
+#else
+    internal
+#endif
+    sealed class FilterDebugListener : IDebugTraceListener, IDisposable
     {
         private readonly IEnumerable<string> _filters;
         private readonly DelayingModule _delayingModule;

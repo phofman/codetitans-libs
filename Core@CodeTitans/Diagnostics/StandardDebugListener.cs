@@ -24,9 +24,14 @@ using System.Diagnostics;
 namespace CodeTitans.Diagnostics
 {
     /// <summary>
-    /// Class that captures application debug logs and transfers them into standard debug output.
+    /// Class, that captures application debug logs and transfers them into standard debug output.
     /// </summary>
-    internal sealed class StandardDebugListener : IDebugTraceListener
+#if DEBUGLOG_PUBLIC
+    public
+#else
+    internal
+#endif
+    sealed class StandardDebugListener : IDebugTraceListener
     {
         /// <summary>
         /// New line definition.

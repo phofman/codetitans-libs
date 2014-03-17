@@ -27,7 +27,12 @@ namespace CodeTitans.Diagnostics
     /// <summary>
     /// Common class for writing logs inside whole CodeTitans libraries.
     /// </summary>
-    internal static class DebugLog
+#if DEBUGLOG_PUBLIC
+    public
+#else
+    internal
+#endif
+    static class DebugLog
     {
         /// <summary>
         /// Gets the condition define name, when debug logs are captured.
@@ -229,6 +234,22 @@ namespace CodeTitans.Diagnostics
                     index++;
                 }
             }
+            return false;
+        }
+
+        /// <summary>
+        /// Releases specified listener.
+        /// </summary>
+        public static bool RemoveListener(IDebugTraceListener listener)
+        {
+            if (listener != null)
+            {
+                lock (typeof(DebugLog))
+                {
+                    return Listeners.Remove(listener);
+                }
+            }
+
             return false;
         }
 

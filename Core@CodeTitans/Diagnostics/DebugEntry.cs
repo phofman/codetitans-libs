@@ -28,7 +28,12 @@ namespace CodeTitans.Diagnostics
 #if !PocketPC
     [System.Diagnostics.DebuggerDisplay("Category={Category}, Message={Message}")]
 #endif
-    internal sealed class DebugEntry
+#if DEBUGLOG_PUBLIC
+    public
+#else
+    internal
+#endif
+    sealed class DebugEntry
     {
         /// <summary>
         /// Init constructor.

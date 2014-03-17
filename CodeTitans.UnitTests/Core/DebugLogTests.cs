@@ -105,6 +105,28 @@ namespace CodeTitans.UnitTests.Core
 
             Assert.AreEqual(1, bayeuxListener.Count, "Too many debug log entries received!");
         }
+
+        [TestMethod]
+        public void FowardSelectedLogItems()
+        {
+            var listener1 = new CustomDebugListener();
+            var listener2 = new CustomDebugListener();
+
+            var forward = new ForwardDebugListener("Forward", listener1, new[] { "Cat1", "Cat2", "Cat3" });
+
+            DebugLog.AddListener(forward);
+            DebugLog.AddListener(listener2);
+
+            DebugLog.WriteLine("Cat1.Send", "Message1");
+            DebugLog.WriteLine("Cat2", "Message2");
+            DebugLog.WriteLine("Cat3", "Message3");
+            DebugLog.WriteLine("C1", "Message4");
+            DebugLog.WriteLine("Cat4", "Message5");
+            DebugLog.WriteLine("Cat5.Cat1", "Message5");
+
+            Assert.AreEqual(3, listener1.Count);
+            Assert.AreEqual(6, listener2.Count);
+        }
     }
 #endif
 }

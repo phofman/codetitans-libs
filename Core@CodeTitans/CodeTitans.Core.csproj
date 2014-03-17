@@ -88,6 +88,7 @@
     <Compile Include="..\Core%40CodeTitans\Diagnostics\DelayingModule.cs" />
     <Compile Include="..\Core%40CodeTitans\Diagnostics\FilterDebugListener.cs" />
     <Compile Include="..\Core%40CodeTitans\EnumHelper.cs" />
+    <Compile Include="Diagnostics\ForwardDebugListener.cs" />
     <Compile Include="Generics\IniSection.cs" />
     <Compile Include="Generics\IniSectionItem.cs" />
     <Compile Include="Generics\IniStrings.cs" />
