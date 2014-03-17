@@ -152,9 +152,11 @@ namespace CodeTitans.Diagnostics
                     if (category.StartsWith(include, StringComparison.OrdinalIgnoreCase))
                         return true;
                 }
+
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         #endregion
@@ -276,7 +278,7 @@ namespace CodeTitans.Diagnostics
         }
 
         /// <summary>
-        /// Clears whole inclusion list. Nothing will be then forwarded until new include-category items are added.
+        /// Clears whole inclusion list. Every log entry will be then forwarded, until new include-category item is added to limit the list.
         /// </summary>
         public void RemoveIncludes()
         {
@@ -338,7 +340,5 @@ namespace CodeTitans.Diagnostics
                 _excludes.Clear();
             }
         }
-
     }
-
 }

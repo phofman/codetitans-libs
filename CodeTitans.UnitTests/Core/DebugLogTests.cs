@@ -117,15 +117,38 @@ namespace CodeTitans.UnitTests.Core
             DebugLog.AddListener(forward);
             DebugLog.AddListener(listener2);
 
-            DebugLog.WriteLine("Cat1.Send", "Message1");
-            DebugLog.WriteLine("Cat2", "Message2");
-            DebugLog.WriteLine("Cat3", "Message3");
+            DebugLog.WriteLine("Cat1.Send", "Message1"); // +1
+            DebugLog.WriteLine("Cat2", "Message2"); // +1
+            DebugLog.WriteLine("Cat3", "Message3"); // +1
+            DebugLog.WriteLine("Cat3.XRunner", "Message3"); // +1
             DebugLog.WriteLine("C1", "Message4");
             DebugLog.WriteLine("Cat4", "Message5");
             DebugLog.WriteLine("Cat5.Cat1", "Message5");
 
-            Assert.AreEqual(3, listener1.Count);
-            Assert.AreEqual(6, listener2.Count);
+            Assert.AreEqual(4, listener1.Count);
+            Assert.AreEqual(7, listener2.Count);
+        }
+
+        [TestMethod]
+        public void FilterSelectedLogItems()
+        {
+            var listener1 = new CustomDebugListener();
+            var listener2 = new CustomDebugListener();
+
+            var forward = new ForwardDebugListener("Forward", listener1, null, new[] { "Cat1", "Cat2", "Cat3" });
+
+            DebugLog.AddListener(forward);
+            DebugLog.AddListener(listener2);
+
+            DebugLog.WriteLine("Cat1", "Message1");
+            DebugLog.WriteLine("Cat1.Sub", "Message2");
+            DebugLog.WriteLine("Cat3.Send", "Message3");
+            DebugLog.WriteLine("AnySend", "Message4"); // +1
+            DebugLog.WriteLine("Core", "Message5"); // +1
+
+            Assert.AreEqual(2, listener1.Count);
+            Assert.AreEqual(5, listener2.Count);
+
         }
     }
 #endif

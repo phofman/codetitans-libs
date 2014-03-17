@@ -100,13 +100,10 @@ namespace CodeTitans.Diagnostics
 
         public void Dispose(bool disposing)
         {
-            if (disposing)
+            if (_output != null)
             {
-                if (_output != null)
-                {
-                    ((IDisposable)_output).Dispose();
-                    _output = null;
-                }
+                ((IDisposable)_output).Dispose();
+                _output = null;
             }
         }
 
