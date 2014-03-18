@@ -32,7 +32,7 @@ namespace CodeTitans.UnitTests.Bayeux
         [TestMethod]
         public void LoadHttpData()
         {
-            var request = new HttpDataSource("http://www.google.com");
+            var request = new HttpDataSource("https://www.google.com?q=a");
             var waiter = new AsyncWaiter();
             var filter = new FilterDebugListener("Filter HttpDataSource", "Core.HttpDataSource");
 
@@ -48,7 +48,7 @@ namespace CodeTitans.UnitTests.Bayeux
         [TestMethod]
         public void LoadHttpDataFollowedByCancel()
         {
-            var request = new HttpDataSource("http://www.google.com");
+            var request = new HttpDataSource("https://www.google.com?q=a");
             var waiter = new AsyncWaiter();
 
             request.SendRequestAsync(HttpDataSource.MethodGet, HttpDataSourceResponseType.AsString);
@@ -62,7 +62,7 @@ namespace CodeTitans.UnitTests.Bayeux
         [TestMethod]
         public void LoadHttpDataFollowedByMultipleCancel()
         {
-            var request = new HttpDataSource("http://www.google.pl/search?q=a");
+            var request = new HttpDataSource("https://www.google.pl/search?q=a");
             var waiter = new AsyncWaiter();
 
             counter = 0;
