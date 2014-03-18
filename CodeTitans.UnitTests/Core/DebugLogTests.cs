@@ -18,6 +18,8 @@
 */
 #endregion
 
+using System.IO;
+using System.Text;
 using CodeTitans.Diagnostics;
 #if NUNIT
 using NUnit.Framework;
@@ -148,7 +150,33 @@ namespace CodeTitans.UnitTests.Core
 
             Assert.AreEqual(2, listener1.Count);
             Assert.AreEqual(5, listener2.Count);
+        }
 
+        [TestMethod]
+        public void WriteTimedLogsToStorage()
+        {
+            using (var stream = new MemoryStream())
+            {
+                using (var logger = new TextWriterDebugListener(stream, Encoding.UTF8, true))
+                {
+                    DebugLog.AddListener(logger);
+
+                    // print any messages:
+                    DebugLog.WriteCoreLine("Message1");
+                    DebugLog.WriteCoreLine("Message2");
+
+                    logger.Flush();
+                    using (var reader = new StreamReader(stream, Encoding.UTF8))
+                    {
+                        stream.Position = 0;
+                        var logs = reader.ReadToEnd();
+
+                        // check if the time info is in place:
+                        Assert.AreEqual(2, logs.IndexOf(':'));
+                        Assert.AreEqual(8, logs.IndexOf('.'));
+                    }
+                }
+            }
         }
     }
 #endif

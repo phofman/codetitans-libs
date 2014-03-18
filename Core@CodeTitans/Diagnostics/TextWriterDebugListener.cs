@@ -32,9 +32,11 @@ namespace CodeTitans.Diagnostics
 #else
     internal
 #endif
-    sealed class TextWriterDebugListener : IDebugTraceListener, IDisposable
+        sealed class TextWriterDebugListener : IDebugTraceListener, IDisposable
     {
         private TextWriter _output;
+        private readonly bool _printTime;
+        private readonly char[] _time;
 
         /// <summary>
         /// Gets the name of this trace listener.
@@ -44,23 +46,50 @@ namespace CodeTitans.Diagnostics
         /// <summary>
         /// Init constructor.
         /// </summary>
-        public TextWriterDebugListener(TextWriter output)
+        public TextWriterDebugListener(TextWriter output, bool printTime)
         {
             if (output == null)
                 throw new ArgumentNullException("output");
 
             _output = output;
+            _printTime = printTime;
+
+            if (printTime)
+            {
+                _time = CreateTimeArray();
+            }
+        }
+
+        /// <summary>
+        /// Init constructor.
+        /// </summary>
+        public TextWriterDebugListener(TextWriter output)
+            : this(output, false)
+        {
+        }
+
+        /// <summary>
+        /// Init constructor.
+        /// </summary>
+        public TextWriterDebugListener(Stream stream, Encoding encoding, bool printTime)
+        {
+            if (stream == null)
+                throw new ArgumentNullException("stream");
+
+            _output = new StreamWriter(stream, encoding);
+            _printTime = printTime;
+            if (printTime)
+            {
+                _time = CreateTimeArray();
+            }
         }
 
         /// <summary>
         /// Init constructor.
         /// </summary>
         public TextWriterDebugListener(Stream stream, Encoding encoding)
+            : this(stream, encoding, false)
         {
-            if (stream == null)
-                throw new ArgumentNullException("stream");
-
-            _output = new StreamWriter(stream, encoding);
         }
 
         ~TextWriterDebugListener()
@@ -76,29 +105,78 @@ namespace CodeTitans.Diagnostics
             get { return ListenerName; }
         }
 
+        /// <summary>
+        /// Writes a debug entry into the log.
+        /// </summary>
         public void WriteLine(DebugEntry entry)
         {
-            string message = entry.Message;
-
-            if (string.IsNullOrEmpty(message))
+            if (string.IsNullOrEmpty(entry.Message))
                 return;
             if (_output == null)
                 return;
 
-            if (!string.IsNullOrEmpty(entry.StackTrace))
-                message = string.Concat(message, StandardDebugListener.NewLine, entry.StackTrace);
+            if (_printTime)
+            {
+                UpdateTimeArray(entry);
+                _output.Write(_time);
+            }
 
-            _output.WriteLine(message);
+            _output.WriteLine(entry.Message);
+
+            if (!string.IsNullOrEmpty(entry.StackTrace))
+            {
+                _output.WriteLine(entry.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// Flushes content to the stream.
+        /// </summary>
+        public void Flush()
+        {
+            if (_output != null)
+            {
+                _output.Flush();
+            }
+        }
+
+        private static char[] CreateTimeArray()
+        {
+            return new[] { '0', '0', ':', '0', '0', ':', '0', '0', '.', '0', '0', '0', ':', ' ' };
+        }
+
+        private void UpdateTimeArray(DebugEntry entry)
+        {
+            DateTime time = entry.LogTime;
+
+            _time[0] = time.Hour < 10 ? '0' : (char) ('0' + (time.Hour / 10));
+            _time[1] = (char) ('0' + (time.Hour % 10));
+
+            _time[3] = time.Minute < 10 ? '0' : (char)('0' + (time.Minute / 10));
+            _time[4] = (char)('0' + (time.Minute % 10));
+
+            _time[6] = time.Second < 10 ? '0' : (char)('0' + (time.Second / 10));
+            _time[7] = (char)('0' + (time.Second % 10));
+
+            int millisecond = time.Millisecond;
+            _time[11] = (char)('0' + (millisecond % 10));
+            millisecond /= 10;
+            _time[10] = (char)('0' + (millisecond % 10));
+            millisecond /= 10;
+            _time[9] = (char)('0' + (millisecond % 10));
         }
 
         #region IDisposable
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
         }
 
-        public void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (_output != null)
             {
