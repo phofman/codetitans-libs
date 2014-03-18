@@ -74,6 +74,9 @@ namespace CodeTitans.Core.Net
         private Dictionary<string, string> _headers;
         private DateTime _sendAt;
 
+        private static uint _guid;
+        private readonly uint _id;
+
         #region Events
 
         /// <summary>
@@ -172,6 +175,8 @@ namespace CodeTitans.Core.Net
             _responseEncoding = responseEncoding;
             AcceptContentType = acceptContentType ?? contentType;
             Timeout = DefaultTimeout;
+
+            _id = ++_guid;
         }
 
         /// <summary>
@@ -301,8 +306,8 @@ namespace CodeTitans.Core.Net
                 }
                 else
                 {
-                    DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "<--- Starting request (at: {0}): {1}",
-                        now, webRequest.RequestUri.AbsoluteUri));
+                    DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "<--- Starting request [{0}] (at: {1}): {2}",
+                                                         _id, now, webRequest.RequestUri.AbsoluteUri));
 
                     //////////////////////
                     // Send request:
@@ -331,8 +336,8 @@ namespace CodeTitans.Core.Net
                 // Format data to sent:
                 if (data != null && data.Length > 0 && dataLength > 0)
                 {
-                    DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "<--- Sending request (length: {0} bytes, at: {1}): {2} ({3})",
-                                                dataDescription.Length, now, webRequest.RequestUri.AbsoluteUri, ContentType));
+                    DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "<--- Sending request [{0}] (length: {1} bytes, at: {2}): {3} ({4})",
+                                                _id, dataDescription.Length, now, webRequest.RequestUri.AbsoluteUri, ContentType));
                     DebugLogWriteSentContentDescription(ContentType, dataDescription);
 
                     if (WriteRequestData(webRequest, null, data, dataLength))
@@ -340,7 +345,8 @@ namespace CodeTitans.Core.Net
                 }
                 else
                 {
-                    DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "<--- Starting request (at: {0}): {1}", now, webRequest.RequestUri.AbsoluteUri));
+                    DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "<--- Starting request [{0}] (at: {1}): {2}",
+                                                         _id, now, webRequest.RequestUri.AbsoluteUri));
                 }
 
                 //////////////////////
@@ -398,11 +404,7 @@ namespace CodeTitans.Core.Net
                 return;
 
             string category = string.Concat(DebugLog.CategoryCore, ".HttpDataSource.Receive", string.IsNullOrEmpty(contentType) ? string.Empty : ".", contentType);
-
-            if (expectBinary)
-                DebugLog.WriteLine(category, BinaryContent);
-            else
-                DebugLog.WriteLine(category, stringData);
+            DebugLog.WriteLine(category, expectBinary ? BinaryContent : stringData);
         }
 
         /// <summary>
@@ -767,8 +769,8 @@ namespace CodeTitans.Core.Net
             if (WriteRequestData(webRequest, asyncResult, asyncState.Data, asyncState.DataLength))
                 return;
 
-            DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "<--- Sending request (length: {0} bytes, at: {1}): {2} ({3})",
-                                        dataDescription != null ? dataDescription.Length : 0, now, webRequest.RequestUri.AbsoluteUri, ContentType));
+            DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "<--- Sending request [{0}] (length: {1} bytes, at: {2}): {3} ({4})",
+                                                 _id, dataDescription != null ? dataDescription.Length : 0, now, webRequest.RequestUri.AbsoluteUri, ContentType));
             DebugLogWriteSentContentDescription(ContentType, dataDescription);
 
             //////////////////////
@@ -868,8 +870,8 @@ namespace CodeTitans.Core.Net
 
             if (IsFailureCode(responseStatusCode))
             {
-                DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "---> Received response (length: {0} bytes, at: {1}, waiting: {2:F2} sec) with status: {3} ({4}, {5}, {6})",
-                                        GetContentLength(response), DateTime.Now, (DateTime.Now - GetSendAt(request)).TotalSeconds,
+                DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "---> Received response [{0}] (length: {1} bytes, at: {2}, waiting: {3:F2} sec) with status: {4} ({5}, {6}, {7})",
+                                        _id, GetContentLength(response), DateTime.Now, (DateTime.Now - GetSendAt(request)).TotalSeconds,
                                         responseStatusCode, (int)responseStatusCode, responseStatusDescription, string.IsNullOrEmpty(response.ContentType)? UnknownContentType : response.ContentType));
 
                 try
@@ -898,8 +900,8 @@ namespace CodeTitans.Core.Net
 
                 long length = stringData != null ? stringData.Length : (binaryData != null ? binaryData.Length : GetContentLength(response));
 
-                DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "---> Received response (length: {0} bytes, at: {1}, waiting: {2:F2} sec) with status: {3} ({4}, {5}, {6})",
-                                    length, DateTime.Now, (DateTime.Now - GetSendAt(request)).TotalSeconds,
+                DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "---> Received response [{0}] (length: {1} bytes, at: {2}, waiting: {3:F2} sec) with status: {4} ({5}, {6}, {7})",
+                                    _id, length, DateTime.Now, (DateTime.Now - GetSendAt(request)).TotalSeconds,
                                     responseStatusCode, (int)responseStatusCode, responseStatusDescription, string.IsNullOrEmpty(response.ContentType) ? UnknownContentType : response.ContentType));
                 DebugLogWriteReceivedContentDescription(response.ContentType, stringData, binaryData != null || streamData != null);
             }
@@ -942,7 +944,9 @@ namespace CodeTitans.Core.Net
             // release current request:
             if (TryCompleteRequest(request))
             {
-                DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture, "---> Response critical failure! Probably timed out, canceled or violated protocol (at: {0}, waiting: {1:F2} sec).", DateTime.Now, (DateTime.Now - GetSendAt(request)).TotalSeconds));
+                DebugLog.WriteCoreLine(string.Format(CultureInfo.InvariantCulture,
+                                                     "---> Response critical failure! Probably timed out, canceled or violated protocol [{0}] (at: {1}, waiting: {2:F2} sec).",
+                                                     _id, DateTime.Now, (DateTime.Now - GetSendAt(request)).TotalSeconds));
                 Event.Invoke(DataReceiveFailed, this, new HttpDataSourceEventArgs(this, statusCode, statusDescription));
             }
             else
