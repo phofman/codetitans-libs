@@ -62,6 +62,9 @@
     <Compile Include="..\Core%40CodeTitans\Diagnostics\StandardDebugListener.cs">
       <Link>Diagnostics\StandardDebugListener.cs</Link>
     </Compile>
+    <Compile Include="..\Core%40CodeTitans\Diagnostics\TextWriterDebugListener.cs">
+      <Link>Diagnostics\TextWriterDebugListener.cs</Link>
+    </Compile>
     <Compile Include="..\Core%40CodeTitans\Dispatch\IEventDispatcher.cs">
       <Link>Diagnostics\IEventDispatcher.cs</Link>
     </Compile>
