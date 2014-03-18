@@ -100,7 +100,7 @@ namespace CodeTitans.Core.Generics
                     {
                         if (insideTag)
                         {
-                            endIndex = line.IndexOf(endTag, processingStart);
+                            endIndex = line.IndexOf(endTag, processingStart, StringComparison.Ordinal);
 
                             if (endIndex < 0)
                             {
@@ -114,14 +114,22 @@ namespace CodeTitans.Core.Generics
                                 {
                                     if (onText != null)
                                         onText(o, text.ToString());
+#if NET_2_COMPATIBLE
+                                    text.Remove(0, text.Length);
+#else
                                     text.Clear();
+#endif
                                 }
 
                                 // append beginning as a tag
                                 if (content.Length > 0)
                                 {
                                     substring = content.Append(line.Substring(processingStart, endIndex - processingStart)).ToString();
+#if NET_2_COMPATIBLE
+                                    content.Remove(0, content.Length);
+#else
                                     content.Clear();
+#endif
                                 }
                                 else
                                 {
@@ -154,7 +162,11 @@ namespace CodeTitans.Core.Generics
                             if (text.Length > 0)
                             {
                                 substring = text.Append(line.Substring(processingStart, startIndex - processingStart)).ToString();
+#if NET_2_COMPATIBLE
+                                text.Remove(0, text.Length);
+#else
                                 text.Clear();
+#endif
                             }
                             else
                                 substring = line.Substring(processingStart, startIndex - processingStart);
@@ -164,7 +176,7 @@ namespace CodeTitans.Core.Generics
                         }
 
                         // tag:
-                        endIndex = line.IndexOf(endTag, startIndex + startTag.Length);
+                        endIndex = line.IndexOf(endTag, startIndex + startTag.Length, StringComparison.Ordinal);
                         if (endIndex < 0)
                         {
                             // add rest of the line as the content of the tag
@@ -176,7 +188,11 @@ namespace CodeTitans.Core.Generics
                             if (content.Length > 0)
                             {
                                 substring = content.Append(line.Substring(startIndex + startTag.Length, endIndex - startIndex - endTag.Length)).ToString();
+#if NET_2_COMPATIBLE
+                                content.Remove(0, content.Length);
+#else
                                 content.Clear();
+#endif
                             }
                             else
                             {

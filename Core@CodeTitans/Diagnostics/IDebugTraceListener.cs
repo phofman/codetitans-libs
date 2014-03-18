@@ -23,7 +23,12 @@ namespace CodeTitans.Diagnostics
     /// <summary>
     /// Interface defining trace listeners behaviour.
     /// </summary>
-    internal interface IDebugTraceListener
+#if DEBUGLOG_PUBLIC
+    public
+#else
+    internal
+#endif
+    interface IDebugTraceListener
     {
         /// <summary>
         /// Gets the name of this trace listener.

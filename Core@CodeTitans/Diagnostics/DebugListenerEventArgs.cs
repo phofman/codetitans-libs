@@ -25,7 +25,12 @@ namespace CodeTitans.Diagnostics
     /// <summary>
     /// Arguments passed along with event, that specified event listener has received some debug log entries.
     /// </summary>
-    internal sealed class DebugListenerEventArgs : EventArgs
+#if DEBUGLOG_PUBLIC
+    public
+#else
+    internal
+#endif
+    sealed class DebugListenerEventArgs : EventArgs
     {
         public DebugListenerEventArgs(IDebugTraceListener listener, DebugEntry[] entries)
         {

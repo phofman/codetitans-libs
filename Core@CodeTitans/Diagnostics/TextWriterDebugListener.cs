@@ -27,7 +27,12 @@ namespace CodeTitans.Diagnostics
     /// <summary>
     /// Class that captures application debug logs and redirects them to a given stream.
     /// </summary>
-    internal sealed class TextWriterDebugListener : IDebugTraceListener, IDisposable
+#if DEBUGLOG_PUBLIC
+    public
+#else
+    internal
+#endif
+    sealed class TextWriterDebugListener : IDebugTraceListener, IDisposable
     {
         private TextWriter _output;
 
@@ -95,13 +100,10 @@ namespace CodeTitans.Diagnostics
 
         public void Dispose(bool disposing)
         {
-            if (disposing)
+            if (_output != null)
             {
-                if (_output != null)
-                {
-                    ((IDisposable)_output).Dispose();
-                    _output = null;
-                }
+                ((IDisposable)_output).Dispose();
+                _output = null;
             }
         }
 
