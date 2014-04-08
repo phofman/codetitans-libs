@@ -114,7 +114,7 @@ namespace CodeTitans.Core.Generics
                                 {
                                     if (onText != null)
                                         onText(o, text.ToString());
-#if NET_2_COMPATIBLE
+#if NET_2_COMPATIBLE || SILVERLIGHT
                                     text.Remove(0, text.Length);
 #else
                                     text.Clear();
@@ -125,7 +125,7 @@ namespace CodeTitans.Core.Generics
                                 if (content.Length > 0)
                                 {
                                     substring = content.Append(line.Substring(processingStart, endIndex - processingStart)).ToString();
-#if NET_2_COMPATIBLE
+#if NET_2_COMPATIBLE || SILVERLIGHT
                                     content.Remove(0, content.Length);
 #else
                                     content.Clear();
@@ -162,7 +162,7 @@ namespace CodeTitans.Core.Generics
                             if (text.Length > 0)
                             {
                                 substring = text.Append(line.Substring(processingStart, startIndex - processingStart)).ToString();
-#if NET_2_COMPATIBLE
+#if NET_2_COMPATIBLE || SILVERLIGHT
                                 text.Remove(0, text.Length);
 #else
                                 text.Clear();
@@ -188,7 +188,7 @@ namespace CodeTitans.Core.Generics
                             if (content.Length > 0)
                             {
                                 substring = content.Append(line.Substring(startIndex + startTag.Length, endIndex - startIndex - endTag.Length)).ToString();
-#if NET_2_COMPATIBLE
+#if NET_2_COMPATIBLE || SILVERLIGHT
                                 content.Remove(0, content.Length);
 #else
                                 content.Clear();
