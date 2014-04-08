@@ -54,6 +54,7 @@
     <Compile Include="Bayeux\HttpTests.cs" />
     <Compile Include="Bayeux\Model\AsyncWaiter.cs" />
     <Compile Include="Bayeux\Model\WaiterResults.cs" />
+    <Compile Include="Core\BinaryTests.cs" />
     <Compile Include="Core\DebugLogTests.cs" />
     <Compile Include="Core\EventTests.cs" />
     <Compile Include="Core\IniFilesTests.cs" />
