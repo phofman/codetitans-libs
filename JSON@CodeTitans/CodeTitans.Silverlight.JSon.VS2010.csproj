@@ -59,6 +59,9 @@
     <Compile Include="..\AssemblyCommonInfo.cs">
       <Link>Properties\AssemblyCommonInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Core%40CodeTitans\BinaryHelper.cs">
+      <Link>BinaryHelper.cs</Link>
+    </Compile>
     <Compile Include="..\Core%40CodeTitans\Diagnostics\DebugEntry.cs">
       <Link>Diagnostics\DebugEntry.cs</Link>
     </Compile>
@@ -70,6 +73,9 @@
     </Compile>
     <Compile Include="..\Core%40CodeTitans\Diagnostics\StandardDebugListener.cs">
       <Link>Diagnostics\StandardDebugListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Core%40CodeTitans\IBinaryReader.cs">
+      <Link>IBinaryReader.cs</Link>
     </Compile>
     <Compile Include="..\Core%40CodeTitans\IStringReader.cs">
       <Link>IStringReader.cs</Link>

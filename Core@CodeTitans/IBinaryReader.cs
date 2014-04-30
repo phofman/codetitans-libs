@@ -58,6 +58,11 @@ namespace CodeTitans.Helpers
         byte ReadByte();
 
         /// <summary>
+        /// Reads specified number of bytes from the source stream.
+        /// </summary>
+        byte[] ReadBytes(int length);
+
+        /// <summary>
         /// Reads Int32 value (little-endian) from the source stream.
         /// </summary>
         int ReadInt32();
@@ -75,7 +80,6 @@ namespace CodeTitans.Helpers
         /// <summary>
         /// Reads UInt64 value (little-endian) from the source stream.
         /// </summary>
-        /// <returns></returns>
         ulong ReadUInt64();
 
         /// <summary>
@@ -121,7 +125,7 @@ namespace CodeTitans.Helpers
 
         public byte ReadByte()
         {
-            if (_offset + 1 <= _data.Length)
+            if (_offset + 1 < _data.Length)
             {
                 _offset++;
                 return _data[_offset];
@@ -130,9 +134,27 @@ namespace CodeTitans.Helpers
             throw new EndOfStreamException();
         }
 
+        public byte[] ReadBytes(int length)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException("length");
+            if (length == 0)
+                return new byte[0];
+
+            if (_offset + length < _data.Length)
+            {
+                byte[] result = new byte[length];
+                Array.Copy(_data, _offset + 1, result, 0, length);
+                _offset += length;
+                return result;
+            }
+
+            throw new EndOfStreamException();
+        }
+
         public int ReadInt32()
         {
-            if (_offset + 4 <= _data.Length)
+            if (_offset + 4 < _data.Length)
             {
                 int result = _data[_offset + 1] | ((_data[_offset + 2]) << 8) | ((_data[_offset + 3]) << 16) | ((_data[_offset + 4]) << 24);
 
@@ -145,7 +167,7 @@ namespace CodeTitans.Helpers
 
         public uint ReadUInt32()
         {
-            if (_offset + 4 <= _data.Length)
+            if (_offset + 4 < _data.Length)
             {
                 // UInt32 - little-endian always
                 uint result = _data[_offset + 1] | (uint) ((_data[_offset + 2]) << 8) | (uint) ((_data[_offset + 3]) << 16) | (uint) ((_data[_offset + 4]) << 24);
@@ -159,7 +181,7 @@ namespace CodeTitans.Helpers
 
         public long ReadInt64()
         {
-            if (_offset + 8 <= _data.Length)
+            if (_offset + 8 < _data.Length)
             {
                 uint l1 = _data[_offset + 1] | (uint)((_data[_offset + 2]) << 8) | (uint)((_data[_offset + 3]) << 16) | (uint)((_data[_offset + 4]) << 24);
                 uint l2 = _data[_offset + 5] | (uint)((_data[_offset + 6]) << 8) | (uint)((_data[_offset + 7]) << 16) | (uint)((_data[_offset + 8]) << 24);
@@ -173,7 +195,7 @@ namespace CodeTitans.Helpers
 
         public ulong ReadUInt64()
         {
-            if (_offset + 8 <= _data.Length)
+            if (_offset + 8 < _data.Length)
             {
                 uint l1 = _data[_offset + 1] | (uint)((_data[_offset + 2]) << 8) | (uint)((_data[_offset + 3]) << 16) | (uint)((_data[_offset + 4]) << 24);
                 uint l2 = _data[_offset + 5] | (uint)((_data[_offset + 6]) << 8) | (uint)((_data[_offset + 7]) << 16) | (uint)((_data[_offset + 8]) << 24);
@@ -187,7 +209,7 @@ namespace CodeTitans.Helpers
 
         public double ReadDouble()
         {
-            return BitConverter.Int64BitsToDouble(ReadInt64());
+            return BitConverter.ToDouble(ReadBytes(8), 0);
         }
 
         public string ReadStringUTF8(int length)
@@ -195,7 +217,7 @@ namespace CodeTitans.Helpers
             if (length == 0)
                 return string.Empty;
 
-            if (_offset + 1 <= _data.Length)
+            if (_offset + 1 < _data.Length)
             {
                 _offset++;
 
@@ -265,6 +287,16 @@ namespace CodeTitans.Helpers
             var result = _reader.ReadByte();
 
             _offset++;
+            return result;
+        }
+
+        public byte[] ReadBytes(int length)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException("length");
+
+            var result = _reader.ReadBytes(length);
+            _offset += length;
             return result;
         }
 

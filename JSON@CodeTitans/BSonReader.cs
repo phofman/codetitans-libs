@@ -139,13 +139,13 @@ namespace CodeTitans.JSon
                     return ReadArray();
 
                 case BSonItemType.Binary:
-                    throw new InvalidDataException("Unsupported 'binary' field at " + dataOffset);
+                    throw new FormatException("Unsupported 'binary' field at " + dataOffset);
 
                 case BSonItemType.Undefined:
-                    throw new InvalidDataException("Unsupported 'undefined' field at " + dataOffset);
+                    throw new FormatException("Unsupported 'undefined' field at " + dataOffset);
 
                 case BSonItemType.ObjectID:
-                    throw new InvalidDataException("Unsupported 'object-id' field at " + dataOffset);
+                    throw new FormatException("Unsupported 'object-id' field at " + dataOffset);
 
                 case BSonItemType.Boolean:
                     return _factory.CreateKeyword(_input.ReadByte() > 0 ? JSonReader.TrueTokenData : JSonReader.FalseTokenData);
@@ -160,7 +160,7 @@ namespace CodeTitans.JSon
                     return ReadRegExp();
 
                 case BSonItemType.DbPointer:
-                    throw new InvalidDataException("Unsupported 'DbPointer' field at " + dataOffset);
+                    throw new FormatException("Unsupported 'DbPointer' field at " + dataOffset);
 
                 case BSonItemType.JavaScriptScoped:
                     return ReadJavaScriptScoped();

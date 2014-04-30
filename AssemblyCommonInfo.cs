@@ -21,7 +21,7 @@
 using System.Reflection;
 
 [assembly: AssemblyCompany("CodeTitans")]
-[assembly: AssemblyCopyright("Copyright © 2010-2013 Pawe³ Hofman, CodeTitans")]
+[assembly: AssemblyCopyright("Copyright © 2010-2014 Pawe³ Hofman, CodeTitans")]
 [assembly: AssemblyTrademark("")]
 
 #if !PocketPC
@@ -32,8 +32,8 @@ using System.Reflection;
 //      Minor Version 
 //      Build Number
 //      Revision
-[assembly: AssemblyVersion("1.8.1.0")]
-[assembly: AssemblyFileVersion("1.8.1.0")]
+[assembly: AssemblyVersion("1.8.2.0")]
+[assembly: AssemblyFileVersion("1.8.2.0")]
 
 #endif
 
