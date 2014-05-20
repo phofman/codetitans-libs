@@ -50,11 +50,25 @@ namespace CodeTitans.Core
                 eh(sender, e);
         }
 
+        /// <summary>
+        /// Invokes event with given parameter.
+        /// </summary>
+        public static void Invoke(EventHandler eventHandler, object sender, EventArgs e)
+        {
+#if !DISABLE_INTERLOCKED
+            EventHandler eh = Interlocked.CompareExchange(ref eventHandler, null, null);
+#else
+            EventHandler eh = eventHandler;
+#endif
+            if (eh != null)
+                eh(sender, e);
+        }
+
 #if !NET_2_COMPATIBLE
         /// <summary>
         /// Invokes event with given parameter.
         /// </summary>
-        public static void Invoke(System.ComponentModel.PropertyChangedEventHandler eventHandler, object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public static void Invoke(PropertyChangedEventHandler eventHandler, object sender, PropertyChangedEventArgs e)
         {
 #if !DISABLE_INTERLOCKED
             System.ComponentModel.PropertyChangedEventHandler eh = Interlocked.CompareExchange(ref eventHandler, null, null);
