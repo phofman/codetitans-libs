@@ -20,8 +20,8 @@
 
 using System;
 using System.Collections.Generic;
-using CodeTitans.Services.Internals;
 using System.Reflection;
+using CodeTitans.Services.Internals;
 
 namespace CodeTitans.Services
 {
@@ -173,7 +173,7 @@ namespace CodeTitans.Services
             if (service == null)
                 throw new ArgumentNullException("service");
 
-#if WINDOWS_STORE
+#if WINDOWS_STORE || WINDOWS_APP
             Register(service.GetType().GetTypeInfo().ImplementedInterfaces, service);
 #else
             Register(service.GetType().GetInterfaces(), service);
@@ -220,6 +220,9 @@ namespace CodeTitans.Services
             if (id == null)
                 throw new ArgumentNullException("id");
 
+            if (creationHandler == null)
+                return RegisterServiceObject(_typeServices, id, GetWrapper(id, mode, constructorArgs));
+
             return RegisterServiceObject(_typeServices, id,
                                          GetWrapper(id, new[] {id}, creationHandler, mode, constructorArgs));
         }
@@ -237,6 +240,63 @@ namespace CodeTitans.Services
                 throw new ArgumentException("Invalid context object", "registeredServiceContext");
 
             RegisterServiceObject(_typeServices, id, registeredServiceContext.ServiceObject);
+            return registeredServiceContext;
+        }
+
+        /// <summary>
+        /// Registers a given singleton service and binds it to given type.
+        /// </summary>
+        public RegisteredServiceContext Register<T>(object service)
+        {
+            if (service != null)
+                VerifyServiceObjectType(typeof(T), service.GetType());
+
+            return RegisterServiceObject(_typeServices, typeof(T), GetWrapper(service));
+        }
+
+        /// <summary>
+        /// Registers and binds service with a given type to objects of specified type, created later at runtime.
+        /// </summary>
+        public RegisteredServiceContext Register<T>(Type serviceType, ServiceMode mode, params object[] constructorArgs)
+        {
+            if (serviceType != null)
+                VerifyServiceObjectType(typeof(T), serviceType);
+
+            return RegisterServiceObject(_typeServices, typeof(T), GetWrapper(serviceType, mode, constructorArgs));
+        }
+
+        /// <summary>
+        /// Registers and binds service with a given type to objects of specified type, created later at runtime.
+        /// </summary>
+        public RegisteredServiceContext Register<T, TS>(ServiceMode mode, params object[] constructorArgs)
+        {
+            return RegisterServiceObject(_typeServices, typeof(T), GetWrapper(typeof(TS), mode, constructorArgs));
+        }
+
+        /// <summary>
+        /// Registers and binds service with a given type to objects of specified type, created later at runtime by specified handler.
+        /// </summary>
+        public RegisteredServiceContext Register<T>(ServiceMode mode, ServiceCreationHandler creationHandler, params object[] constructorArgs)
+        {
+            var id = typeof(T);
+
+            if (creationHandler == null)
+                return RegisterServiceObject(_typeServices, id, GetWrapper(id, mode, constructorArgs));
+
+            return RegisterServiceObject(_typeServices, id, GetWrapper(id, new[] { id }, creationHandler, mode, constructorArgs));
+        }
+
+        /// <summary>
+        /// Registers and binds a link to already registered service with another type.
+        /// </summary>
+        public RegisteredServiceContext Bind<T>(RegisteredServiceContext registeredServiceContext)
+        {
+            if (registeredServiceContext == null)
+                throw new ArgumentNullException("registeredServiceContext");
+            if (registeredServiceContext.ServiceObject == null)
+                throw new ArgumentException("Invalid context object", "registeredServiceContext");
+
+            RegisterServiceObject(_typeServices, typeof(T), registeredServiceContext.ServiceObject);
             return registeredServiceContext;
         }
 
@@ -633,7 +693,7 @@ namespace CodeTitans.Services
 
         internal static bool IsAssignableFrom(Type type, Type from)
         {
-#if WINDOWS_STORE
+#if WINDOWS_STORE || WINDOWS_APP
             return type.GetTypeInfo().IsAssignableFrom(from.GetTypeInfo());
 #else
             return type.IsAssignableFrom(from);

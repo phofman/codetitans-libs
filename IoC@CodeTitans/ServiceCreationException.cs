@@ -48,7 +48,7 @@ namespace CodeTitans.Services
             ServiceType = serviceType;
         }
 
-#if !PocketPC && !WINDOWS_PHONE && !SILVERLIGHT && !WINDOWS_STORE
+#if !PocketPC && !WINDOWS_PHONE && !SILVERLIGHT && !WINDOWS_STORE && !WINDOWS_APP
         /// <summary>
         /// Constructor required by serialization.
         /// </summary>

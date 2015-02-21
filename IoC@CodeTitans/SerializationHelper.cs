@@ -22,7 +22,7 @@ using System;
 
 namespace CodeTitans.Services
 {
-#if WINDOWS_PHONE || SILVERLIGHT || WINDOWS_STORE
+#if WINDOWS_PHONE || SILVERLIGHT || WINDOWS_STORE || WINDOWS_APP
     /// <summary>
     /// Since Windows Phone7 is based on Silverlight and doesn't support automatic serialization,
     /// here we need to define missing attributes to allow our code to compile (as it is also
