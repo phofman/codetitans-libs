@@ -63,15 +63,34 @@ namespace CodeTitans.Services.Internals
         /// </summary>
         public override object GetService(object requestedServiceName)
         {
+            return PrivateCreation(Provider, ServiceType, ServiceArgs);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the service object, if possible.
+        /// </summary>
+        internal static object Create(IServiceProviderEx provider, Type serviceType, object[] serviceArgs)
+        {
+            if (serviceType == null)
+                throw new ArgumentNullException("serviceType");
+
+            if (serviceType.IsAbstract || serviceType.IsInterface)
+                return null;
+
+            return PrivateCreation(provider, serviceType, serviceArgs);
+        }
+
+        private static object PrivateCreation(IServiceProviderEx provider, Type serviceType, object[] serviceArgs)
+        {
             // create new instance of the service:
 #if PocketPC
-            var service = Activator.CreateInstance(ServiceType);
+            var service = Activator.CreateInstance(serviceType);
 #else
-            var service = CreateServiceInstance(Provider, ServiceType, ServiceArgs);
+            var service = CreateServiceInstance(provider, serviceType, serviceArgs);
 #endif
 
             if (service == null)
-                throw new ServiceCreationException(ServiceType);
+                throw new ServiceCreationException(serviceType);
 
             IServiceSite site = service as IServiceSite;
 
@@ -80,9 +99,9 @@ namespace CodeTitans.Services.Internals
             {
 #if PocketPC
                 // call this function in place of constructor:
-                site.SetSiteArguments(ServiceArgs);
+                site.SetSiteArguments(serviceArgs);
 #endif
-                site.SetSite(Provider);
+                site.SetSite(provider);
             }
 
             return service;

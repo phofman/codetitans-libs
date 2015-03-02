@@ -76,7 +76,8 @@ namespace CodeTitans.Services
             if (serviceType == null)
                 throw new ArgumentNullException("serviceType");
 
-            return GetServiceObject(_typeServices, serviceType);
+            var result = GetServiceObject(_typeServices, serviceType);
+            return result ?? ServiceTypeCloneWrapper.Create(this, serviceType, null);
         }
 
         #endregion
@@ -96,7 +97,8 @@ namespace CodeTitans.Services
         /// </summary>
         public T GetService<T>() where T : class
         {
-            return GetServiceObject(_typeServices, typeof (T)) as T;
+            var result = GetServiceObject(_typeServices, typeof (T)) as T;
+            return result ?? ServiceTypeCloneWrapper.Create(this, typeof(T), null) as T;
         }
 
         /// <summary>
@@ -104,7 +106,8 @@ namespace CodeTitans.Services
         /// </summary>
         public T GetService<TS, T>() where T : class where TS : class
         {
-            return GetServiceObject(_typeServices, typeof(TS)) as T;
+            var result = GetServiceObject(_typeServices, typeof(TS)) as T;
+            return result ?? ServiceTypeCloneWrapper.Create(this, typeof(TS), null) as T;
         }
 
         /// <summary>

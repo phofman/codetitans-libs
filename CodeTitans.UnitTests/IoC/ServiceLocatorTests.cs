@@ -188,9 +188,10 @@ namespace CodeTitans.UnitTests.IoC
             result = s.GetService(typeof(ITestService)) as ITestService;
             Assert.AreEqual(result, service);
 
-            // registering service via object shouldn't automatically register classes:
+            // registering service via object shouldn't automatically register classes,
+            // but we always let the object to be instantiated, if not abstract:
             result = s.GetService<SimpleService>();
-            Assert.IsNull(result);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
@@ -227,9 +228,10 @@ namespace CodeTitans.UnitTests.IoC
             result = s.GetService(typeof(ITestService)) as ITestService;
             Assert.IsNull(result);
 
-            // registering service via object shouldn't automatically register classes:
+            // registering service via object shouldn't automatically register classes,
+            // but we always let the object to be instantiated, if not abstract:
             result = s.GetService<SimpleService>();
-            Assert.IsNull(result);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
@@ -442,7 +444,7 @@ namespace CodeTitans.UnitTests.IoC
             Assert.AreEqual(defaultNumberOfSerices, locator.Count);
 
             var newService = locator.GetService(typeof(SimpleService));
-            Assert.IsNull(newService);
+            Assert.IsNotNull(newService);
 
             newService = locator.GetService(1u);
             Assert.IsNull(newService);
@@ -545,6 +547,31 @@ namespace CodeTitans.UnitTests.IoC
             var item2 = s.GetService<IServiceA3>();
             Assert.IsNotNull(item2, "Unable to get singleton instance of created object");
             Assert.IsTrue(ReferenceEquals(item, item2), "Invalid singleton instance");
+        }
+
+        [TestMethod]
+        public void CreteServiceDirectlyWithConstructorDependencies()
+        {
+            var s = new ServiceLocator();
+
+            s.Register<IServiceA1, ServA1>(ServiceMode.Singleton, 33);
+            s.Register<IServiceA2, ServA2>(ServiceMode.Singleton, 1);
+            s.Register<IServiceA3, ServA3>(ServiceMode.Singleton);
+
+            var item = s.GetService<ServA3>();
+            Assert.IsNotNull(item, "Unable to create complex object");
+            Assert.AreEqual(34, item.A3());
+
+            var item2 = s.GetService<IServiceA3>();
+            Assert.IsNotNull(item2, "Unable to get another instance of created object");
+            Assert.IsFalse(ReferenceEquals(item, item2), "Invalid instance");
+
+            var item3 = s.GetService<IServiceA3, ServA3>();
+            Assert.IsNotNull(item3, "Unable to create complex object");
+
+            var item4 = s.GetService(typeof(ServA3));
+            Assert.IsNotNull(item4, "Unable to create complex object");
+
         }
     }
 }
