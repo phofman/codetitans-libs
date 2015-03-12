@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 
 namespace CodeTitans.Services.Internals
 {
@@ -38,7 +39,7 @@ namespace CodeTitans.Services.Internals
                 throw new ArgumentNullException("serviceType");
 
             ServiceType = serviceType;
-            ServiceArgs = serviceConstructorArgs;
+            ServiceArgs = serviceConstructorArgs != null && serviceConstructorArgs.Length > 0 ? serviceConstructorArgs : null;
         }
 
         #region Properties
@@ -62,15 +63,34 @@ namespace CodeTitans.Services.Internals
         /// </summary>
         public override object GetService(object requestedServiceName)
         {
+            return PrivateCreation(Provider, ServiceType, ServiceArgs);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the service object, if possible.
+        /// </summary>
+        internal static object Create(IServiceProviderEx provider, Type serviceType, object[] serviceArgs)
+        {
+            if (serviceType == null)
+                throw new ArgumentNullException("serviceType");
+
+            if (serviceType.IsAbstract || serviceType.IsInterface)
+                return null;
+
+            return PrivateCreation(provider, serviceType, serviceArgs);
+        }
+
+        private static object PrivateCreation(IServiceProviderEx provider, Type serviceType, object[] serviceArgs)
+        {
             // create new instance of the service:
 #if PocketPC
-            var service = Activator.CreateInstance(ServiceType);
+            var service = Activator.CreateInstance(serviceType);
 #else
-            var service = Activator.CreateInstance(ServiceType, ServiceArgs);
+            var service = CreateServiceInstance(provider, serviceType, serviceArgs);
 #endif
 
             if (service == null)
-                throw new ServiceCreationException(ServiceType);
+                throw new ServiceCreationException(serviceType);
 
             IServiceSite site = service as IServiceSite;
 
@@ -78,13 +98,77 @@ namespace CodeTitans.Services.Internals
             if (site != null)
             {
 #if PocketPC
-                // call this function in place of contructor:
-                site.SetSiteArguments(ServiceArgs);
+                // call this function in place of constructor:
+                site.SetSiteArguments(serviceArgs);
 #endif
-                site.SetSite(Provider);
+                site.SetSite(provider);
             }
 
             return service;
         }
+
+#if !PocketPC
+        private static object CreateServiceInstance(IServiceProviderEx provider, Type serviceType, object[] serviceArgs)
+        {
+#if WINDOWS_STORE || WINDOWS_APP
+
+            // if arguments were specified directly, simply create new object:
+            if (serviceArgs != null)
+                return Activator.CreateInstance(serviceType, serviceArgs);
+
+            // or loop till find first constructor, for which it was possible to create all required arguments:
+            foreach (var method in serviceType.GetTypeInfo().DeclaredConstructors)
+            {
+                var paramTypes = method.GetParameters();
+                var paramValues = new object[paramTypes.Length];
+                bool failedToInitialize = false;
+
+                for (int i = 0; i < paramTypes.Length && !failedToInitialize; i++)
+                {
+                    // get the service for specified argument's type (what returns null on failure):
+                    paramValues[i] = provider.GetService(paramTypes[i].ParameterType);
+                    failedToInitialize = paramValues[i] == null;
+                }
+
+                if (failedToInitialize)
+                    continue;
+
+                return method.Invoke(paramValues);
+            }
+
+            // notify, that it was impossible to initialize the required service
+            throw new ServiceCreationException(serviceType);
+#else
+
+            // if arguments specified directly, simply create new object:
+            if (serviceArgs != null)
+                return Activator.CreateInstance(serviceType, serviceArgs);
+
+            // or loop till find first constructor, for which it was possible to create all required arguments:
+            foreach (var method in serviceType.GetConstructors())
+            {
+                var paramTypes = method.GetParameters();
+                var paramValues = new object[paramTypes.Length];
+                bool failedToInitialize = false;
+
+                for (int i = 0; i < paramTypes.Length && !failedToInitialize; i++)
+                {
+                    // get the service for specified argument's type (what returns null on failure):
+                    paramValues[i] = provider.GetService(paramTypes[i].ParameterType);
+                    failedToInitialize = paramValues[i] == null;
+                }
+
+                if (failedToInitialize)
+                    continue;
+
+                return method.Invoke(paramValues);
+            }
+
+            // notify, that it was impossible to initialize the required service
+            throw new ServiceCreationException(serviceType);
+
+#endif
+        }
+#endif
     }
 }

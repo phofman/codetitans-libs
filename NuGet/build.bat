@@ -1,11 +1,13 @@
 @echo off
+setlocal EnableExtensions
 
 if not {%CODETITANS_SETUP%} == {} goto ALREADY_SETUP
 call "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
 set CodeTitans_Setup=VS10_x86
-echo Working directory: %CD%
-
 :ALREADY_SETUP
+
+set WorkingDir=%CD%
+echo Working directory: %WorkingDir%
 
 echo Preparing environment...
 
@@ -21,6 +23,77 @@ mkdir %PackageFolder%
 
 set builder=msbuild /nologo /noconlog /maxcpucount /p:Configuration=Release;DebugSymbols=false;DebugType=None /t:Rebuild
 set nuget=nuget
+
+echo Preparing source-code distributions...
+
+rem #######################################################################################
+rem # JSON-SRC
+rem #
+echo JSon@CodeTitans as source-code
+set PackageSourcesDestPath=%TempFolder%\JSon-src\content\CodeTitans\JSon
+if exist "%PackageSourcesDestPath%" (
+  rd /Q "%PackageSourcesDestPath%" /S > NUL:
+)
+mkdir "%PackageSourcesDestPath%/Diagnostics"
+mkdir "%PackageSourcesDestPath%/Objects/Mutable"
+mkdir "%PackageSourcesDestPath%/ReaderHelpers/Factories"
+mkdir "%PackageSourcesDestPath%/WriterHelpers"
+echo Copying sources to: %PackageSourcesDestPath%
+
+copy codetitans-json-src.nuspec %TempFolder% > NUL:
+
+cd "%WorkingDir%/../JSon@CodeTitans"
+copy "*.cs" /b "%PackageSourcesDestPath%\" > NUL:
+rm "%PackageSourcesDestPath%\BSonReader.cs" > NUL:
+rm "%PackageSourcesDestPath%\BSonWriter.cs" > NUL:
+cd Objects
+copy "*.cs" /b "%PackageSourcesDestPath%\Objects\" > NUL:
+cd Mutable
+copy "*.cs" /b "%PackageSourcesDestPath%\Objects\Mutable\" > NUL:
+cd ../../ReaderHelpers
+copy "*.cs" /b "%PackageSourcesDestPath%\ReaderHelpers\" > NUL:
+cd Factories
+copy "*.cs" /b "%PackageSourcesDestPath%\ReaderHelpers\Factories\" > NUL:
+cd ../../WriterHelpers
+copy "*.cs" /b "%PackageSourcesDestPath%\WriterHelpers\" > NUL:
+cd "%WorkingDir%/../Core@CodeTitans"
+copy "IStringReader.cs" /b "%PackageSourcesDestPath%\" > NUL:
+copy "NumericHelper.cs" /b "%PackageSourcesDestPath%\" > NUL:
+copy "ReflectionHelper.cs" /b "%PackageSourcesDestPath%\" > NUL:
+copy "SerializationHelper.cs" /b "%PackageSourcesDestPath%\" > NUL:
+copy "StringHelper.cs" /b "%PackageSourcesDestPath%\" > NUL:
+cd Diagnostics
+copy "DebugEntry.cs" /b "%PackageSourcesDestPath%\Diagnostics\" > NUL:
+copy "DebugLog.cs" /b "%PackageSourcesDestPath%\Diagnostics\" > NUL:
+copy "IDebugTraceListener.cs" /b "%PackageSourcesDestPath%\Diagnostics\" > NUL:
+copy "StandardDebugListener.cs" /b "%PackageSourcesDestPath%\Diagnostics\" > NUL:
+cd %WorkingDir%
+
+pushd %PackageFolder%
+%nuget% pack %TempFolder%\codetitans-json-src.nuspec -BasePath "%TempFolder%\JSon-src"
+popd
+
+rem #######################################################################################
+rem # IoC-SRC
+rem #
+echo IoC@CodeTitans as source-code
+set PackageSourcesDestPath=%TempFolder%\IoC-src\content\CodeTitans\Services
+if exist "%PackageSourcesDestPath%" (
+  rd /Q "%PackageSourcesDestPath%" /S > NUL:
+)
+mkdir "%PackageSourcesDestPath%/Internals"
+echo Copying sources to: %PackageSourcesDestPath%
+
+copy codetitans-ioc-src.nuspec %TempFolder% > NUL:
+cd "%WorkingDir%/../IoC@CodeTitans"
+copy "*.cs" /b "%PackageSourcesDestPath%\" > NUL:
+cd Internals
+copy "*.cs" /b "%PackageSourcesDestPath%\Internals\" > NUL:
+cd %WorkingDir%
+
+pushd %PackageFolder%
+%nuget% pack %TempFolder%\codetitans-ioc-src.nuspec -BasePath "%TempFolder%\IoC-src"
+popd
 
 echo Building libraries...
 
@@ -142,6 +215,8 @@ popd
 
 :skip_ioc
 
+:EOF
+
 echo Removing temporary files
 rd /S /Q %TempFolder%
 
@@ -150,5 +225,4 @@ echo # DONE #
 echo ########
 echo.
 echo Release prepared, find packages at '%PackageFolder%'
-
-pause
+endlocal

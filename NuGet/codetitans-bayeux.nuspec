@@ -3,7 +3,7 @@
   <metadata>
     <id>codetitans-bayeux</id>
     <title>Bayeux@CodeTitans Package</title>
-    <version>1.8.2.0</version>
+    <version>1.8.3.0</version>
     <authors>Paweł Hofman</authors>
     <licenseUrl>http://codetitans.codeplex.com/license</licenseUrl>
     <projectUrl>http://codetitans.codeplex.com</projectUrl>
@@ -14,13 +14,13 @@ Changes in this release:
  * Extended support for Windows 8 Store and Windows Phone 8
  * Initial release on NuGet
     </releaseNotes>
-    <copyright>Copyright © 2010-2014 Paweł Hofman, CodeTitans</copyright>
+    <copyright>Copyright © 2010-2015 Paweł Hofman, CodeTitans</copyright>
     <tags>bayeux codetitans "Windows Phone" phone wp7 wp8 net20 net30 net35 net40 silverlight sl30 sl40 sl50 cometd</tags>
     <references>
       <reference file="CodeTitans.Bayeux.dll" />
     </references>
     <dependencies>
-      <dependency id="codetitans-json" version="1.8.2.0" />
+      <dependency id="codetitans-json" version="1.8.3.0" />
     </dependencies>
   </metadata>
 </package>

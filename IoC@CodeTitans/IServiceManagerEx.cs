@@ -56,6 +56,30 @@ namespace CodeTitans.Services
     /// </summary>
     public interface IServiceManagerByType : IServiceManagerEx<Type>, IServiceManagerEx<IEnumerable<Type>>
     {
+        /// <summary>
+        /// Registers a given singleton service and binds it to given type.
+        /// </summary>
+        RegisteredServiceContext Register<T>(object service);
+
+        /// <summary>
+        /// Registers and binds service with a given type to objects of specified type, created later at runtime.
+        /// </summary>
+        RegisteredServiceContext Register<T>(Type serviceType, ServiceMode mode, params object[] constructorArgs);
+
+        /// <summary>
+        /// Registers and binds service with a given type to objects of specified type, created later at runtime.
+        /// </summary>
+        RegisteredServiceContext Register<T, TS>(ServiceMode mode, params object[] constructorArgs);
+
+        /// <summary>
+        /// Registers and binds service with a given type to objects of specified type, created later at runtime by specified handler.
+        /// </summary>
+        RegisteredServiceContext Register<T>(ServiceMode mode, ServiceCreationHandler creationHandler, params object[] constructorArgs);
+
+        /// <summary>
+        /// Registers and binds a link to already registered service with another type.
+        /// </summary>
+        RegisteredServiceContext Bind<T>(RegisteredServiceContext registeredServiceContext);
     }
 
     /// <summary>
