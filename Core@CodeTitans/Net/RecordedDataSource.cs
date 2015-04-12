@@ -378,6 +378,15 @@ namespace CodeTitans.Core.Net
         }
 
         /// <summary>
+        /// Gets or sets the HTTP condition of modified data.
+        /// </summary>
+        public DateTime IfModifiedSince
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets any associated object with the request.
         /// </summary>
         public object Tag

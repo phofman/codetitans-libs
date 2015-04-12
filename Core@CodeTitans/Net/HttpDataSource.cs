@@ -469,6 +469,11 @@ namespace CodeTitans.Core.Net
             webRequest.Timeout = Timeout;
             webRequest.ReadWriteTimeout = Timeout;
             webRequest.Pipelined = false;
+
+            if (IfModifiedSince != DateTime.MinValue)
+            {
+                webRequest.IfModifiedSince = IfModifiedSince;
+            }
 #endif
 
             // append additional headers:
@@ -709,6 +714,15 @@ namespace CodeTitans.Core.Net
         }
 
         /// <summary>
+        /// Gets or sets the HTTP condition of modified data.
+        /// </summary>
+        public DateTime IfModifiedSince
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets any associated object with the request.
         /// </summary>
         public object Tag
@@ -725,6 +739,12 @@ namespace CodeTitans.Core.Net
             if (string.Compare("user-agent", name, StringComparison.CurrentCultureIgnoreCase) == 0)
             {
                 UserAgent = value;
+                return;
+            }
+
+            if (string.Compare("if-modified-since", name, StringComparison.CurrentCultureIgnoreCase) == 0)
+            {
+                IfModifiedSince = DateTime.Parse(value);
                 return;
             }
 
@@ -746,6 +766,11 @@ namespace CodeTitans.Core.Net
             {
                 UserAgent = null;
                 return;
+            }
+
+            if (string.Compare("if-modified-since", name, StringComparison.CurrentCultureIgnoreCase) == 0)
+            {
+                IfModifiedSince = DateTime.MinValue;
             }
 
             if (_headers != null)
